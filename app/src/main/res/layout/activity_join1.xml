@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.03"/>
+
+    <ImageView
+        android:id="@+id/iv_join1_close"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_close"
+        app:layout_constraintTop_toTopOf="@id/guide_top"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="10dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/iv_join1_close"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_join_continue"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_join_to_next"/>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_join_upcoming"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_join_not_done"/>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_join"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_join_not_done"/>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_join"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_join_not_done"/>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_join"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_join1_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입을 시작합니다"
+        style="@style/headline1B"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/iv_join1_close"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="80dp"/>
+
+    <TextView
+        android:id="@+id/tv_join1_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="로그밋에 회원가입할 방식을 선택해주세요."
+        style="@style/body1R"
+        app:layout_constraintTop_toBottomOf="@id/tv_join1_title"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="2dp"/>
+
+    <TextView
+        android:id="@+id/tv_join1_logmeet_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/logmeet_join"
+        style="@style/body2B"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:background="@drawable/btn_blue_8px"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintBottom_toTopOf="@id/tv_join1_kakao_btn"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_join1_kakao_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/kakao_join"
+        style="@style/body2B"
+        android:textColor="#3C1E1E"
+        android:gravity="center"
+        android:background="@drawable/btn_yellow_8px"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="110dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_kakao"
+        app:layout_constraintTop_toTopOf="@id/tv_join1_kakao_btn"
+        app:layout_constraintBottom_toBottomOf="@id/tv_join1_kakao_btn"
+        app:layout_constraintStart_toStartOf="@id/tv_join1_kakao_btn"
+        android:layout_marginStart="80dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
