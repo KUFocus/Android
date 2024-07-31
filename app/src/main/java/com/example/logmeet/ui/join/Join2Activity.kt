@@ -1,4 +1,4 @@
-package com.example.logmeet
+package com.example.logmeet.ui.join
 
 import android.os.Bundle
 import android.text.Editable
@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.logmeet.R
 import com.example.logmeet.databinding.ActivityJoin2Binding
 
 class Join2Activity : AppCompatActivity() {

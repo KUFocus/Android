@@ -1,11 +1,8 @@
-package com.example.logmeet
+package com.example.logmeet.ui.join
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.logmeet.databinding.ActivityJoin1Binding
 
 class Join1Activity : AppCompatActivity() {
