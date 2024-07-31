@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.join.Join4Activity"
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.03"/>
+
+    <ImageView
+        android:id="@+id/iv_join4_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_left_chevron"
+        app:layout_constraintTop_toTopOf="@id/guide_top"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="10dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/iv_join4_back"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_join_check"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_join_done"/>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_join_check"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_join_done"/>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_join_check"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_join_done"/>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_join_continue"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_join_to_next"/>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_join_upcoming"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_join4_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사용자 이름 설정"
+        style="@style/headline2B"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/iv_join4_back"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="80dp"/>
+
+    <TextView
+        android:id="@+id/tv_join4_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10자 이내로 사용하실 이름을 입력해주세요."
+        style="@style/body1R"
+        app:layout_constraintTop_toBottomOf="@id/tv_join4_title"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="2dp"/>
+
+    <TextView
+        android:id="@+id/tv_join4_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="다른 사람들과 함께 이용하기에 실명을 권장합니다 :)"
+        style="@style/body3M"
+        android:textColor="@color/gray500"
+        app:layout_constraintTop_toBottomOf="@id/tv_join4_subtitle"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="2dp"/>
+
+    <TextView
+        android:id="@+id/tv_join4_user_name_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사용자 이름"
+        style="@style/body2B"
+        android:textColor="@color/main_gray"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/tv_join4_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="30dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/tiet_join4_user_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/body1R"
+        android:hint="사용자 이름 입력"
+        android:inputType="textPassword"
+        android:maxLength="10"
+        app:layout_constraintTop_toBottomOf="@id/tv_join4_user_name_title"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:layout_marginTop="6dp"/>
+
+    <ImageView
+        android:id="@+id/iv_join4_user_name_clear"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_close_circle"
+        app:layout_constraintTop_toTopOf="@id/tiet_join4_user_name"
+        app:layout_constraintBottom_toBottomOf="@id/tiet_join4_user_name"
+        app:layout_constraintEnd_toEndOf="@id/tiet_join4_user_name"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_join4_text_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/init_text_length"
+        style="@style/caption"
+        android:textColor="@color/gray400"
+        app:layout_constraintTop_toBottomOf="@id/tiet_join4_user_name"
+        app:layout_constraintEnd_toEndOf="@id/tiet_join4_user_name"/>
+
+    <TextView
+        android:id="@+id/tv_join4_next"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/next_step"
+        style="@style/body2B"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:background="@drawable/btn_gray_8px"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="110dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

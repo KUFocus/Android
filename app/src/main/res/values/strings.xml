@@ -14,4 +14,5 @@
     <string name="resend">재전송</string>
     <string name="certify">인증하기</string>
     <string name="next_step">다음 단계로</string>
+    <string name="init_text_length">0 / 10</string>
 </resources>
