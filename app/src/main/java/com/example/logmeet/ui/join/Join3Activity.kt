@@ -1,5 +1,6 @@
 package com.example.logmeet.ui.join
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -44,7 +45,9 @@ class Join3Activity : AppCompatActivity() {
             if (isPwdDone and isPwdCheckDone) {
                 btnNext.setBackgroundResource(R.drawable.btn_blue_8px)
                 btnNext.setOnClickListener {
-                    //다음페이지로
+                    val intent = Intent(this@Join3Activity, Join4Activity::class.java)
+                    //이메일, 비번 intent로 넘기기
+                    startActivity(intent)
                 }
             } else {
                 btnNext.setBackgroundResource(R.drawable.btn_gray_8px)

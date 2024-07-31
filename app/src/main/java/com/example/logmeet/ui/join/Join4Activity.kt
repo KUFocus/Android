@@ -33,6 +33,8 @@ class Join4Activity : AppCompatActivity() {
         val tvLength = binding.tvJoin4TextLength
         val btnNext = binding.tvJoin4Next
 
+        btnNameClear.setOnClickListener { tvName.setText("") }
+
         tvName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -51,7 +53,7 @@ class Join4Activity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 if (s.isNullOrEmpty()) {
                     btnNext.setBackgroundResource(R.drawable.btn_gray_8px)
-                    btnNext.setOnClickListener {  }
+                    btnNext.setOnClickListener { }
                 } else {
                     btnNext.setBackgroundResource(R.drawable.btn_blue_8px)
                     btnNext.setOnClickListener {

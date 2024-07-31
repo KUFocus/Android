@@ -137,7 +137,6 @@
         android:layout_height="wrap_content"
         style="@style/body1R"
         android:hint="사용자 이름 입력"
-        android:inputType="textPassword"
         android:maxLength="10"
         app:layout_constraintTop_toBottomOf="@id/tv_join4_user_name_title"
         app:layout_constraintStart_toStartOf="@id/guide_start"

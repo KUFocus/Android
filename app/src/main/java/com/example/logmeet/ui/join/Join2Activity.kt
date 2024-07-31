@@ -1,11 +1,13 @@
 package com.example.logmeet.ui.join
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.service.autofill.Validators.and
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -70,6 +72,7 @@ class Join2Activity : AppCompatActivity() {
                             //인증코드 메일보내기
                             btnEmailSend.visibility = View.GONE
                             binding.clCode.visibility = View.VISIBLE
+                            hideKeyboard(it)
                         } else emailError.visibility = View.VISIBLE
                     }
                 }
@@ -106,6 +109,7 @@ class Join2Activity : AppCompatActivity() {
                             btnCertify.visibility = View.GONE
 
                             binding.tvJoin2DoneMsg.visibility = View.VISIBLE
+                            hideKeyboard(it)
 
                             //인증하기 성공하면 다음 단계 버튼 생성
                             btnNext.visibility = View.VISIBLE
@@ -128,5 +132,10 @@ class Join2Activity : AppCompatActivity() {
 
     private fun checkEmailForm(s: Editable): Boolean { //email 형식 검증
         return ("@" in s) and ("." in s)
+    }
+
+    private fun hideKeyboard(view: View) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }
