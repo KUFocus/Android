@@ -110,8 +110,9 @@ class Join2Activity : AppCompatActivity() {
                             //인증하기 성공하면 다음 단계 버튼 생성
                             btnNext.visibility = View.VISIBLE
                             btnNext.setOnClickListener {
-//                                val intent = Intent(this, MainActivity::class.java)
-//                                startActivity(intent)
+                                val intent = Intent(this@Join2Activity, Join3Activity::class.java)
+                                intent.putExtra("email", tvEmail.text)
+                                startActivity(intent)
                             }
                         } else codeError.visibility = View.VISIBLE
                     }
