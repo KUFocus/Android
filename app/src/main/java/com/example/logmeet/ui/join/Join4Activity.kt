@@ -57,7 +57,7 @@ class Join4Activity : AppCompatActivity() {
                 } else {
                     btnNext.setBackgroundResource(R.drawable.btn_blue_8px)
                     btnNext.setOnClickListener {
-                        val intent = Intent(this@Join4Activity, Join4Activity::class.java)
+                        val intent = Intent(this@Join4Activity, Join5Activity::class.java)
                         startActivity(intent)
                     }
                 }
