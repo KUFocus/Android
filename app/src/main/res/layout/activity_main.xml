@@ -33,19 +33,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="166dp"/>
 
-<!--    <ImageView-->
-<!--        android:id="@+id/iv_start_logo"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:src="@drawable/logo1_without_background"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintWidth_percent="0.302"-->
-<!--        app:layout_constraintDimensionRatio="109:124"-->
-<!--        android:layout_marginTop="33dp"/>-->
-
     <ImageView
         android:id="@+id/iv_start_logo"
         android:layout_width="wrap_content"

@@ -15,4 +15,10 @@
     <string name="certify">인증하기</string>
     <string name="next_step">다음 단계로</string>
     <string name="init_text_length">0 / 10</string>
+    <string name="login_logmeet">로그밋계정으로 로그인</string>
+    <string name="login_kakao">카카오 계정으로 로그인</string>
+    <string name="password">비밀번호</string>
+    <string name="email">이메일</string>
+    <string name="email_error_msg">가입되지 않은 이메일입니다.</string>
+    <string name="pwd_error_msg">비밀번호가 일치하지 않습니다.</string>
 </resources>
