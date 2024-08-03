@@ -30,7 +30,7 @@
         app:layout_constraintGuide_percent="0.03"/>
 
     <ImageView
-        android:id="@+id/iv_join2_close"
+        android:id="@+id/iv_join2_back"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/ic_left_chevron"
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="@id/guide_start"
-        app:layout_constraintTop_toBottomOf="@id/iv_join2_close"
+        app:layout_constraintTop_toBottomOf="@id/iv_join2_back"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
         android:layout_marginTop="20dp">
 
@@ -92,7 +92,7 @@
         android:text="이메일 주소 인증"
         style="@style/headline2B"
         app:layout_constraintStart_toStartOf="@id/guide_start"
-        app:layout_constraintTop_toBottomOf="@id/iv_join2_close"
+        app:layout_constraintTop_toBottomOf="@id/iv_join2_back"
         android:layout_marginStart="2dp"
         android:layout_marginTop="80dp"/>
 
@@ -141,30 +141,38 @@
         app:layout_constraintBottom_toBottomOf="@id/tiet_join2_email"
         app:layout_constraintEnd_toEndOf="@id/tiet_join2_email"
         android:visibility="gone"/>
-    
-    <ImageView
-        android:id="@+id/iv_join2_email_error"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:src="@drawable/ic_error_circle"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_join2_email_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tiet_join2_email"
         app:layout_constraintStart_toStartOf="@id/guide_start"
         android:layout_marginTop="2dp"
         android:layout_marginStart="2dp"
-        android:visibility="gone"/>
+        android:visibility="gone">
 
-    <TextView
-        android:id="@+id/tv_join2_email_error_msg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/type_error_message"
-        style="@style/caption"
-        android:textColor="@color/error"
-        app:layout_constraintStart_toEndOf="@id/iv_join2_email_error"
-        app:layout_constraintTop_toTopOf="@id/iv_join2_email_error"
-        app:layout_constraintBottom_toBottomOf="@id/iv_join2_email_error"
-        android:layout_marginStart="4dp"
-        android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/iv_join2_email_error"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_error_circle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_join2_email_error_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/type_error_message"
+            style="@style/caption"
+            android:textColor="@color/error"
+            app:layout_constraintStart_toEndOf="@id/iv_join2_email_error"
+            app:layout_constraintTop_toTopOf="@id/iv_join2_email_error"
+            app:layout_constraintBottom_toBottomOf="@id/iv_join2_email_error"
+            android:layout_marginStart="4dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tv_join2_send"
@@ -226,29 +234,38 @@
             app:layout_constraintEnd_toEndOf="@id/tiet_join2_code"
             android:visibility="gone"/>
 
-        <ImageView
-            android:id="@+id/iv_join2_code_error"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:src="@drawable/ic_error_circle"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_join2_code_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/tiet_join2_code"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="2dp"
             android:layout_marginStart="2dp"
-            android:visibility="gone"/>
+            android:visibility="gone">
 
-        <TextView
-            android:id="@+id/tv_join2_code_error_msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/type_error_message"
-            style="@style/caption"
-            android:textColor="@color/error"
-            app:layout_constraintStart_toEndOf="@id/iv_join2_code_error"
-            app:layout_constraintTop_toTopOf="@id/iv_join2_code_error"
-            app:layout_constraintBottom_toBottomOf="@id/iv_join2_code_error"
-            android:layout_marginStart="4dp"
-            android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/iv_join2_code_error"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_error_circle"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/tv_join2_code_error_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/type_error_message"
+                style="@style/caption"
+                android:textColor="@color/error"
+                app:layout_constraintStart_toEndOf="@id/iv_join2_code_error"
+                app:layout_constraintTop_toTopOf="@id/iv_join2_code_error"
+                app:layout_constraintBottom_toBottomOf="@id/iv_join2_code_error"
+                android:layout_marginStart="4dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/tv_join2_resend"
@@ -279,6 +296,35 @@
             app:layout_constraintStart_toEndOf="@id/tv_join2_resend"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+        <TextView
+            android:id="@+id/tv_join2_done_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이메일 인증이 완료되었습니다."
+            style="@style/body2B"
+            android:textColor="@color/main_blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tiet_join2_code"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="2dp"
+            android:visibility="gone"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/tv_join2_next"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/next_step"
+        style="@style/body2B"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:background="@drawable/btn_blue_8px"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="110dp"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

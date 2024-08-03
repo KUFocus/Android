@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.join.Join3Activity"
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.03"/>
+
+    <ImageView
+        android:id="@+id/iv_join3_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_left_chevron"
+        app:layout_constraintTop_toTopOf="@id/guide_top"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="10dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/iv_join3_back"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_join_check"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_join_done"/>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_join_check"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_join_done"/>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_join_continue"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_join_to_next"/>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_join_upcoming"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_join_not_done"/>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_join"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_join3_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="비밀번호 설정"
+        style="@style/headline2B"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/iv_join3_back"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="80dp"/>
+
+    <TextView
+        android:id="@+id/tv_join3_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="문자, 숫자인 8자리 이상으로 생성해주세요."
+        style="@style/body1R"
+        app:layout_constraintTop_toBottomOf="@id/tv_join3_title"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="2dp"/>
+
+    <TextView
+        android:id="@+id/tv_join3_pwd_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="비밀번호"
+        style="@style/body2B"
+        android:textColor="@color/main_gray"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/tv_join3_subtitle"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="30dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/tiet_join3_pwd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/body1R"
+        android:hint="비밀번호 입력"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@id/tv_join3_pwd_title"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="2dp"/>
+
+    <ImageView
+        android:id="@+id/iv_join3_pwd_clear"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_close_circle"
+        app:layout_constraintTop_toTopOf="@id/tiet_join3_pwd"
+        app:layout_constraintBottom_toBottomOf="@id/tiet_join3_pwd"
+        app:layout_constraintEnd_toEndOf="@id/tiet_join3_pwd"
+        android:visibility="gone"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_join3_pwd_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tiet_join3_pwd"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="2dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_join3_pwd_error"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_error_circle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_join3_pwd_error_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/type_error_message"
+            style="@style/caption"
+            android:textColor="@color/error"
+            app:layout_constraintStart_toEndOf="@id/iv_join3_pwd_error"
+            app:layout_constraintTop_toTopOf="@id/iv_join3_pwd_error"
+            app:layout_constraintBottom_toBottomOf="@id/iv_join3_pwd_error"
+            android:layout_marginStart="4dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_join3_pwd_check_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="비밀번호 확인"
+        style="@style/body2B"
+        android:textColor="@color/main_gray"
+        app:layout_constraintTop_toBottomOf="@id/tiet_join3_pwd"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="2dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/tiet_join3_pwd_check"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/body1R"
+        android:hint="비밀번호 확인 입력"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@id/tv_join3_pwd_check_title"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="2dp"/>
+
+    <ImageView
+        android:id="@+id/iv_join3_pwd_check_clear"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_close_circle"
+        app:layout_constraintTop_toTopOf="@id/tiet_join3_pwd_check"
+        app:layout_constraintBottom_toBottomOf="@id/tiet_join3_pwd_check"
+        app:layout_constraintEnd_toEndOf="@id/tiet_join3_pwd_check"
+        android:visibility="gone"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_join3_pwd_check_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tiet_join3_pwd_check"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="2dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_join3_pwd_check_error"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_error_circle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_join3_pwd_check_error_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/type_error_message"
+            style="@style/caption"
+            android:textColor="@color/error"
+            app:layout_constraintStart_toEndOf="@id/iv_join3_pwd_check_error"
+            app:layout_constraintTop_toTopOf="@id/iv_join3_pwd_check_error"
+            app:layout_constraintBottom_toBottomOf="@id/iv_join3_pwd_check_error"
+            android:layout_marginStart="4dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/tv_join3_next"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/next_step"
+        style="@style/body2B"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:background="@drawable/btn_gray_8px"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="110dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

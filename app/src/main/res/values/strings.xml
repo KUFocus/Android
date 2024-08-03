@@ -1,16 +1,18 @@
 <resources>
     <string name="app_name">Logmeet</string>
 
-<!--    start-->
+    <!--    start-->
     <string name="join">회원가입</string>
     <string name="login">로그인</string>
-<!--    join1-->
+    <!--    join1-->
     <string name="logmeet_join">로그밋계정으로 회원가입</string>
     <string name="kakao_join">카카오 계정으로 회원가입</string>
-<!--    join2-->
+    <!--    join2-->
     <string name="example_email">example@email.com</string>
     <string name="type_error_message">올바르지 않은 형식입니다.</string>
     <string name="example_code">인증번호 6자리</string>
     <string name="resend">재전송</string>
     <string name="certify">인증하기</string>
+    <string name="next_step">다음 단계로</string>
+    <string name="init_text_length">0 / 10</string>
 </resources>
