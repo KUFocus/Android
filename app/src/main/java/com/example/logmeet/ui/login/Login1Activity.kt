@@ -1,4 +1,4 @@
-package com.example.logmeet
+package com.example.logmeet.ui.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,14 +6,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.logmeet.databinding.ActivityMainBinding
-import com.example.logmeet.ui.join.Join1Activity
-import com.example.logmeet.ui.login.Login1Activity
+import com.example.logmeet.R
+import com.example.logmeet.databinding.ActivityLogin1Binding
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class Login1Activity : AppCompatActivity() {
+    private lateinit var binding: ActivityLogin1Binding
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityLogin1Binding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
@@ -23,14 +22,15 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        binding.tvStartLogin.setOnClickListener {
-            val intent = Intent(this, Login1Activity::class.java)
-            startActivity(intent)
-        }
-        binding.tvStartJoin.setOnClickListener {
-            val intent = Intent(this, Join1Activity::class.java)
+        binding.ivLogin1Back.setOnClickListener { finish() }
+
+        binding.tvLogin1Login.setOnClickListener {
+            val intent = Intent(this, Login2Activity::class.java)
             startActivity(intent)
         }
 
+        binding.tvJoin1Kakao.setOnClickListener {
+            //카카오로그인
+        }
     }
 }
