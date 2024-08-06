@@ -43,6 +43,7 @@ fun WeeklyTitle() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(horizontal = 22.dp)
             .background(color = Color.White),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -100,6 +101,7 @@ fun MontlyTitle() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(horizontal = 22.dp)
             .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

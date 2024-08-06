@@ -34,6 +34,7 @@ fun DayOfWeek() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(horizontal = 22.dp)
             .background(Color.White),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
