@@ -21,4 +21,8 @@
     <string name="email">이메일</string>
     <string name="email_error_msg">가입되지 않은 이메일입니다.</string>
     <string name="pwd_error_msg">비밀번호가 일치하지 않습니다.</string>
+    <string name="my_project">나의 프로젝트</string>
+    <string name="more">더보기</string>
+    <string name="add_new_project">새 프로젝트 추가</string>
+    <string name="mom">회의록</string>
 </resources>
