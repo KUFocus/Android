@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.logmeet.databinding.ActivityMainBinding
+import com.example.logmeet.ui.home.MainHomeActivity
 import com.example.logmeet.ui.join.Join1Activity
 import com.example.logmeet.ui.login.Login1Activity
 
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.tvStartJoin.setOnClickListener {
-            val intent = Intent(this, Join1Activity::class.java)
+            val intent = Intent(this, MainHomeActivity::class.java)
             startActivity(intent)
         }
 
