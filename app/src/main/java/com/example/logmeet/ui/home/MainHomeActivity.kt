@@ -22,7 +22,7 @@ class MainHomeActivity : AppCompatActivity() {
             insets
         }
 
-        binding.compMainCalendar.setContent {
+        binding.compHomeCalendar.setContent {
             WeeklyCalendar()
         }
 
