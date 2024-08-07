@@ -1,12 +1,15 @@
 package com.example.logmeet.ui.home
 
 import android.os.Bundle
+import android.view.View
+import android.widget.RelativeLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.logmeet.R
 import com.example.logmeet.databinding.ActivityMainHomeBinding
+import com.example.logmeet.ui.MainFragmentStatePagerAdapter
 import com.example.logmeet.ui.component.WeeklyCalendar
 
 class MainHomeActivity : AppCompatActivity() {
@@ -22,9 +25,23 @@ class MainHomeActivity : AppCompatActivity() {
             insets
         }
 
-        binding.compHomeCalendar.setContent {
-            WeeklyCalendar()
-        }
+//        binding.compHomeCalendar.setContent {
+//            WeeklyCalendar()
+//        }
+        configureBottomNavigation()
+    }
 
+    private fun configureBottomNavigation(){
+        binding.vpAcMainFragPager.adapter = MainFragmentStatePagerAdapter(supportFragmentManager, 5)
+
+        binding.tlAcMainBottomMenu.setupWithViewPager(binding.vpAcMainFragPager)
+
+        val bottomNaviLayout: View = this.layoutInflater.inflate(R.layout.bottom_navigation_tab, null, false)
+
+        binding.tlAcMainBottomMenu.getTabAt(0)!!.customView = bottomNaviLayout.findViewById<RelativeLayout>(R.id.btn_bottom_navi_home_tab)!!
+        binding.tlAcMainBottomMenu.getTabAt(1)!!.customView = bottomNaviLayout.findViewById<RelativeLayout>(R.id.btn_bottom_navi_search_tab)!!
+        binding.tlAcMainBottomMenu.getTabAt(2)!!.customView = bottomNaviLayout.findViewById<RelativeLayout>(R.id.btn_bottom_navi_add_tab)!!
+        binding.tlAcMainBottomMenu.getTabAt(3)!!.customView = bottomNaviLayout.findViewById<RelativeLayout>(R.id.btn_bottom_navi_like_tab)!!
+        binding.tlAcMainBottomMenu.getTabAt(4)!!.customView = bottomNaviLayout.findViewById<RelativeLayout>(R.id.btn_bottom_navi_my_page_tab)!!
     }
 }
