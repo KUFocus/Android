@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.projects.MakeProjectActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.06"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.94"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.03"/>
+
+    <ImageView
+        android:id="@+id/iv_makeP_close"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_close"
+        app:layout_constraintTop_toTopOf="@id/guide_top"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_makeP_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_new_project"
+        style="@style/body1B"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintTop_toTopOf="@id/guide_top"/>
+
+    <TextView
+        android:id="@+id/tv_makeP_name_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/project_name"
+        style="@style/body2B"
+        android:textColor="@color/main_gray"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/tv_makeP_title"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="30dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/tiet_makeP_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/body1R"
+        android:hint="@string/example_project_name"
+        android:maxLength="8"
+        app:layout_constraintTop_toBottomOf="@id/tv_makeP_name_title"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="2dp"/>
+
+    <ImageView
+        android:id="@+id/iv_makeP_name_clear"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_close_circle"
+        app:layout_constraintTop_toTopOf="@id/tiet_makeP_name"
+        app:layout_constraintBottom_toBottomOf="@id/tiet_makeP_name"
+        app:layout_constraintEnd_toEndOf="@id/tiet_makeP_name"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_makeP_text_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/init_text_length_8"
+        style="@style/caption"
+        android:textColor="@color/gray400"
+        app:layout_constraintTop_toBottomOf="@id/tiet_makeP_name"
+        app:layout_constraintEnd_toEndOf="@id/tiet_makeP_name"/>
+
+    <TextView
+        android:id="@+id/tv_makeP_explain_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="프로젝트 설명"
+        style="@style/body2B"
+        android:textColor="@color/main_gray"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/tiet_makeP_name"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="30dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/tiet_makeP_explain"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/body1R"
+        android:hint="프로젝트 설명 입력"
+        app:layout_constraintTop_toBottomOf="@id/tv_makeP_explain_title"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="2dp"/>
+
+    <ImageView
+        android:id="@+id/iv_makeP_explain_clear"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_close_circle"
+        app:layout_constraintTop_toTopOf="@id/tiet_makeP_explain"
+        app:layout_constraintBottom_toBottomOf="@id/tiet_makeP_explain"
+        app:layout_constraintEnd_toEndOf="@id/tiet_makeP_explain"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_makeP_color_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="프로젝트 컬러"
+        style="@style/body2B"
+        android:textColor="@color/main_gray"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/tiet_makeP_explain"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="30dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_makeP_colorbox1"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_makeP_color_title"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:layout_marginTop="6dp">
+
+        <RadioButton
+            android:id="@+id/p1"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj1"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/p2"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj2"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/p1"
+            app:layout_constraintEnd_toStartOf="@id/p3"/>
+
+        <RadioButton
+            android:id="@+id/p3"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj3"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/p2"
+            app:layout_constraintEnd_toStartOf="@id/p4"/>
+
+        <RadioButton
+            android:id="@+id/p4"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj4"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/p3"
+            app:layout_constraintEnd_toStartOf="@id/p5"/>
+
+        <RadioButton
+            android:id="@+id/p5"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj5"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/p4"
+            app:layout_constraintEnd_toStartOf="@id/p6"/>
+
+        <RadioButton
+            android:id="@+id/p6"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj6"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        app:layout_constraintTop_toBottomOf="@id/cl_makeP_colorbox1"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:layout_marginTop="12dp">
+
+        <RadioButton
+            android:id="@+id/p7"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj7"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <RadioButton
+            android:id="@+id/p8"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj8"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/p7"
+            app:layout_constraintEnd_toStartOf="@id/p9"/>
+
+        <RadioButton
+            android:id="@+id/p9"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj9"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/p8"
+            app:layout_constraintEnd_toStartOf="@id/p10"/>
+
+        <RadioButton
+            android:id="@+id/p10"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj10"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/p9"
+            app:layout_constraintEnd_toStartOf="@id/p11"/>
+
+        <RadioButton
+            android:id="@+id/p11"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj11"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/p10"
+            app:layout_constraintEnd_toStartOf="@id/p12"/>
+
+        <RadioButton
+            android:id="@+id/p12"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj12"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <TextView
+        android:id="@+id/tv_makeP_done"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="프로젝트 생성"
+        style="@style/body2B"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:background="@drawable/btn_gray_8px"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="110dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
