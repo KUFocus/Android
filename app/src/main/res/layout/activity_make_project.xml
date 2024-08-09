@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.projects.MakeProjectActivity">
 
     <androidx.constraintlayout.widget.Guideline
@@ -66,6 +67,7 @@
         android:layout_height="wrap_content"
         style="@style/body1R"
         android:hint="@string/example_project_name"
+        android:maxLength="8"
         app:layout_constraintTop_toBottomOf="@id/tv_makeP_name_title"
         app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
@@ -74,7 +76,7 @@
         android:layout_marginEnd="2dp"/>
 
     <ImageView
-        android:id="@+id/iv_makeP_nmae_clear"
+        android:id="@+id/iv_makeP_name_clear"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:src="@drawable/ic_close_circle"
@@ -84,7 +86,7 @@
         android:visibility="gone"/>
 
     <TextView
-        android:id="@+id/tv_join4_text_length"
+        android:id="@+id/tv_makeP_text_length"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/init_text_length_8"
@@ -141,13 +143,140 @@
         android:layout_marginTop="30dp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
+        android:id="@+id/cl_makeP_colorbox1"
         android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_makeP_color_title"
         app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
-        app:layout_constraintTop_toBottomOf="@id/tv_makeP_color_title"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="6dp">
 
+        <RadioButton
+            android:id="@+id/p1"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj1"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/p2"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj2"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/p1"
+            app:layout_constraintEnd_toStartOf="@id/p3"/>
+
+        <RadioButton
+            android:id="@+id/p3"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj3"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/p2"
+            app:layout_constraintEnd_toStartOf="@id/p4"/>
+
+        <RadioButton
+            android:id="@+id/p4"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj4"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/p3"
+            app:layout_constraintEnd_toStartOf="@id/p5"/>
+
+        <RadioButton
+            android:id="@+id/p5"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj5"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/p4"
+            app:layout_constraintEnd_toStartOf="@id/p6"/>
+
+        <RadioButton
+            android:id="@+id/p6"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj6"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        app:layout_constraintTop_toBottomOf="@id/cl_makeP_colorbox1"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:layout_marginTop="12dp">
+
+        <RadioButton
+            android:id="@+id/p7"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj7"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <RadioButton
+            android:id="@+id/p8"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj8"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/p7"
+            app:layout_constraintEnd_toStartOf="@id/p9"/>
+
+        <RadioButton
+            android:id="@+id/p9"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj9"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/p8"
+            app:layout_constraintEnd_toStartOf="@id/p10"/>
+
+        <RadioButton
+            android:id="@+id/p10"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj10"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/p9"
+            app:layout_constraintEnd_toStartOf="@id/p11"/>
+
+        <RadioButton
+            android:id="@+id/p11"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj11"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/p10"
+            app:layout_constraintEnd_toStartOf="@id/p12"/>
+
+        <RadioButton
+            android:id="@+id/p12"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/selector_prj12"
+            android:button="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
