@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,14 +29,16 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.logmeet.R
 import java.time.LocalDate
 
 @Composable
-fun DateOfWeek(date: LocalDate) {
+fun DateOfWeek(
+    date: LocalDate,
+    clicked: (String) -> Unit,
+) {
     val startOfWeek = date.minusDays((date.dayOfWeek.value % 7).toLong())
     val today = LocalDate.now()
     var clickedDate by remember { mutableStateOf(-1) }
@@ -59,7 +59,9 @@ fun DateOfWeek(date: LocalDate) {
                 Box(
                     modifier = Modifier
                         .width(32.dp)
-                        .clickable { clickedDate = currentDate },
+                        .clickable {
+                            clickedDate = currentDate
+                            clicked(clickedDate.toString()) },
                     contentAlignment = Alignment.Center
                 ) {
                     DrawCircle(
