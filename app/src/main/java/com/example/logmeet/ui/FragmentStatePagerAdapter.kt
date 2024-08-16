@@ -8,9 +8,10 @@ import com.example.logmeet.ui.minutes.MinutesFragment
 import com.example.logmeet.ui.my.MyFragment
 import com.example.logmeet.ui.projects.ProjectFragment
 
-class MainFragmentStatePagerAdapter(fm : FragmentManager, private val fragmentCount : Int) : FragmentStatePagerAdapter(fm) {
+class MainFragmentStatePagerAdapter(fm: FragmentManager, private val fragmentCount: Int) :
+    FragmentStatePagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
-        return when(position){
+        return when (position) {
             0 -> HomeFragment()
             1 -> ProjectFragment()
             2 -> HomeFragment()
@@ -21,5 +22,4 @@ class MainFragmentStatePagerAdapter(fm : FragmentManager, private val fragmentCo
     }
 
     override fun getCount(): Int = fragmentCount // 자바에서는 { return fragmentCount }
-
 }

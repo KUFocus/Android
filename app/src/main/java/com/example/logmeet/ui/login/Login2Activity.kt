@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.logmeet.MainActivity
 import com.example.logmeet.R
 import com.example.logmeet.databinding.ActivityLogin2Binding
+import com.example.logmeet.ui.home.MainHomeActivity
 import com.example.logmeet.ui.join.Join4Activity
 
 class Login2Activity : AppCompatActivity() {
@@ -49,8 +50,8 @@ class Login2Activity : AppCompatActivity() {
             if (isEmailTyped and isPwdTyped) {
                 btnLogin.setBackgroundResource(R.drawable.btn_blue_8px)
                 btnLogin.setOnClickListener {
-//                    val intent = Intent(this@Login2Activity, Join4Activity::class.java)
-//                    startActivity(intent)
+                    val intent = Intent(this@Login2Activity, MainHomeActivity::class.java)
+                    startActivity(intent)
                 }
             } else {
                 btnLogin.setBackgroundResource(R.drawable.btn_gray_8px)

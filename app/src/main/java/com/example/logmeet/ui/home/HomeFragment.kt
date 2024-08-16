@@ -67,7 +67,6 @@ class HomeFragment : Fragment() {
             binding.rvHomeProjectList.visibility = View.VISIBLE
             setProjectRV()
         }
-
     }
 
     private fun setProjectRV() {
