@@ -59,14 +59,6 @@ class MakeProjectActivity : AppCompatActivity() {
             binding.p12
         )
 
-        radioColors.forEach { selected ->
-            selected.setOnClickListener {
-                radioColors.forEach { prjColor ->
-                    prjColor.isChecked = selected == prjColor
-                }
-                color = selected.text.toString()
-            }
-        }
         for (i in 1..radioColors.size) {
             radioColors[i-1].setOnClickListener {
                 radioColors.forEach { prjColor ->
