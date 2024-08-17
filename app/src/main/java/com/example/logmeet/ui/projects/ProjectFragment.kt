@@ -48,6 +48,7 @@ class ProjectFragment : Fragment() {
     }
 
     private fun initSetProjectRV(projectList: ArrayList<ProjectData>) {
+        checkListEmpty(projectList.size)
         val projectRV = binding.rvProjectProjectList
         val spanCount = 2
         val spacing = 18
@@ -63,7 +64,14 @@ class ProjectFragment : Fragment() {
         )
     }
 
+    private fun checkListEmpty(size: Int) {
+        val isEmpty = size == 0
+        binding.clProjectNoneProject.visibility = if (isEmpty && tabNum == 0) View.VISIBLE else View.GONE
+        binding.tvProjectNoneBookmark.visibility = if (isEmpty && tabNum != 0) View.VISIBLE else View.GONE
+    }
+
     private fun setProjectRV(projectList: ArrayList<ProjectData>) {
+        checkListEmpty(projectList.size)
         val projectRV = binding.rvProjectProjectList
         projectAdapter = ProjectPrjAdapter(projectList)
         projectRV.adapter = projectAdapter
@@ -97,16 +105,6 @@ class ProjectFragment : Fragment() {
         bookmarkProjectList = arrayListOf()
         allProjectList.addAll(
             arrayListOf(
-                ProjectData("1", 1, "졸업프로젝트", "2024.03.05", "3", false),
-                ProjectData("4", 2, "IT동아리", "2023.03.20", "20", true),
-                ProjectData("7", 3, "산업협력프로젝트", "2023.04.05", "6", false),
-                ProjectData("4", 4, "로그밋프로젝트", "2024.03.20", "4", false),
-                ProjectData("10", 4, "로그밋프로젝트", "2024.03.20", "4", true),
-                ProjectData("1", 1, "졸업프로젝트", "2024.03.05", "3", false),
-                ProjectData("4", 2, "IT동아리", "2023.03.20", "20", true),
-                ProjectData("7", 3, "산업협력프로젝트", "2023.04.05", "6", false),
-                ProjectData("4", 4, "로그밋프로젝트", "2024.03.20", "4", false),
-                ProjectData("10", 4, "로그밋프로젝트", "2024.03.20", "4", true),
             )
         )
         allProjectList.forEach {
