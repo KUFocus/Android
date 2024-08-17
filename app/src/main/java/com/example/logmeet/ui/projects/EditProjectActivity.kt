@@ -5,26 +5,30 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.logmeet.R
-import com.example.logmeet.databinding.ActivityMakeProjectBinding
+import com.example.logmeet.databinding.ActivityEditProjectBinding
 import com.example.logmeet.ui.home.MainHomeActivity
 
-class MakeProjectActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMakeProjectBinding
+class EditProjectActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityEditProjectBinding
     private var isNamed = false
     private var isExplained = false
+    private var isColorChange = false
+    private var beforeName = ""
+    private var beforeExplain = ""
+    private var beforeColor = ""
     private var name = ""
     private var explain = ""
     private var color = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = ActivityMakeProjectBinding.inflate(layoutInflater)
+        binding = ActivityEditProjectBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
@@ -34,13 +38,16 @@ class MakeProjectActivity : AppCompatActivity() {
             insets
         }
 
+        getContent()
+        init()
+    }
+
+    private fun init() {
+        binding.ivEditPBack.setOnClickListener { finish() }
         setupTextWatchers()
         setupClearBtns()
         setupColorRadioBtn()
         updateButtonState()
-
-        binding.ivMakePClose.setOnClickListener { finish() }
-
     }
 
     private fun setupColorRadioBtn() {
@@ -60,43 +67,58 @@ class MakeProjectActivity : AppCompatActivity() {
         )
 
         for (i in 1..radioColors.size) {
-            radioColors[i-1].setOnClickListener {
+            if (i == color.toInt()) radioColors[i - 1].isChecked = true
+            radioColors[i - 1].setOnClickListener {
                 radioColors.forEach { prjColor ->
-                    prjColor.isChecked = radioColors[i-1] == prjColor
+                    prjColor.isChecked = radioColors[i - 1] == prjColor
                 }
                 color = i.toString()
+                val result = beforeColor == color
+                updateButtonState(result, "color")
             }
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun getContent() {
+        //api로 정보 가져오기
+        beforeName = "로그밋프로젝트"
+        beforeExplain = "2024 졸업프로젝트로 진행하는 팀플"
+        beforeColor = "3"
+
+        binding.tietEditPName.setText(beforeName)
+        binding.tvEditPTextLength.text = "${beforeName.length} / 8"
+        binding.tietEditPExplain.setText(beforeExplain)
+        binding.tietEditPDate.setText("yyyy.MM.dd")
+        color = beforeColor
+    }
+
     private fun setupClearBtns() {
-        binding.ivMakePNameClear.setOnClickListener { binding.tietMakePName.text?.clear() }
-        binding.ivMakePExplainClear.setOnClickListener { binding.tietMakePExplain.text?.clear() }
+        binding.ivEditPNameClear.setOnClickListener { binding.tietEditPName.text?.clear() }
+        binding.ivEditPExplainClear.setOnClickListener { binding.tietEditPExplain.text?.clear() }
     }
 
     private fun setupTextWatchers() {
-        binding.tietMakePName.addTextChangedListener(createTextWatcher(
+        binding.tietEditPName.addTextChangedListener(createTextWatcher(
             onTextChanged = { s -> updateNameField(s) },
             afterTextChanged = { s ->
-                if (s != null) {
-                    updateButtonState(s.isNotEmpty(), "name")
-                    name = s.toString()
-                }
+                val result = (s != null) and (s.toString() != beforeName)
+                updateButtonState(result, "name")
+                name = s.toString()
             }
         ))
 
-        binding.tietMakePExplain.addTextChangedListener(createTextWatcher(
+        binding.tietEditPExplain.addTextChangedListener(createTextWatcher(
             onTextChanged = { s ->
                 toggleClearButtonVisibility(
                     s,
-                    binding.ivMakePExplainClear
+                    binding.ivEditPExplainClear
                 )
             },
             afterTextChanged = { s ->
-                if (s != null) {
-                    updateButtonState(s.isNotEmpty(), "explain")
-                    explain = s.toString()
-                }
+                val result = (s != null) and (s.toString() != beforeExplain)
+                updateButtonState(result, "explain")
+                explain = s.toString()
             }
         ))
     }
@@ -117,8 +139,8 @@ class MakeProjectActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun updateNameField(text: CharSequence?) {
-        toggleClearButtonVisibility(text, binding.ivMakePNameClear)
-        binding.tvMakePTextLength.text = "${text?.length ?: 0} / 8"
+        toggleClearButtonVisibility(text, binding.ivEditPNameClear)
+        binding.tvEditPTextLength.text = "${text?.length ?: 0} / 8"
     }
 
     private fun toggleClearButtonVisibility(text: CharSequence?, clearButton: View) {
@@ -129,24 +151,27 @@ class MakeProjectActivity : AppCompatActivity() {
         if (isValid) {
             if (flag == "name") isNamed = true
             else if (flag == "explain") isExplained = true
+            else if (flag == "color") isColorChange = true
         } else {
             if (flag == "name") isNamed = false
             else if (flag == "explain") isExplained = false
+            else if (flag == "color") isColorChange = false
         }
         updateButtonState()
     }
 
+    @SuppressLint("ResourceAsColor")
     private fun updateButtonState() {
-        if (isNamed && isExplained) {
-            binding.tvMakePDone.setBackgroundResource(R.drawable.btn_blue_8px)
-            binding.tvMakePDone.setOnClickListener {
-                Log.d("chrin", "name : $name, explain : $explain, color : $color")
+        if (isNamed or isExplained or isColorChange) {
+            binding.tvEditPDone.setTextColor(ContextCompat.getColor(this, R.color.main_blue))
+            binding.tvEditPDone.setOnClickListener {
                 val intent = Intent(this, MainHomeActivity::class.java)
                 startActivity(intent)
+                //수정완료 api
             }
         } else {
-            binding.tvMakePDone.setBackgroundResource(R.drawable.btn_gray_8px)
-            binding.tvMakePDone.setOnClickListener(null)
+            binding.tvEditPDone.setTextColor(ContextCompat.getColor(this, R.color.gray400))
+            binding.tvEditPDone.setOnClickListener(null)
         }
     }
 }

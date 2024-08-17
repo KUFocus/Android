@@ -1,5 +1,6 @@
 package com.example.logmeet.ui.projects
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -7,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.logmeet.ColorResources
 import com.example.logmeet.R
 import com.example.logmeet.databinding.ActivityProjectDetailBinding
 
@@ -30,18 +32,24 @@ class ProjectDetailActivity : AppCompatActivity() {
     private fun init() {
         binding.ivDetailPBack.setOnClickListener { finish() }
         binding.ivDetailPBurgerMenu.setOnClickListener {
-            //dialog열기
+            val intent = Intent(this, EditProjectActivity::class.java)
+            intent.putExtra("projectId", intent.getStringExtra("projectId"))
+            startActivity(intent)
         }
-
-        binding.tietDetailPName.isActivated = false
-        binding.tietDetailPExplain.isActivated = false
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getContent() {
         //api로 정보 가져오기
         binding.tietDetailPName.setText("로그밋프로젝트")
         binding.tietDetailPExplain.setText("2024 졸업프로젝트로 진행하는 팀플")
         binding.tietDetailPDate.setText("yyyy.MM.dd")
-        binding.vDetailPColor.setBackgroundResource(R.drawable.color_prj10)
+        val colorId = "3"
+        setProjectColor(colorId)
+    }
+
+    private fun setProjectColor(colorId: String) {
+        val color = ColorResources.colorList[colorId.toInt()-1]
+        binding.vDetailPColor.setBackgroundResource(color)
     }
 }
