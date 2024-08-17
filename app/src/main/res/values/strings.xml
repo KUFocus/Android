@@ -29,4 +29,5 @@
     <string name="example_project_name">프로젝트명 입력</string>
     <string name="init_text_length_8">0 / 8</string>
     <string name="example_date">YYYY.MM.dd</string>
+    <string name="eng_projects">Projects</string>
 </resources>
