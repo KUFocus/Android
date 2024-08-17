@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.logmeet.data.PeopleData
 import com.example.logmeet.databinding.ItemPeopleBinding
 
-class PeopleAdapter(private val data: ArrayList<PeopleData>) :  RecyclerView.Adapter<PeopleAdapter.ViewHolder>() {
+class PeopleAdapter(private val data: ArrayList<PeopleData>) : RecyclerView.Adapter<PeopleAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemPeopleBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: PeopleData) {

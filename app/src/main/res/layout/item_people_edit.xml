@@ -20,6 +20,7 @@
         android:layout_margin="20dp"/>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cv_people_lead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/tv_people_name"

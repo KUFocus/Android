@@ -13,12 +13,16 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.R
+import com.example.logmeet.data.PeopleData
 import com.example.logmeet.databinding.ActivityEditProjectBinding
 import com.example.logmeet.ui.home.MainHomeActivity
 
 class EditProjectActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProjectBinding
+    private lateinit var peopleEditAdapter: PeopleEditAdapter
+    private var peopleList: ArrayList<PeopleData> = arrayListOf()
     private var isNamed = false
     private var isExplained = false
     private var isColorChange = false
@@ -50,6 +54,24 @@ class EditProjectActivity : AppCompatActivity() {
         setupClearBtns()
         setupColorRadioBtn()
         updateButtonState()
+    }
+
+    private fun setPeopleRV() {
+        val peopleRV = binding.rvEditPPeopleList
+        val sortedList = sortPeopleList(peopleList)
+        peopleEditAdapter = PeopleEditAdapter(sortedList)
+        peopleRV.adapter = peopleEditAdapter
+        peopleRV.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+    }
+
+    private fun sortPeopleList(peopleList: ArrayList<PeopleData>): ArrayList<PeopleData> {
+        return ArrayList(
+            peopleList
+                .sortedWith(
+                    compareByDescending<PeopleData> { it.leader }
+                        .thenBy { it.name }
+                )
+        )
     }
 
     private fun setupColorRadioBtn() {
@@ -93,6 +115,17 @@ class EditProjectActivity : AppCompatActivity() {
         binding.tietEditPExplain.setText(beforeExplain)
         binding.tietEditPDate.setText("yyyy.MM.dd")
         color = beforeColor
+
+        peopleList = arrayListOf(
+            PeopleData("김채린", false, 1, "email"),
+            PeopleData("구서정", false, 1, "email"),
+            PeopleData("나나나", false, 1, "email"),
+            PeopleData("이이이", false, 1, "email"),
+            PeopleData("전우진", true, 1, "email"),
+            PeopleData("마마마", false, 1, "email"),
+            PeopleData("자자자", false, 1, "email"),
+        )
+        setPeopleRV()
     }
 
     private fun setupClearBtns() {
