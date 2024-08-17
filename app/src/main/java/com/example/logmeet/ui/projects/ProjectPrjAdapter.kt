@@ -1,0 +1,52 @@
+package com.example.logmeet.ui.projects
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.example.logmeet.R
+import com.example.logmeet.data.ProjectData
+import com.example.logmeet.databinding.ItemProjectProjectBinding
+
+class ProjectPrjAdapter(private val data: ArrayList<ProjectData>) : RecyclerView.Adapter<ProjectPrjAdapter.ViewHolder>() {
+    inner class ViewHolder(val binding: ItemProjectProjectBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: ProjectData) {
+            val colorList = arrayOf(
+                R.drawable.color_prj1,
+                R.drawable.color_prj2,
+                R.drawable.color_prj3,
+                R.drawable.color_prj4,
+                R.drawable.color_prj5,
+                R.drawable.color_prj6,
+                R.drawable.color_prj7,
+                R.drawable.color_prj8,
+                R.drawable.color_prj9,
+                R.drawable.color_prj10,
+                R.drawable.color_prj11,
+                R.drawable.color_prj12,
+            )
+            val color = colorList[item.prjColor.toInt()-1]
+            binding.vPrjCircle.setBackgroundResource(color)
+            binding.vPrjCircle2.setBackgroundResource(color)
+            binding.tvPrjName.text = item.prjName
+            binding.tvPrjDate.text = item.date
+            binding.tvPrjPeople.text = item.people
+
+            binding.apply {
+                ivPrjEmptyStar.visibility = if (item.bookmark) View.GONE else View.VISIBLE
+                ivPrjYellowStar.visibility = if (item.bookmark) View.VISIBLE else View.GONE
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemProjectProjectBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
+    }
+
+    override fun getItemCount(): Int = data.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(data[position])
+    }
+}

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="132dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipToOutline="true"
+    android:background="@drawable/box_gray_10px"
+    android:elevation="2dp"
+    android:layout_marginBottom="16dp">
+
+    <View
+        android:id="@+id/v_prj_circle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/project_circle_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/v_prj_circle2"
+        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="-4dp"/>
+
+    <View
+        android:id="@+id/v_prj_circle2"
+        android:layout_width="86dp"
+        android:layout_height="86dp"
+        android:background="@drawable/project_circle_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="-12dp"
+        android:layout_marginBottom="-13dp"/>
+
+    <TextView
+        android:id="@+id/tv_prj_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/project_name"
+        style="@style/body2M"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="6dp"/>
+    
+    <TextView
+        android:id="@+id/tv_prj_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/example_date"
+        style="@style/caption"
+        android:textColor="@color/gray400"
+        app:layout_constraintTop_toBottomOf="@id/tv_prj_name"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="6dp"/>
+
+    <ImageView
+        android:id="@+id/iv_prj_empty_star"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:src="@drawable/ic_empty_star"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="6dp"/>
+
+    <ImageView
+        android:id="@+id/iv_prj_yellow_star"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:src="@drawable/ic_yellow_star"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="6dp"
+        android:visibility="gone"/>
+    
+    <ImageView
+        android:id="@+id/iv_prj_more"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="6dp"
+        android:layout_marginBottom="6dp"/>
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="55dp"
+        android:layout_height="20dp"
+        android:background="@drawable/box_white_5px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="8dp">
+        
+        <ImageView
+            android:id="@+id/iv_prj_people"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_people"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:tint="@color/gray500"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_prj_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            style="@style/caption"
+            android:textColor="@color/gray700"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_prj_people"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
