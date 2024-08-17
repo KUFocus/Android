@@ -1,5 +1,6 @@
 package com.example.logmeet.ui.projects
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import com.example.logmeet.data.ProjectData
 import com.example.logmeet.databinding.ItemProjectProjectBinding
 
 class ProjectPrjAdapter(private val data: ArrayList<ProjectData>) : RecyclerView.Adapter<ProjectPrjAdapter.ViewHolder>() {
+
     inner class ViewHolder(val binding: ItemProjectProjectBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ProjectData) {
             val colorList = arrayOf(
@@ -31,10 +33,16 @@ class ProjectPrjAdapter(private val data: ArrayList<ProjectData>) : RecyclerView
             binding.tvPrjName.text = item.prjName
             binding.tvPrjDate.text = item.date
             binding.tvPrjPeople.text = item.people
-
             binding.apply {
                 ivPrjEmptyStar.visibility = if (item.bookmark) View.GONE else View.VISIBLE
                 ivPrjYellowStar.visibility = if (item.bookmark) View.VISIBLE else View.GONE
+            }
+
+            binding.clBookmark.setOnClickListener {
+                //즐겨찾기 변경 api
+                val isStarEmptyVisible = binding.ivPrjEmptyStar.visibility == View.VISIBLE
+                binding.ivPrjEmptyStar.visibility = if (isStarEmptyVisible) View.GONE else View.VISIBLE
+                binding.ivPrjYellowStar.visibility = if (isStarEmptyVisible) View.VISIBLE else View.GONE
             }
         }
     }
@@ -48,5 +56,16 @@ class ProjectPrjAdapter(private val data: ArrayList<ProjectData>) : RecyclerView
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(data[position])
+        holder.binding.ivPrjMore.setOnClickListener {
+            startPage(ProjectDetailActivity::class.java, holder, position)
+        }
     }
+
+    private fun startPage(activity: Class<ProjectDetailActivity>, holder: ViewHolder, position: Int) {
+        val context = holder.itemView.context
+        val intent = Intent(context, activity)
+        intent.putExtra("projectId", data[position].prjId)
+        context.startActivity(intent)
+    }
+
 }
