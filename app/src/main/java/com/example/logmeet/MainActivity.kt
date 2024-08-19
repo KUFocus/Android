@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.tvStartJoin.setOnClickListener {
-            val intent = Intent(this, MainHomeActivity::class.java)
+            val intent = Intent(this, Join1Activity::class.java)
             startActivity(intent)
         }
 

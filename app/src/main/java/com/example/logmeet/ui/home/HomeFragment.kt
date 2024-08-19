@@ -8,11 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager.widget.ViewPager
+import com.example.logmeet.R
 import com.example.logmeet.data.ProjectData
 import com.example.logmeet.data.ScheduleData
 import com.example.logmeet.databinding.FragmentHomeBinding
+import com.example.logmeet.ui.MainFragmentStatePagerAdapter
 import com.example.logmeet.ui.component.WeeklyCalendar
 import com.example.logmeet.ui.projects.MakeProjectActivity
+import com.google.android.material.tabs.TabLayout
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -47,26 +51,39 @@ class HomeFragment : Fragment() {
             val intent = Intent(context, MakeProjectActivity::class.java)
             startActivity(intent)
         }
+        binding.clHomeMoreProject.setOnClickListener {
+            (activity as? MainHomeActivity)?.let {
+                it.binding.vpAcMainFragPager.currentItem = 1
+            }
+        }
 
         setScheduleListData()
-        if (scheduleList.isEmpty()) {
-            binding.clHomeNonschedule.visibility = View.VISIBLE
-            binding.rvHomeScheduleList.visibility = View.GONE
-        } else {
-            binding.clHomeNonschedule.visibility = View.GONE
-            binding.rvHomeScheduleList.visibility = View.VISIBLE
-            setScheduleRV()
-        }
+        val isScheduleEmpty = scheduleList.isEmpty()
+        binding.clHomeNonschedule.visibility = if (isScheduleEmpty) View.VISIBLE else View.GONE
+        binding.rvHomeScheduleList.visibility = if (isScheduleEmpty) View.GONE else View.VISIBLE
+        if (!isScheduleEmpty) setScheduleRV()
+//        if (scheduleList.isEmpty()) {
+//            binding.clHomeNonschedule.visibility = View.VISIBLE
+//            binding.rvHomeScheduleList.visibility = View.GONE
+//        } else {
+//            binding.clHomeNonschedule.visibility = View.GONE
+//            binding.rvHomeScheduleList.visibility = View.VISIBLE
+//            setScheduleRV()
+//        }
 
         setProjectListData()
-        if (projectList.isEmpty()) {
-            binding.clHomeAddProject.visibility = View.VISIBLE
-            binding.rvHomeProjectList.visibility = View.GONE
-        } else {
-            binding.clHomeAddProject.visibility = View.GONE
-            binding.rvHomeProjectList.visibility = View.VISIBLE
-            setProjectRV()
-        }
+        val isProjectEmpty = projectList.isEmpty()
+        binding.clHomeAddProject.visibility = if (isProjectEmpty) View.VISIBLE else View.GONE
+        binding.rvHomeProjectList.visibility = if (isProjectEmpty) View.GONE else View.VISIBLE
+        if (!isProjectEmpty) setProjectRV()
+//        if (projectList.isEmpty()) {
+//            binding.clHomeAddProject.visibility = View.VISIBLE
+//            binding.rvHomeProjectList.visibility = View.GONE
+//        } else {
+//            binding.clHomeAddProject.visibility = View.GONE
+//            binding.rvHomeProjectList.visibility = View.VISIBLE
+//            setProjectRV()
+//        }
     }
 
     private fun setProjectRV() {
