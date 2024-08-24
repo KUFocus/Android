@@ -14,7 +14,6 @@ class MainFragmentStatePagerAdapter(fm: FragmentManager, private val fragmentCou
         return when (position) {
             0 -> HomeFragment()
             1 -> ProjectFragment()
-            2 -> HomeFragment()
             3 -> MinutesFragment()
             4 -> MyFragment()
             else -> HomeFragment()

@@ -56,6 +56,11 @@ class HomeFragment : Fragment() {
                 it.binding.vpAcMainFragPager.currentItem = 1
             }
         }
+        binding.clHomeMoreMom.setOnClickListener {
+            (activity as? MainHomeActivity)?.let {
+                it.binding.vpAcMainFragPager.currentItem = 3
+            }
+        }
 
         setScheduleListData()
         val isScheduleEmpty = scheduleList.isEmpty()
