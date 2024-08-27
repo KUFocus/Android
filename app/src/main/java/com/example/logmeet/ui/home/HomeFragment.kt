@@ -67,28 +67,12 @@ class HomeFragment : Fragment() {
         binding.clHomeNonschedule.visibility = if (isScheduleEmpty) View.VISIBLE else View.GONE
         binding.rvHomeScheduleList.visibility = if (isScheduleEmpty) View.GONE else View.VISIBLE
         if (!isScheduleEmpty) setScheduleRV()
-//        if (scheduleList.isEmpty()) {
-//            binding.clHomeNonschedule.visibility = View.VISIBLE
-//            binding.rvHomeScheduleList.visibility = View.GONE
-//        } else {
-//            binding.clHomeNonschedule.visibility = View.GONE
-//            binding.rvHomeScheduleList.visibility = View.VISIBLE
-//            setScheduleRV()
-//        }
 
         setProjectListData()
         val isProjectEmpty = projectList.isEmpty()
         binding.clHomeAddProject.visibility = if (isProjectEmpty) View.VISIBLE else View.GONE
         binding.rvHomeProjectList.visibility = if (isProjectEmpty) View.GONE else View.VISIBLE
         if (!isProjectEmpty) setProjectRV()
-//        if (projectList.isEmpty()) {
-//            binding.clHomeAddProject.visibility = View.VISIBLE
-//            binding.rvHomeProjectList.visibility = View.GONE
-//        } else {
-//            binding.clHomeAddProject.visibility = View.GONE
-//            binding.rvHomeProjectList.visibility = View.VISIBLE
-//            setProjectRV()
-//        }
     }
 
     private fun setProjectRV() {
