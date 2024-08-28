@@ -13,7 +13,7 @@ import com.example.logmeet.ui.MainFragmentStatePagerAdapter
 import com.example.logmeet.ui.component.WeeklyCalendar
 
 class MainHomeActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainHomeBinding
+    lateinit var binding: ActivityMainHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainHomeBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
