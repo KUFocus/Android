@@ -1,6 +1,5 @@
 package com.example.logmeet.ui.component
 
-import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -24,13 +22,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.logmeet.R
-import com.example.logmeet.ui.join.Join1Activity
 import java.time.LocalDate
 import java.util.Locale
 
@@ -75,9 +71,11 @@ fun WeeklyTitle() {
         Row {
             Image(
                 modifier = Modifier
-                    .clickable { }
+                    .clickable {
+                        //전체캘린더 페이지로 연결
+                    }
                     .size(24.dp),
-                painter = painterResource(id = R.drawable.ic_add_calendar),
+                painter = painterResource(id = R.drawable.ic_calendar),
                 contentDescription = "달력버튼"
             )
             Spacer(modifier = Modifier.width(14.dp))
@@ -93,7 +91,7 @@ fun WeeklyTitle() {
 }
 
 @Composable
-fun MontlyTitle() {
+fun MonthlyTitle() {
     val today = LocalDate.now()
     val year = today.year.toString()
     val month = today.month.toString()
@@ -181,6 +179,6 @@ fun capitalize(input: String): String {
 fun Preview() {
     Column {
         WeeklyTitle()
-        MontlyTitle()
+        MonthlyTitle()
     }
 }
