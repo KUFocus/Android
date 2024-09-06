@@ -34,6 +34,8 @@ fun MonthlyCalendar(
         Spacer(modifier = Modifier.height(16.dp))
         val today = LocalDate.now()
         val date = today
-
+        DateOfMonth(
+            date = LocalDate.now()
+        ) {selectedDate(it) }
     }
 }

@@ -41,6 +41,10 @@ class HomeFragment : Fragment() {
                 //일정 불러오는 api 연결
             })
         }
+        binding.compHomeCalendar.setOnClickListener {
+            val intent = Intent(context, HomeFullCalendarActivity::class.java)
+            startActivity(intent)
+        }
 
         return binding.root
     }
