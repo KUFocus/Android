@@ -24,23 +24,22 @@ import java.time.LocalDate
 
 @Composable
 fun DateOfMonth(
-    date: LocalDate, // 기준 날짜 (보통 오늘 날짜를 사용)
-    clicked: (String) -> Unit, // 날짜 클릭 시 실행되는 콜백 함수
+    date: LocalDate,
+    clicked: (String) -> Unit,
 ) {
-    val startOfMonth = date.withDayOfMonth(1) // 이번 달의 첫 날
-    val endOfMonth = date.withDayOfMonth(date.lengthOfMonth()) // 이번 달의 마지막 날
+    val startOfMonth = date.withDayOfMonth(1)
+    val endOfMonth = date.withDayOfMonth(date.lengthOfMonth())
 
-    val firstDayOfWeek = startOfMonth.minusDays((startOfMonth.dayOfWeek.value % 7).toLong()) // 달력 시작 주차의 첫 날
-    val lastDayOfWeek = endOfMonth.plusDays((6 - endOfMonth.dayOfWeek.value % 7).toLong()) // 달력 끝 주차의 마지막 날
+    val firstDayOfWeek = startOfMonth.minusDays((startOfMonth.dayOfWeek.value % 7).toLong())
+    val lastDayOfWeek = endOfMonth.plusDays((6 - endOfMonth.dayOfWeek.value % 7).toLong())
 
-    // 각 주를 저장할 리스트
     val weeks = mutableListOf<List<LocalDate>>()
 
     var currentDay = firstDayOfWeek
     while (currentDay <= lastDayOfWeek) {
-        val week = (0..6).map { currentDay.plusDays(it.toLong()) } // 주차 생성
+        val week = (0..6).map { currentDay.plusDays(it.toLong()) }
         weeks.add(week)
-        currentDay = currentDay.plusWeeks(1) // 다음 주로 이동
+        currentDay = currentDay.plusWeeks(1)
     }
 
     Column {
