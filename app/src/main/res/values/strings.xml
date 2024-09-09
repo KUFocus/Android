@@ -30,4 +30,5 @@
     <string name="init_text_length_8">0 / 8</string>
     <string name="example_date">YYYY.MM.dd</string>
     <string name="eng_projects">Projects</string>
+    <string name="recent_mom">최근 회의록</string>
 </resources>

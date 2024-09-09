@@ -49,7 +49,6 @@ fun MonthlyCalendar(
         ) {
             selectedDate(it)
             currentDate = it
-            Log.d("chrin", "MonthlyCalendar: DateOfMonth 클릭도미 $currentDate")
         }
     }
 }

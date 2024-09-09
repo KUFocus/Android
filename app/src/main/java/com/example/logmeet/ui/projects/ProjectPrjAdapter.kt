@@ -30,6 +30,13 @@ class ProjectPrjAdapter(private val data: ArrayList<ProjectData>) : RecyclerView
                 binding.ivPrjEmptyStar.visibility = if (isStarEmptyVisible) View.GONE else View.VISIBLE
                 binding.ivPrjYellowStar.visibility = if (isStarEmptyVisible) View.VISIBLE else View.GONE
             }
+
+            binding.root.setOnClickListener {
+                val context = it.context
+                val intent = Intent(context, ProjectHomeActivity::class.java)
+//                intent.putExtra("projectId", item.prjId)
+                context.startActivity(intent)
+            }
         }
     }
 

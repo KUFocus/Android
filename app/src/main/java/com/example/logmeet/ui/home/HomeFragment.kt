@@ -1,6 +1,5 @@
 package com.example.logmeet.ui.home
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,15 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager.widget.ViewPager
-import com.example.logmeet.R
 import com.example.logmeet.data.ProjectData
 import com.example.logmeet.data.ScheduleData
 import com.example.logmeet.databinding.FragmentHomeBinding
-import com.example.logmeet.ui.MainFragmentStatePagerAdapter
 import com.example.logmeet.ui.component.WeeklyCalendar
 import com.example.logmeet.ui.projects.MakeProjectActivity
-import com.google.android.material.tabs.TabLayout
+import formatDate
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -37,7 +33,8 @@ class HomeFragment : Fragment() {
 
         binding.compHomeCalendar.setContent {
             WeeklyCalendar( selectedDate = {
-                setScheduleDate(it)
+                //setScheduleDate(it)
+                binding.tvHomeDate.text = formatDate(it)
                 //일정 불러오는 api 연결
             })
         }
@@ -111,12 +108,12 @@ class HomeFragment : Fragment() {
         binding.rvHomeScheduleList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun setScheduleDate(dayOfMonth: String) {
-        val today: LocalDate = LocalDate.now()
-        val beforeFormat = LocalDate.of(today.year, today.month, dayOfMonth.toInt())
-        val formattedDate = beforeFormat.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))
-
-        binding.tvHomeDate.text = formattedDate
-    }
+//    @SuppressLint("SetTextI18n")
+//    private fun setScheduleDate(dayOfMonth: String) {
+//        val today: LocalDate = LocalDate.now()
+//        val beforeFormat = LocalDate.of(today.year, today.month, dayOfMonth.toInt())
+//        val formattedDate = beforeFormat.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))
+//
+//        binding.tvHomeDate.text = formattedDate
+//    }
 }
