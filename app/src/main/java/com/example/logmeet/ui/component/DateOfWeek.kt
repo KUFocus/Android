@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.logmeet.ProjectColorResources
 import com.example.logmeet.R
 import java.time.LocalDate
 
@@ -61,7 +62,8 @@ fun DateOfWeek(
                         .width(32.dp)
                         .clickable {
                             clickedDate = currentDate
-                            clicked(clickedDate.toString()) },
+                            clicked(clickedDate.toString())
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     DrawCircle(
@@ -94,11 +96,7 @@ fun DateOfWeek(
 
 @Composable
 fun GetDaySchedule(date: LocalDate?) {
-    val projectColorList = arrayOf(
-        R.color.project1, R.color.project2, R.color.project3, R.color.project4,
-        R.color.project5, R.color.project6, R.color.project7, R.color.project8,
-        R.color.project9, R.color.project10, R.color.project11, R.color.project12
-    )
+    val projectColorList = ProjectColorResources.colorList
     val scheduleList = intArrayOf(1, 10, 12, 3) // 서버에서 가져올 데이터
     val size = scheduleList.size
     val spacer = if (size == 2) 4 else 0

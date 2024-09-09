@@ -5,8 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.logmeet.ColorResources
-import com.example.logmeet.R
+import com.example.logmeet.ProjectDrawableResources
 import com.example.logmeet.data.ProjectData
 import com.example.logmeet.databinding.ItemProjectProjectBinding
 
@@ -14,7 +13,7 @@ class ProjectPrjAdapter(private val data: ArrayList<ProjectData>) : RecyclerView
 
     inner class ViewHolder(val binding: ItemProjectProjectBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ProjectData) {
-            val color = ColorResources.colorList[item.prjColor.toInt()-1]
+            val color = ProjectDrawableResources.colorList[item.prjColor.toInt()-1]
             binding.vPrjCircle.setBackgroundResource(color)
             binding.vPrjCircle2.setBackgroundResource(color)
             binding.tvPrjName.text = item.prjName

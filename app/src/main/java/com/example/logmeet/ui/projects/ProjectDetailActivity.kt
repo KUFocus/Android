@@ -3,13 +3,12 @@ package com.example.logmeet.ui.projects
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.logmeet.ColorResources
+import com.example.logmeet.ProjectDrawableResources
 import com.example.logmeet.R
 import com.example.logmeet.data.PeopleData
 import com.example.logmeet.databinding.ActivityProjectDetailBinding
@@ -81,7 +80,7 @@ class ProjectDetailActivity : AppCompatActivity() {
     }
 
     private fun setProjectColor(colorId: String) {
-        val color = ColorResources.colorList[colorId.toInt()-1]
+        val color = ProjectDrawableResources.colorList[colorId.toInt()-1]
         binding.vDetailPColor.setBackgroundResource(color)
     }
 }

@@ -1,6 +1,6 @@
 package com.example.logmeet.ui.component
 
-import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,6 +16,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,14 +27,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.logmeet.R
-import com.example.logmeet.ui.join.Join1Activity
 import java.time.LocalDate
+import java.time.Month
 import java.util.Locale
 
 @Composable
@@ -75,7 +76,9 @@ fun WeeklyTitle() {
         Row {
             Image(
                 modifier = Modifier
-                    .clickable { }
+                    .clickable {
+                        //전체캘린더 페이지로 연결
+                    }
                     .size(24.dp),
                 painter = painterResource(id = R.drawable.ic_add_calendar),
                 contentDescription = "달력버튼"
@@ -93,10 +96,12 @@ fun WeeklyTitle() {
 }
 
 @Composable
-fun MontlyTitle() {
-    val today = LocalDate.now()
-    val year = today.year.toString()
-    val month = today.month.toString()
+fun MonthlyTitle(
+    clicked: (Month) -> Unit
+) {
+    var currentDate by remember { mutableStateOf(LocalDate.now()) }
+    var year = currentDate.year.toString()
+    var month by remember { mutableStateOf(currentDate.month.toString()) }
 
     Column(
         modifier = Modifier
@@ -126,7 +131,15 @@ fun MontlyTitle() {
                 Image(
                     modifier = Modifier
                         .size(24.dp)
-                        .clickable {  },
+                        .clickable {
+                            currentDate = LocalDate.of(
+                                currentDate.year,
+                                currentDate.minusMonths(1).month,
+                                currentDate.dayOfMonth
+                            )
+                            clicked(currentDate.month)
+                            month = currentDate.month.toString()
+                        },
                     painter = painterResource(id = R.drawable.ic_calendar_left),
                     contentDescription = "이전"
                 )
@@ -146,7 +159,15 @@ fun MontlyTitle() {
                 Image(
                     modifier = Modifier
                         .size(24.dp)
-                        .clickable {  },
+                        .clickable {
+                            currentDate = LocalDate.of(
+                                currentDate.year,
+                                currentDate.plusMonths(1).month,
+                                currentDate.dayOfMonth
+                            )
+                            clicked(currentDate.month)
+                            month = currentDate.month.toString()
+                        },
                     painter = painterResource(id = R.drawable.ic_calendar_right),
                     contentDescription = "다음"
                 )
@@ -174,13 +195,4 @@ fun capitalize(input: String): String {
     } else input.substring(0, 1).uppercase(Locale.getDefault()) + input.substring(1).lowercase(
         Locale.getDefault()
     )
-}
-
-@Preview
-@Composable
-fun Preview() {
-    Column {
-        WeeklyTitle()
-        MontlyTitle()
-    }
 }
