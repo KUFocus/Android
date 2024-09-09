@@ -1,6 +1,6 @@
 package com.example.logmeet
 
-class ColorResources {
+class ProjectDrawableResources {
     companion object {
         val colorList = arrayOf(
             R.drawable.color_prj1,

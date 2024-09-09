@@ -1,5 +1,3 @@
-package com.example.logmeet.ui.component
-
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -20,12 +22,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.logmeet.R
+import com.example.logmeet.ui.component.DrawCircle
+import com.example.logmeet.ui.component.GetDaySchedule
+import com.example.logmeet.ui.component.determineTextColor
 import java.time.LocalDate
 
 @Composable
 fun DateOfMonth(
     date: LocalDate,
-    clicked: (String) -> Unit,
+    clicked: (LocalDate) -> Unit,
 ) {
     val startOfMonth = date.withDayOfMonth(1)
     val endOfMonth = date.withDayOfMonth(date.lengthOfMonth())
@@ -37,10 +42,15 @@ fun DateOfMonth(
 
     var currentDay = firstDayOfWeek
     while (currentDay <= lastDayOfWeek) {
-        val week = (0..6).map { currentDay.plusDays(it.toLong()) }
+        val week = (0..6).map {
+            currentDay.plusDays(it.toLong())
+        }
         weeks.add(week)
         currentDay = currentDay.plusWeeks(1)
     }
+
+    // Store the full clicked date
+    var clickedDate by remember { mutableStateOf<LocalDate?>(null) }
 
     Column {
         weeks.forEach { week ->
@@ -51,16 +61,28 @@ fun DateOfMonth(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 week.forEach { day ->
-                    val isSelected = (LocalDate.now() == day)
-                    val textColor = determineTextColor(LocalDate.now(), day.dayOfMonth, day.dayOfWeek.value)
+                    val isInCurrentMonth = day.month == date.month
+                    val isSelected = clickedDate == day && isInCurrentMonth  // Check full date for selection
+                    val textColor = if (isInCurrentMonth) {
+                        determineTextColor(LocalDate.now(), day.dayOfMonth, day.dayOfWeek.value)
+                    } else {
+                        androidx.compose.ui.graphics.Color.Gray
+                    }
 
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Box(
                             modifier = Modifier
                                 .width(32.dp)
-                                .clickable {
-                                    clicked(day.toString())
-                                },
+                                .then(
+                                    if (isInCurrentMonth) {
+                                        Modifier.clickable {
+                                            clickedDate = day // Set the clicked date to the full date
+                                            clicked(clickedDate!!)
+                                        }
+                                    } else {
+                                        Modifier // No clickable modifier for days outside the current month
+                                    }
+                                ),
                             contentAlignment = Alignment.Center
                         ) {
                             DrawCircle(
@@ -79,9 +101,11 @@ fun DateOfMonth(
                             )
                         }
                         Spacer(modifier = Modifier.height(6.dp))
-                        GetDaySchedule(
-                            date = day
-                        )
+                        if (isInCurrentMonth) {
+                            GetDaySchedule(
+                                date = day
+                            )
+                        }
                     }
                 }
             }
