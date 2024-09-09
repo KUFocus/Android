@@ -1,4 +1,4 @@
-package com.example.logmeet.ui.home
+package com.example.logmeet.ui.projects
 
 import android.os.Bundle
 import android.view.View
@@ -9,16 +9,17 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.R
 import com.example.logmeet.data.ScheduleData
-import com.example.logmeet.databinding.ActivityHomeFullCalendarBinding
-import com.example.logmeet.ui.component.MonthlyCalendar
+import com.example.logmeet.databinding.ActivityProjectHomeBinding
+import com.example.logmeet.ui.home.HomeScheduleAdapter
 import formatDate
+import java.time.LocalDate
 
-class HomeFullCalendarActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityHomeFullCalendarBinding
+class ProjectHomeActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityProjectHomeBinding
     private lateinit var scheduleAdapter: HomeScheduleAdapter
     private var scheduleList: ArrayList<ScheduleData> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = ActivityHomeFullCalendarBinding.inflate(layoutInflater)
+        binding = ActivityProjectHomeBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
@@ -28,22 +29,19 @@ class HomeFullCalendarActivity : AppCompatActivity() {
             insets
         }
 
-        binding.compHomeFullCalendar.setContent {
-            MonthlyCalendar {
-                //setScheduleDate(it)
-                binding.tvHomeFullDate.text = formatDate(it.toString())
-            }
-        }
-
+        binding.ivPrjHomeBack.setOnClickListener { finish() }
         init()
     }
 
     private fun init() {
+        binding.tvPrjHomeDate.text = formatDate(LocalDate.now().toString())
+
         setScheduleListData()
         val isScheduleEmpty = scheduleList.isEmpty()
-        binding.clHomeFullNonschedule.visibility = if (isScheduleEmpty) View.VISIBLE else View.GONE
-        binding.rvHomeFullScheduleList.visibility = if (isScheduleEmpty) View.GONE else View.VISIBLE
+        binding.clPrjHomeNonschedule.visibility = if (isScheduleEmpty) View.VISIBLE else View.GONE
+        binding.rvPrjHomeScheduleList.visibility = if (isScheduleEmpty) View.GONE else View.VISIBLE
         if (!isScheduleEmpty) setScheduleRV()
+
     }
 
     private fun setScheduleListData() {
@@ -57,16 +55,7 @@ class HomeFullCalendarActivity : AppCompatActivity() {
 
     private fun setScheduleRV() {
         scheduleAdapter = HomeScheduleAdapter(scheduleList)
-        binding.rvHomeFullScheduleList.adapter = scheduleAdapter
-        binding.rvHomeFullScheduleList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.rvPrjHomeScheduleList.adapter = scheduleAdapter
+        binding.rvPrjHomeScheduleList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
-
-
-//    @SuppressLint("SetTextI18n")
-//    private fun setScheduleDate(day: LocalDate) {
-//        val beforeFormat = LocalDate.of(day.year, day.month, day.dayOfMonth)
-//        val formattedDate = beforeFormat.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))
-//
-//        binding.tvHomeFullDate.text = formattedDate
-//    }
 }
