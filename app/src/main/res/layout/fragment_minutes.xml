@@ -101,7 +101,7 @@
                     android:id="@+id/iv_minutes_tab2"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_text_gray"
+                    android:src="@drawable/ic_photo_gray"
                     app:layout_constraintTop_toTopOf="@id/tv_minutes_tab2"
                     app:layout_constraintBottom_toBottomOf="@id/tv_minutes_tab2"
                     app:layout_constraintEnd_toStartOf="@id/tv_minutes_tab2"
@@ -114,7 +114,7 @@
                     android:id="@+id/tv_minutes_tab2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="요약본"
+                    android:text="사진"
                     style="@style/body1B"
                     android:textColor="@color/gray200"
                     app:layout_constraintTop_toTopOf="parent"
@@ -144,7 +144,7 @@
                     android:id="@+id/iv_minutes_tab3"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_photo_gray"
+                    android:src="@drawable/ic_voice_gray"
                     app:layout_constraintTop_toTopOf="@id/tv_minutes_tab3"
                     app:layout_constraintBottom_toBottomOf="@id/tv_minutes_tab3"
                     app:layout_constraintEnd_toStartOf="@id/tv_minutes_tab3"
@@ -157,7 +157,7 @@
                     android:id="@+id/tv_minutes_tab3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="사진"
+                    android:text="음성"
                     style="@style/body1B"
                     android:textColor="@color/gray200"
                     app:layout_constraintTop_toTopOf="parent"
@@ -170,49 +170,6 @@
                     android:layout_height="3dp"
                     android:background="@color/gray100"
                     app:layout_constraintTop_toBottomOf="@id/tv_minutes_tab3"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginTop="8dp"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_minutes_tab4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/cl_minutes_tab3"
-                app:layout_constraintWidth_percent="0.25">
-
-                <ImageView
-                    android:id="@+id/iv_minutes_tab4"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_voice_gray"
-                    app:layout_constraintTop_toTopOf="@id/tv_minutes_tab4"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_minutes_tab4"
-                    app:layout_constraintEnd_toStartOf="@id/tv_minutes_tab4"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:tint="@color/gray200"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    android:layout_marginEnd="4dp"/>
-
-                <TextView
-                    android:id="@+id/tv_minutes_tab4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="음성"
-                    style="@style/body1B"
-                    android:textColor="@color/gray200"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/iv_minutes_tab4"/>
-
-                <View
-                    android:id="@+id/v_minutes_tab4"
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:background="@color/gray100"
-                    app:layout_constraintTop_toBottomOf="@id/tv_minutes_tab4"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginTop="8dp"/>
 

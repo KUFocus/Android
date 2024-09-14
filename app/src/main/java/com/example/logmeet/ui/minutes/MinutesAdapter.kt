@@ -41,7 +41,6 @@ class MinutesAdapter(private val data: ArrayList<MinutesData>) :
             } else {
                 binding.tvMinutesTitleY.text = item.title
             }
-
             binding.tvMinutesDate.text = item.date
         }
 
