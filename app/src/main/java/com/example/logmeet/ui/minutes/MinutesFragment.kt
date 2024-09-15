@@ -61,13 +61,16 @@ class MinutesFragment : Fragment() {
             setTabOnClick(1)
             setMinutesRV(minutesList)
         }
-        binding.clMinutesTab2.setOnClickListener {
+        binding.clMinutesTab2.setOnClickListener {//photo
             setTabOnClick(2)
             setMinutesRV(minutesPhotoList)
         }
-        binding.clMinutesTab3.setOnClickListener {
+        binding.clMinutesTab3.setOnClickListener {//voice
             setTabOnClick(3)
             setMinutesRV(minutesVoiceList)
+        }
+        binding.clMinutesOrder.setOnClickListener {
+
         }
     }
 
