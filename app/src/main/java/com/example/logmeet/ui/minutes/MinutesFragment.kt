@@ -2,7 +2,6 @@ package com.example.logmeet.ui.minutes
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +15,9 @@ import com.example.logmeet.databinding.FragmentMinutesBinding
 class MinutesFragment : Fragment() {
     private lateinit var binding: FragmentMinutesBinding
     private lateinit var minutesAdapter: MinutesAdapter
-    private var minutesDataList: ArrayList<MinutesData> = arrayListOf()
+    private var minutesList: ArrayList<MinutesData> = arrayListOf()
+    private var minutesPhotoList: ArrayList<MinutesData> = arrayListOf()
+    private var minutesVoiceList: ArrayList<MinutesData> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,42 +55,50 @@ class MinutesFragment : Fragment() {
     }
 
     private fun init() {
-        binding.clMinutesTab1.setOnClickListener { setTabOnClick(1) }
-        binding.clMinutesTab2.setOnClickListener { setTabOnClick(2) }
-        binding.clMinutesTab3.setOnClickListener { setTabOnClick(3) }
         setMinutesDataList()
-        setMinutesRV()
+        setMinutesRV(minutesList)
+        binding.clMinutesTab1.setOnClickListener {
+            setTabOnClick(1)
+            setMinutesRV(minutesList)
+        }
+        binding.clMinutesTab2.setOnClickListener {
+            setTabOnClick(2)
+            setMinutesRV(minutesPhotoList)
+        }
+        binding.clMinutesTab3.setOnClickListener {
+            setTabOnClick(3)
+            setMinutesRV(minutesVoiceList)
+        }
     }
 
     private fun setMinutesDataList() {
-        minutesDataList.addAll(
+        minutesList.addAll(
             arrayListOf(
                 MinutesData(0, "1차 회의록","2024.03.04", "1", 0, false),
-                MinutesData(1, "2차 회의록", "2024.03.04", "2", 2, true),
-                MinutesData(0, "1차 회의록","2024.03.04", "3", 0, false),
-                MinutesData(1, "2차 회의록", "2024.03.04", "4", 2, true),
-                MinutesData(0, "1차 회의록","2024.03.04", "5", 0, false),
-                MinutesData(1, "2차 회의록", "2024.03.04", "6", 2, true),
-                MinutesData(0, "1차 회의록","2024.03.04", "7", 0, false),
-                MinutesData(1, "2차 회의록", "2024.03.04", "8", 2, true),
-                MinutesData(0, "1차 회의록","2024.03.04", "9", 0, false),
-                MinutesData(1, "2차 회의록", "2024.03.04", "10", 2, true),
-                MinutesData(0, "1차 회의록","2024.03.04", "1", 0, false),
-                MinutesData(1, "2차 회의록", "2024.03.04", "2", 2, true),
-                MinutesData(0, "1차 회의록","2024.03.04", "3", 0, false),
-                MinutesData(1, "2차 회의록", "2024.03.04", "4", 2, true),
-                MinutesData(0, "1차 회의록","2024.03.04", "5", 0, false),
-                MinutesData(1, "2차 회의록", "2024.03.04", "6", 2, true),
-                MinutesData(0, "1차 회의록","2024.03.04", "7", 0, false),
-                MinutesData(1, "2차 회의록", "2024.03.04", "8", 2, true),
-                MinutesData(0, "1차 회의록","2024.03.04", "9", 0, false),
-                MinutesData(1, "2차 회의록", "2024.03.04", "10", 2, true),
+                MinutesData(1, "2차 회의록","2024.03.04", "2", 2, true),
+                MinutesData(4, "3차 회의록","2024.03.04", "3", 1, false),
+                MinutesData(5, "1차 회의록","2024.03.04", "1", 0, false),
+                MinutesData(6, "2차 회의록","2024.03.04", "2", 2, true),
+                MinutesData(7, "3차 회의록","2024.03.04", "3", 1, false),
+                MinutesData(8, "1차 회의록","2024.03.04", "1", 0, false),
+                MinutesData(9, "2차 회의록","2024.03.04", "2", 2, true),
+                MinutesData(41, "3차 회의록","2024.03.04", "3", 1, false),
+                MinutesData(20, "1차 회의록","2024.03.04", "1", 0, false),
+                MinutesData(14, "2차 회의록","2024.03.04", "2", 2, true),
+                MinutesData(47, "3차 회의록","2024.03.04", "3", 1, false),
+                MinutesData(92, "1차 회의록","2024.03.04", "1", 0, false),
+                MinutesData(12, "2차 회의록","2024.03.04", "2", 2, true),
+                MinutesData(45, "3차 회의록","2024.03.04", "3", 1, false),
             )
         )
+        minutesList.forEach {
+            if (it.type==1) minutesPhotoList.add(it)
+            else if (it.type==2) minutesVoiceList.add(it)
+        }
     }
 
-    private fun setMinutesRV() {
-        minutesAdapter = MinutesAdapter(minutesDataList)
+    private fun setMinutesRV(list: ArrayList<MinutesData>) {
+        minutesAdapter = MinutesAdapter(list)
         binding.rvMinutesList.adapter = minutesAdapter
         binding.rvMinutesList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
