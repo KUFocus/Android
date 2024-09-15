@@ -1,6 +1,7 @@
 package com.example.logmeet.ui.minutes
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -55,6 +56,11 @@ class MinutesFragment : Fragment() {
     }
 
     private fun init() {
+        binding.ivMinutesSearch.setOnClickListener {
+            val intent = Intent(context, SearchMinutesActivity::class.java)
+            startActivity(intent)
+        }
+
         setMinutesDataList()
         setMinutesRV(minutesList)
         binding.clMinutesTab1.setOnClickListener {
