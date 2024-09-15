@@ -3,11 +3,232 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.minutes.MinutesFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.minutes.MinutesFragment"
+    android:background="@color/white">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="minutes" />
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.03"/>
+
+        <TextView
+            android:id="@+id/tv_minutes_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="나의 회의록"
+            style="@style/headline2B"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="@id/guide_top"
+            app:layout_constraintStart_toStartOf="@id/guide_start"/>
+
+        <ImageView
+            android:id="@+id/iv_minutes_search"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_search"
+            app:layout_constraintTop_toTopOf="@id/tv_minutes_title"
+            app:layout_constraintEnd_toEndOf="@id/guide_end"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_minutes_tab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_minutes_title"
+            app:layout_constraintStart_toStartOf="@id/guide_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_end"
+            android:layout_marginTop="20dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_minutes_tab1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintWidth_percent="0.25">
+
+                <TextView
+                    android:id="@+id/tv_minutes_tab1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="전체"
+                    style="@style/body1B"
+                    android:textColor="@color/main_blue"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <View
+                    android:id="@+id/v_minutes_tab1"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@color/main_blue"
+                    app:layout_constraintTop_toBottomOf="@id/tv_minutes_tab1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="8dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_minutes_tab2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cl_minutes_tab1"
+                app:layout_constraintWidth_percent="0.25">
+
+                <ImageView
+                    android:id="@+id/iv_minutes_tab2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_photo_gray"
+                    app:layout_constraintTop_toTopOf="@id/tv_minutes_tab2"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_minutes_tab2"
+                    app:layout_constraintEnd_toStartOf="@id/tv_minutes_tab2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:tint="@color/gray200"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    android:layout_marginEnd="4dp"/>
+
+                <TextView
+                    android:id="@+id/tv_minutes_tab2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="사진"
+                    style="@style/body1B"
+                    android:textColor="@color/gray200"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_minutes_tab2"/>
+
+                <View
+                    android:id="@+id/v_minutes_tab2"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@color/gray100"
+                    app:layout_constraintTop_toBottomOf="@id/tv_minutes_tab2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="8dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_minutes_tab3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cl_minutes_tab2"
+                app:layout_constraintWidth_percent="0.25">
+
+                <ImageView
+                    android:id="@+id/iv_minutes_tab3"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_voice_gray"
+                    app:layout_constraintTop_toTopOf="@id/tv_minutes_tab3"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_minutes_tab3"
+                    app:layout_constraintEnd_toStartOf="@id/tv_minutes_tab3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:tint="@color/gray200"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    android:layout_marginEnd="4dp"/>
+
+                <TextView
+                    android:id="@+id/tv_minutes_tab3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="음성"
+                    style="@style/body1B"
+                    android:textColor="@color/gray200"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_minutes_tab3"/>
+
+                <View
+                    android:id="@+id/v_minutes_tab3"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@color/gray100"
+                    app:layout_constraintTop_toBottomOf="@id/tv_minutes_tab3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="8dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_minutes_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/cl_minutes_tab"
+            app:layout_constraintEnd_toEndOf="@id/cl_minutes_tab"
+            android:background="@drawable/btn_grayline_30px"
+            android:layout_marginTop="12dp">
+            <TextView
+                android:id="@+id/tv_minutes_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="최신순"
+                android:layout_marginVertical="5dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_minutes_order"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                android:layout_marginStart="16dp"/>
+            <ImageView
+                android:id="@+id/iv_minutes_order"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/ic_chevron_down"
+                app:layout_constraintTop_toTopOf="@id/tv_minutes_order"
+                app:layout_constraintBottom_toBottomOf="@id/tv_minutes_order"
+                app:layout_constraintStart_toEndOf="@id/tv_minutes_order"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="4dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/v_minutes_line"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/gray100"
+            app:layout_constraintStart_toStartOf="@id/guide_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_end"
+            app:layout_constraintTop_toBottomOf="@id/cl_minutes_tab"
+            android:layout_marginTop="58dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_minutes_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/guide_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_end"
+            app:layout_constraintTop_toBottomOf="@id/v_minutes_line"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
