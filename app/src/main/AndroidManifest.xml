@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Logmeet"
         tools:targetApi="31">
         <activity
+            android:name=".ui.minutes.MinutesDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.minutes.ResultMinutesActivity"
             android:exported="false" />
         <activity

@@ -1,5 +1,6 @@
 package com.example.logmeet.ui.minutes
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import com.example.logmeet.ProjectDrawableResources
 import com.example.logmeet.R
 import com.example.logmeet.data.MinutesData
 import com.example.logmeet.databinding.ItemMinutesBinding
+import com.example.logmeet.ui.projects.ProjectHomeActivity
 
 class MinutesAdapter(private val data: ArrayList<MinutesData>) :
     RecyclerView.Adapter<MinutesAdapter.ViewHolder>() {
@@ -42,6 +44,13 @@ class MinutesAdapter(private val data: ArrayList<MinutesData>) :
                 binding.tvMinutesTitleY.text = item.title
             }
             binding.tvMinutesDate.text = item.date
+
+            binding.root.setOnClickListener {
+                val context = it.context
+                val intent = Intent(context, MinutesDetailActivity::class.java)
+                intent.putExtra("projectId", item.prjId)
+                context.startActivity(intent)
+            }
         }
 
     }
