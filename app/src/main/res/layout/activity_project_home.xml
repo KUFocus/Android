@@ -235,8 +235,26 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/tv_prj_home_none_minutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="작성된 회의록이 없습니다."
+        style="@style/body2M"
+        android:textColor="@color/gray400"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/iv_prj_home_paper"
+        android:layout_marginTop="16dp" />
 
-
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_prj_home_minutes_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintTop_toBottomOf="@id/iv_prj_home_paper"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="30dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -86,26 +86,21 @@ class HomeFragment : Fragment() {
     }
 
     private fun setMinutesRV() {
+        minutesAdapter = MinutesAdapter(minutesList)
+        binding.rvHomeMinutesList.adapter = minutesAdapter
+        binding.rvHomeMinutesList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    }
+
+    private fun setMinutesListData() {
+        //4개까지만 넣기
         minutesList.addAll(
             arrayListOf(
                 MinutesData(0, "1차 회의록","2024.03.04", "1", 0, false),
                 MinutesData(1, "2차 회의록","2024.03.04", "2", 2, true),
                 MinutesData(4, "3차 회의록","2024.03.04", "3", 1, false),
                 MinutesData(5, "1차 회의록","2024.03.04", "1", 0, false),
-                MinutesData(6, "2차 회의록","2024.03.04", "2", 2, true),
-                MinutesData(7, "3차 회의록","2024.03.04", "3", 1, false),
-                MinutesData(8, "1차 회의록","2024.03.04", "1", 0, false),
-                MinutesData(9, "2차 회의록","2024.03.04", "2", 2, true),
-                MinutesData(41, "3차 회의록","2024.03.04", "3", 1, false),
-                MinutesData(20, "1차 회의록","2024.03.04", "1", 0, false),
             )
         )
-    }
-
-    private fun setMinutesListData() {
-        minutesAdapter = MinutesAdapter(minutesList)
-        binding.rvHomeMinutesList.adapter = minutesAdapter
-        binding.rvHomeMinutesList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
     private fun setProjectRV() {
