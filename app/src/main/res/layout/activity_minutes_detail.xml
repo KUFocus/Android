@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.minutes.MinutesDetailActivity"
-    android:background="@color/gray50">
+    android:background="@color/gray100">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guide_start"

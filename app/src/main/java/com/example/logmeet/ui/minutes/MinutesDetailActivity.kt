@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.logmeet.R
 import com.example.logmeet.databinding.ActivityMinutesDetailBinding
+import com.example.logmeet.showMinutesToast
 
 class MinutesDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMinutesDetailBinding
@@ -28,6 +29,7 @@ class MinutesDetailActivity : AppCompatActivity() {
 
         setClickBtn()
         init()
+        showMinutesToast(this, R.drawable.ic_check_circle, "회의록 등록이 완료되었습니다.")
     }
 
     private fun setClickBtn() {
