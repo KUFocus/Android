@@ -34,7 +34,7 @@ class ProjectPrjAdapter(private val data: ArrayList<ProjectData>) : RecyclerView
             binding.root.setOnClickListener {
                 val context = it.context
                 val intent = Intent(context, ProjectHomeActivity::class.java)
-//                intent.putExtra("projectId", item.prjId)
+                intent.putExtra("projectId", item.prjId)
                 context.startActivity(intent)
             }
         }

@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.logmeet.data.MinutesData
 import com.example.logmeet.data.ProjectData
 import com.example.logmeet.data.ScheduleData
 import com.example.logmeet.databinding.FragmentHomeBinding
 import com.example.logmeet.ui.component.WeeklyCalendar
+import com.example.logmeet.ui.minutes.MinutesAdapter
 import com.example.logmeet.ui.projects.MakeProjectActivity
 import formatDate
 import java.time.LocalDate
@@ -22,6 +24,8 @@ class HomeFragment : Fragment() {
     private var scheduleList: ArrayList<ScheduleData> = arrayListOf()
     private lateinit var projectAdapter: HomeProjectAdapter
     private var projectList: ArrayList<ProjectData> = arrayListOf()
+    private lateinit var minutesAdapter: MinutesAdapter
+    private var minutesList: ArrayList<MinutesData> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +37,6 @@ class HomeFragment : Fragment() {
 
         binding.compHomeCalendar.setContent {
             WeeklyCalendar( selectedDate = {
-                //setScheduleDate(it)
                 binding.tvHomeDate.text = formatDate(it)
                 //일정 불러오는 api 연결
             })
@@ -74,6 +77,30 @@ class HomeFragment : Fragment() {
         binding.clHomeAddProject.visibility = if (isProjectEmpty) View.VISIBLE else View.GONE
         binding.rvHomeProjectList.visibility = if (isProjectEmpty) View.GONE else View.VISIBLE
         if (!isProjectEmpty) setProjectRV()
+
+        setMinutesListData()
+        val isMinutesEmpty = minutesList.isEmpty()
+        binding.tvHomeNoneMinutes.visibility = if (isMinutesEmpty) View.VISIBLE else View.GONE
+        binding.rvHomeMinutesList.visibility = if (isMinutesEmpty) View.GONE else View.VISIBLE
+        if (!isMinutesEmpty) setMinutesRV()
+    }
+
+    private fun setMinutesRV() {
+        minutesAdapter = MinutesAdapter(minutesList)
+        binding.rvHomeMinutesList.adapter = minutesAdapter
+        binding.rvHomeMinutesList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    }
+
+    private fun setMinutesListData() {
+        //4개까지만 넣기
+        minutesList.addAll(
+            arrayListOf(
+                MinutesData(0, "1차 회의록","2024.03.04", "1", 0, false),
+                MinutesData(1, "2차 회의록","2024.03.04", "2", 2, true),
+                MinutesData(4, "3차 회의록","2024.03.04", "3", 1, false),
+                MinutesData(5, "1차 회의록","2024.03.04", "1", 0, false),
+            )
+        )
     }
 
     private fun setProjectRV() {
@@ -108,12 +135,4 @@ class HomeFragment : Fragment() {
         binding.rvHomeScheduleList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
-//    @SuppressLint("SetTextI18n")
-//    private fun setScheduleDate(dayOfMonth: String) {
-//        val today: LocalDate = LocalDate.now()
-//        val beforeFormat = LocalDate.of(today.year, today.month, dayOfMonth.toInt())
-//        val formattedDate = beforeFormat.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))
-//
-//        binding.tvHomeDate.text = formattedDate
-//    }
 }

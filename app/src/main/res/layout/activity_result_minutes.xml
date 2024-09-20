@@ -5,6 +5,112 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.minutes.ResultMinutesActivity">
+    tools:context=".ui.minutes.ResultMinutesActivity"
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.06"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.94"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.03"/>
+
+    <ImageView
+        android:id="@+id/iv_resultM_close"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_left_chevron"
+        app:layout_constraintTop_toTopOf="@id/guide_top"
+        app:layout_constraintStart_toStartOf="@id/guide_start"/>
+
+    <TextView
+        android:id="@+id/tv_resultM_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="검색 결과"
+        style="@style/body1B"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintTop_toTopOf="@id/guide_top"/>
+
+    <View
+        android:id="@+id/v_resultM_input"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:background="@drawable/box_gray_30px"
+        android:backgroundTint="@color/gray100"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintTop_toBottomOf="@id/tv_resultM_title"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="48dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/tiet_resultM_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/body2M"
+        android:hint="@string/example_search"
+        app:layout_constraintTop_toTopOf="@id/v_resultM_input"
+        app:layout_constraintStart_toStartOf="@id/v_resultM_input"
+        app:layout_constraintEnd_toEndOf="@id/v_resultM_input"
+        app:layout_constraintBottom_toBottomOf="@id/v_resultM_input"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:background="@android:color/transparent"/>
+
+    <View
+        android:id="@+id/v_resultM_btn"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:background="@drawable/box_blue_30px"
+        app:layout_constraintTop_toTopOf="@id/v_resultM_input"
+        app:layout_constraintStart_toEndOf="@id/v_resultM_input"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:layout_marginStart="6dp"/>
+
+    <ImageView
+        android:id="@+id/iv_resultM_search"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_search"
+        app:layout_constraintTop_toTopOf="@id/v_resultM_btn"
+        app:layout_constraintStart_toStartOf="@id/v_resultM_btn"
+        app:layout_constraintEnd_toEndOf="@id/v_resultM_btn"
+        app:layout_constraintBottom_toBottomOf="@id/v_resultM_btn"
+        app:tint="@color/white"/>
+
+    <View
+        android:id="@+id/v_resultM_line"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/gray100"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintTop_toBottomOf="@id/v_resultM_input"
+        android:layout_marginTop="24dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_resultM_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintTop_toBottomOf="@id/v_resultM_line"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
