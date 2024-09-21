@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.logmeet.R
-import com.example.logmeet.data.ProjectData
+import com.example.logmeet.entity.ProjectData
 import com.example.logmeet.databinding.ItemProjectHomeBinding
 
 class HomeProjectAdapter(private val data: ArrayList<ProjectData>) :

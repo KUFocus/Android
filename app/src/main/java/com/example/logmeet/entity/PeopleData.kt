@@ -1,4 +1,4 @@
-package com.example.logmeet.data
+package com.example.logmeet.entity
 
 data class PeopleData(
     val name: String,

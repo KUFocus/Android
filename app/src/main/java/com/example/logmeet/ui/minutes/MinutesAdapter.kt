@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.logmeet.ProjectDrawableResources
 import com.example.logmeet.R
-import com.example.logmeet.data.MinutesData
+import com.example.logmeet.entity.MinutesData
 import com.example.logmeet.databinding.ItemMinutesBinding
-import com.example.logmeet.ui.projects.ProjectHomeActivity
 
 class MinutesAdapter(private val data: ArrayList<MinutesData>) :
     RecyclerView.Adapter<MinutesAdapter.ViewHolder>() {

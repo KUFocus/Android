@@ -10,7 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.ProjectDrawableResources
 import com.example.logmeet.R
-import com.example.logmeet.data.PeopleData
+import com.example.logmeet.entity.PeopleData
 import com.example.logmeet.databinding.ActivityProjectDetailBinding
 
 class ProjectDetailActivity : AppCompatActivity() {
