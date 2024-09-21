@@ -5,17 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.R
-import com.example.logmeet.data.PeopleData
+import com.example.logmeet.entity.PeopleData
 import com.example.logmeet.databinding.ActivityEditProjectBinding
 import com.example.logmeet.ui.home.MainHomeActivity
 

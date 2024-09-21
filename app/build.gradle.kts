@@ -51,6 +51,17 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+    implementation(libs.glide)
+    implementation(libs.adapter.rxjava2)
+    implementation(libs.kotlinx.serialization.json.io)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.datastore.preferences.rxjava2)
+    implementation(libs.androidx.datastore.preferences.rxjava3)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -61,7 +72,6 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.7.2")
     implementation("androidx.compose.material3:material3")
     implementation("com.google.accompanist:accompanist-themeadapter-material3:0.28.0")
-
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     //kakao

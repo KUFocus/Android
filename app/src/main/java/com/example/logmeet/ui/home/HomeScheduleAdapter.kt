@@ -3,7 +3,7 @@ package com.example.logmeet.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.logmeet.data.ScheduleData
+import com.example.logmeet.entity.ScheduleData
 import com.example.logmeet.databinding.ItemScheduleBinding
 
 class HomeScheduleAdapter(private val data: ArrayList<ScheduleData>) :

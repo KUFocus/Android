@@ -8,7 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.R
-import com.example.logmeet.data.ScheduleData
+import com.example.logmeet.entity.ScheduleData
 import com.example.logmeet.databinding.ActivityHomeFullCalendarBinding
 import com.example.logmeet.ui.component.MonthlyCalendar
 import formatDate
