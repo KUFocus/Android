@@ -17,16 +17,13 @@ import com.example.logmeet.data.dto.auth.RequestSignup
 import com.example.logmeet.data.dto.auth.ResponseSignup
 import com.example.logmeet.databinding.ActivityJoin4Binding
 import com.example.logmeet.network.RetrofitClient
+import com.example.logmeet.tag
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class Join4Activity : AppCompatActivity() {
     private lateinit var binding: ActivityJoin4Binding
-    val tvName = binding.tietJoin4UserName
-    val btnNameClear = binding.ivJoin4UserNameClear
-    val tvLength = binding.tvJoin4TextLength
-    val btnNext = binding.tvJoin4Next
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityJoin4Binding.inflate(layoutInflater)
@@ -38,6 +35,11 @@ class Join4Activity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val tvName = binding.tietJoin4UserName
+        val btnNameClear = binding.ivJoin4UserNameClear
+        val tvLength = binding.tvJoin4TextLength
+        val btnNext = binding.tvJoin4Next
 
         binding.ivJoin4Back.setOnClickListener { finish() }
         btnNameClear.setOnClickListener { tvName.setText("") }
@@ -75,7 +77,7 @@ class Join4Activity : AppCompatActivity() {
                             )
                             signup(userInfo)
                         } else {
-                            Log.d("chrin-api", "Join4 - user 정보에 null 값이 포함되어있습니다.")
+                            Log.d("chrin-api", "Join4 - user 정보에 null 값이 포함되어있습니다.$email, $password")
                         }
                     }
                 }
@@ -85,7 +87,7 @@ class Join4Activity : AppCompatActivity() {
     }
 
     private fun signup(userInfo: RequestSignup) {
-        RetrofitClient.authInstance.signup(
+        RetrofitClient.instance.signup(
             signup = userInfo
         ).enqueue(object : Callback<ResponseSignup> {
             override fun onResponse(p0: Call<ResponseSignup>, p1: Response<ResponseSignup>) {
@@ -99,7 +101,7 @@ class Join4Activity : AppCompatActivity() {
             }
 
             override fun onFailure(p0: Call<ResponseSignup>, p1: Throwable) {
-                Log.d(NETWORK, "Join4 - signup()\nbecause : $p1")
+                Log.d(NETWORK, "Join4 - signup()실패\nbecause : $p1")
             }
         })
     }

@@ -50,7 +50,7 @@ class Join3Activity : AppCompatActivity() {
                     val intent = Intent(this@Join3Activity, Join4Activity::class.java)
                     val email = getIntent().getStringExtra("email")
                     intent.putExtra("email", email)
-                    intent.putExtra("password", tvPwd.text)
+                    intent.putExtra("password", tvPwd.text.toString())
                     Log.d("chrin_intent", "[Join3] checkAvailable: email $email / password ${tvPwd.text}")
                     startActivity(intent)
                 }
@@ -79,7 +79,7 @@ class Join3Activity : AppCompatActivity() {
                 if (s.isNullOrEmpty()) {
                     isPwdDone = false
                 } else {
-                    if ((s.length > 8) and (containsLetterAndDigit(s.toString()))) {
+                    if ((s.length >= 8) and (containsLetterAndDigit(s.toString()))) {
                         pwdError.visibility = View.GONE
                         isPwdDone = true
                         pwd = s.toString()
