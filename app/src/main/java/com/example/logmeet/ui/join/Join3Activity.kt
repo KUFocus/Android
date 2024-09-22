@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.logmeet.R
 import com.example.logmeet.databinding.ActivityJoin3Binding
 import java.util.zip.Inflater
+import kotlin.math.log
 
 class Join3Activity : AppCompatActivity() {
     private lateinit var binding: ActivityJoin3Binding
@@ -46,7 +48,10 @@ class Join3Activity : AppCompatActivity() {
                 btnNext.setBackgroundResource(R.drawable.btn_blue_8px)
                 btnNext.setOnClickListener {
                     val intent = Intent(this@Join3Activity, Join4Activity::class.java)
-                    //이메일, 비번 intent로 넘기기
+                    val email = getIntent().getStringExtra("email")
+                    intent.putExtra("email", email)
+                    intent.putExtra("password", tvPwd.text)
+                    Log.d("chrin_intent", "[Join3] checkAvailable: email $email / password ${tvPwd.text}")
                     startActivity(intent)
                 }
             } else {
