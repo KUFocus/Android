@@ -24,13 +24,18 @@ class Join5Activity : AppCompatActivity() {
         }
 
         binding.ivJoin5Close.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            navigateToMain()
         }
 
         binding.tvJoin5LogmeetBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            navigateToMain()
         }
+    }
+
+    private fun navigateToMain() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
     }
 }

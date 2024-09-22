@@ -26,5 +26,7 @@ class Join1Activity : AppCompatActivity() {
             val intent = Intent(this, Join2Activity::class.java)
             startActivity(intent)
         }
+
+        binding.tvJoin1KakaoBtn.setOnClickListener {  }
     }
 }

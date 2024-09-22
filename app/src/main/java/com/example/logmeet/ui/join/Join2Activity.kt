@@ -8,6 +8,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -18,120 +20,150 @@ import com.example.logmeet.databinding.ActivityJoin2Binding
 
 class Join2Activity : AppCompatActivity() {
     private lateinit var binding: ActivityJoin2Binding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityJoin2Binding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+
+        setupWindowInsets()
+        setupClickListeners()
+        setupTextWatchers()
+    }
+
+    private fun setupWindowInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        binding.ivJoin2Back.setOnClickListener { finish() }
-
-        val tvEmail = binding.tietJoin2Email
-        val btnEmailClear = binding.ivJoin2EmailClear
-        val btnEmailSend = binding.tvJoin2Send
-        val emailError = binding.clJoin2EmailError
-
-        val tvCode = binding.tietJoin2Code
-        val btnCodeClear = binding.ivJoin2CodeClear
-        val codeError = binding.clJoin2CodeError
-        val btnEmailResend = binding.tvJoin2Resend
-        val btnCertify = binding.tvJoin2Certify
-
-        val btnNext = binding.tvJoin2Next
-
-        btnEmailClear.setOnClickListener { tvEmail.setText("") }
-        btnCodeClear.setOnClickListener { tvCode.setText("") }
-
-        tvEmail.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.isNullOrEmpty()) {
-                    btnEmailClear.visibility = View.GONE
-                } else {
-                    btnEmailClear.visibility = View.VISIBLE
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                if (s.isNullOrEmpty()) {
-                    btnEmailSend.setBackgroundResource(R.drawable.btn_gray_8px)
-                    btnEmailSend.setOnClickListener {  } //클릭 비활성화
-                } else {
-                    btnEmailSend.setBackgroundResource(R.drawable.btn_blue_8px)
-                    btnEmailSend.setOnClickListener {
-                        if (checkEmailForm(s)) {
-                            emailError.visibility = View.GONE
-                            btnEmailClear.visibility = View.GONE
-                            //인증코드 메일보내기
-                            btnEmailSend.visibility = View.GONE
-                            binding.clCode.visibility = View.VISIBLE
-                            hideKeyboard(it)
-                        } else emailError.visibility = View.VISIBLE
-                    }
-                }
-            }
-        })
-
-        btnEmailResend.setOnClickListener {
-            //인증코드 다시보내기
-        }
-
-        tvCode.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.isNullOrEmpty()) {
-                    btnCodeClear.visibility = View.GONE
-                } else {
-                    btnCodeClear.visibility = View.VISIBLE
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                if (s.isNullOrEmpty()) {
-                    btnCertify.setBackgroundResource(R.drawable.btn_gray_8px)
-                    btnEmailSend.setOnClickListener {  } //클릭 비활성화
-                } else {
-                    btnCertify.setBackgroundResource(R.drawable.btn_blue_8px)
-                    btnCertify.setOnClickListener {
-                        if (checkCodeForm(s)) {
-                            codeError.visibility = View.GONE
-                            btnCodeClear.visibility = View.GONE
-                            btnEmailResend.visibility = View.GONE
-                            btnCertify.visibility = View.GONE
-
-                            binding.tvJoin2DoneMsg.visibility = View.VISIBLE
-                            hideKeyboard(it)
-
-                            //인증하기 성공하면 다음 단계 버튼 생성
-                            btnNext.visibility = View.VISIBLE
-                            btnNext.setOnClickListener {
-                                val intent = Intent(this@Join2Activity, Join3Activity::class.java)
-                                intent.putExtra("email", tvEmail.text)
-                                startActivity(intent)
-                            }
-                        } else codeError.visibility = View.VISIBLE
-                    }
-                }
-            }
-
-        })
     }
 
-    private fun checkCodeForm(s: Editable): Boolean { //code 형식 검증
+    private fun setupClickListeners() {
+        binding.ivJoin2Back.setOnClickListener { finish() }
+
+        binding.ivJoin2EmailClear.setOnClickListener { binding.tietJoin2Email.setText("") }
+        binding.ivJoin2CodeClear.setOnClickListener { binding.tietJoin2Code.setText("") }
+
+        binding.tvJoin2Send.setOnClickListener {
+
+        }
+        binding.tvJoin2Resend.setOnClickListener {
+            // 인증 코드 다시 보내기
+        }
+    }
+
+    private fun setupTextWatchers() {
+        setupEmailTextWatcher()
+        setupCodeTextWatcher()
+    }
+
+    private fun setupEmailTextWatcher() {
+        binding.tietJoin2Email.addTextChangedListener(createTextWatcher(
+            onTextChanged = { s ->
+                toggleClearButton(s, binding.ivJoin2EmailClear)
+            },
+            afterTextChanged = { s ->
+                toggleSendButton(s, binding.tvJoin2Send, binding.clJoin2EmailError) {
+                    sendEmailVerification()
+                }
+            }
+        ))
+    }
+
+    private fun setupCodeTextWatcher() {
+        binding.tietJoin2Code.addTextChangedListener(createTextWatcher(
+            onTextChanged = { s ->
+                toggleClearButton(s, binding.ivJoin2CodeClear)
+            },
+            afterTextChanged = { s ->
+                toggleSendButton(s, binding.tvJoin2Certify, binding.clJoin2CodeError) {
+                    verifyCode()
+                }
+            }
+        ))
+    }
+
+    private fun createTextWatcher(
+        onTextChanged: (s: CharSequence?) -> Unit = {},
+        afterTextChanged: (s: Editable?) -> Unit = {}
+    ): TextWatcher {
+        return object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                onTextChanged(s)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                afterTextChanged(s)
+            }
+        }
+    }
+
+    private fun toggleClearButton(s: CharSequence?, button: ImageView) {
+        button.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+    }
+
+    private fun toggleSendButton(
+        s: Editable?,
+        button: TextView,
+        errorView: View,
+        onValidAction: () -> Unit
+    ) {
+        if (s.isNullOrEmpty()) {
+            button.setBackgroundResource(R.drawable.btn_gray_8px)
+            button.setOnClickListener { } // 클릭 비활성화
+        } else {
+            button.setBackgroundResource(R.drawable.btn_blue_8px)
+            button.setOnClickListener {
+                if (checkForm(s)) {
+                    errorView.visibility = View.GONE
+                    onValidAction()
+                } else {
+                    errorView.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
+    private fun sendEmailVerification() {
+        binding.ivJoin2EmailClear.visibility = View.GONE
+        binding.tvJoin2Send.visibility = View.GONE
+        binding.clCode.visibility = View.VISIBLE
+        hideKeyboard(binding.tvJoin2Send)
+    }
+
+    private fun verifyCode() {
+        binding.ivJoin2CodeClear.visibility = View.GONE
+        binding.tvJoin2Resend.visibility = View.GONE
+        binding.tvJoin2Certify.visibility = View.GONE
+        binding.tvJoin2DoneMsg.visibility = View.VISIBLE
+        binding.tvJoin2Next.visibility = View.VISIBLE
+        hideKeyboard(binding.tvJoin2Certify)
+
+        binding.tvJoin2Next.setOnClickListener {
+            val intent = Intent(this@Join2Activity, Join3Activity::class.java)
+            intent.putExtra("email", binding.tietJoin2Email.text.toString())
+            startActivity(intent)
+        }
+    }
+
+    private fun checkForm(s: Editable): Boolean {
+        return when {
+            binding.tietJoin2Email.text == s -> checkEmailForm(s)
+            binding.tietJoin2Code.text == s -> checkCodeForm(s)
+            else -> false
+        }
+    }
+
+    private fun checkCodeForm(s: Editable): Boolean {
         return s.length == 6
     }
 
-    private fun checkEmailForm(s: Editable): Boolean { //email 형식 검증
-        return ("@" in s) and ("." in s)
+    private fun checkEmailForm(s: Editable): Boolean {
+        return s.contains("@") && s.contains(".")
     }
 
     private fun hideKeyboard(view: View) {

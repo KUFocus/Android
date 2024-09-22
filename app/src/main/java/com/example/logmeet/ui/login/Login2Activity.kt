@@ -11,10 +11,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.logmeet.MainActivity
+import com.example.logmeet.NETWORK
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.auth.RequestLogin
+import com.example.logmeet.data.dto.auth.ResponseLogin
 import com.example.logmeet.databinding.ActivityLogin2Binding
+import com.example.logmeet.network.RetrofitClient
+import com.example.logmeet.tag
 import com.example.logmeet.ui.home.MainHomeActivity
-import com.example.logmeet.ui.join.Join4Activity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class Login2Activity : AppCompatActivity() {
     private lateinit var binding: ActivityLogin2Binding
@@ -99,10 +106,35 @@ class Login2Activity : AppCompatActivity() {
         })
 
         btnLogin.setOnClickListener {
-            //서버 연결 및 로그인
-            val intent = Intent(this, MainActivity::class.java)
-            Log.d("chrin", "onCreate: MainActivity 시작")
-            startActivity(intent)
+            val userInfo = RequestLogin(tvEmail.text.toString(), tvPwd.toString())
+            Log.d(tag, "login2 - userInfo $userInfo")
+            login(userInfo)
         }
+    }
+
+    private fun login(userInfo: RequestLogin) {
+        RetrofitClient.authInstance.login(
+            login = userInfo
+        ).enqueue(object :Callback<ResponseLogin> {
+            override fun onResponse(p0: Call<ResponseLogin>, p1: Response<ResponseLogin>) {
+                if (p1.isSuccessful) {
+                    val resp = requireNotNull(p1.body()?.result)
+                    Log.d(NETWORK, "login2 - login() : 성공\nresp = ${resp.accessToken}, ${resp.refreshToken}")
+                    val intent = Intent(this@Login2Activity, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                    intent.putExtra("accessToken", resp.accessToken)
+                    intent.putExtra("refreshToken", resp.refreshToken)
+                    startActivity(intent)
+                } else {
+                    Log.d(NETWORK, "login2 - login() : 실패")
+                }
+            }
+
+            override fun onFailure(p0: Call<ResponseLogin>, p1: Throwable) {
+                Log.d(NETWORK, "login2 - login()실패\nbecause : $p1")
+            }
+
+        })
     }
 }

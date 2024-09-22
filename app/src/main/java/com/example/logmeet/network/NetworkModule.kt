@@ -9,14 +9,13 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val BASE_URL = "http://13.124.14.33/"
+const val BASE_URL = "http://13.124.14.33:8080/"
 
 object RetrofitClient {
     val retrofit = getRetrofit()
-    val instance = retrofit.create(RetrofitInterface::class.java)
+    val instance = retrofit.create(AuthController::class.java)
 
     private val jsonRetrofit = getJsonRetrofit()
-    val jsonInstance = jsonRetrofit.create(RetrofitInterface::class.java)
     val authInstance =
         requireNotNull(jsonRetrofit.create(AuthController::class.java)) { "NetworkModule's AuthController is null" }
 }
