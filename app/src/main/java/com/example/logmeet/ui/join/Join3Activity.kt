@@ -51,7 +51,6 @@ class Join3Activity : AppCompatActivity() {
                     val email = getIntent().getStringExtra("email")
                     intent.putExtra("email", email)
                     intent.putExtra("password", tvPwd.text.toString())
-                    Log.d("chrin_intent", "[Join3] checkAvailable: email $email / password ${tvPwd.text}")
                     startActivity(intent)
                 }
             } else {
