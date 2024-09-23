@@ -39,6 +39,7 @@ class Login2Activity : AppCompatActivity() {
         binding.ivLogin2Back.setOnClickListener { finish() }
 
         val tvEmail = binding.tietLogin2Email
+        tvEmail.transformationMethod = null
         val btnEmailClear = binding.ivLogin2EmailClear
         val emailError = binding.clLogin2EmailError
 

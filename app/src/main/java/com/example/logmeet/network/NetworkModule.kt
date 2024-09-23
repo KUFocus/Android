@@ -12,8 +12,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 const val BASE_URL = "http://13.124.14.33:8080/"
 
 object RetrofitClient {
-    val retrofit = getRetrofit()
-    val instance = retrofit.create(AuthController::class.java)
+    private val retrofit = getRetrofit()
+    val auth_instance = retrofit.create(AuthController::class.java)
 
     private val jsonRetrofit = getJsonRetrofit()
     val authInstance =

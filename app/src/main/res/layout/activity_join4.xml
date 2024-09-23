@@ -153,6 +153,38 @@
         app:layout_constraintEnd_toEndOf="@id/tiet_join4_user_name"
         android:visibility="gone"/>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_join4_user_name_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tiet_join4_user_name"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="2dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_join4_user_name_error"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_error_circle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_join4_user_name_error_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이미 가입되어 있는 이메일입니다."
+            style="@style/caption"
+            android:textColor="@color/error"
+            app:layout_constraintStart_toEndOf="@id/iv_join4_user_name_error"
+            app:layout_constraintTop_toTopOf="@id/iv_join4_user_name_error"
+            app:layout_constraintBottom_toBottomOf="@id/iv_join4_user_name_error"
+            android:layout_marginStart="4dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <TextView
         android:id="@+id/tv_join4_text_length"
         android:layout_width="wrap_content"

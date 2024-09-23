@@ -17,7 +17,6 @@ import com.example.logmeet.data.dto.auth.RequestSignup
 import com.example.logmeet.data.dto.auth.ResponseSignup
 import com.example.logmeet.databinding.ActivityJoin4Binding
 import com.example.logmeet.network.RetrofitClient
-import com.example.logmeet.tag
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -87,7 +86,7 @@ class Join4Activity : AppCompatActivity() {
     }
 
     private fun signup(userInfo: RequestSignup) {
-        RetrofitClient.instance.signup(
+        RetrofitClient.auth_instance.signup(
             signup = userInfo
         ).enqueue(object : Callback<ResponseSignup> {
             override fun onResponse(p0: Call<ResponseSignup>, p1: Response<ResponseSignup>) {
@@ -97,6 +96,7 @@ class Join4Activity : AppCompatActivity() {
                     startActivity(intent)
                 } else {
                     Log.d(NETWORK, "Join4 - signup() : 실패")
+                    binding.clJoin4UserNameError.visibility = View.VISIBLE
                 }
             }
 
