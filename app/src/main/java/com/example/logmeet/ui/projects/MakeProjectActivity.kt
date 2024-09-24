@@ -11,9 +11,17 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.logmeet.NETWORK
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.project.RequestNewprj
+import com.example.logmeet.data.dto.project.ResponseNewprj
 import com.example.logmeet.databinding.ActivityMakeProjectBinding
+import com.example.logmeet.network.RetrofitClient
+import com.example.logmeet.tag
 import com.example.logmeet.ui.home.MainHomeActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MakeProjectActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMakeProjectBinding
@@ -65,6 +73,7 @@ class MakeProjectActivity : AppCompatActivity() {
                     prjColor.isChecked = radioColors[i-1] == prjColor
                 }
                 color = i.toString()
+                Log.d(tag, "MakeProject - color선택 = $color")
             }
         }
     }
@@ -141,12 +150,38 @@ class MakeProjectActivity : AppCompatActivity() {
             binding.tvMakePDone.setBackgroundResource(R.drawable.btn_blue_8px)
             binding.tvMakePDone.setOnClickListener {
                 Log.d("chrin", "name : $name, explain : $explain, color : $color")
-                val intent = Intent(this, MainHomeActivity::class.java)
-                startActivity(intent)
+                makeNewPrj()
             }
         } else {
             binding.tvMakePDone.setBackgroundResource(R.drawable.btn_gray_8px)
             binding.tvMakePDone.setOnClickListener(null)
         }
+    }
+
+    private fun makeNewPrj() {
+        Log.d(tag, "makeNewPrj: 함수 안 color : PROJECT_$color")
+        RetrofitClient.projectInstance.newprj(
+            newprj = RequestNewprj(
+                name = name,
+                content = explain,
+                color = "PROJECT_$color"
+            )
+        ).enqueue(object : Callback<ResponseNewprj> {
+            override fun onResponse(p0: Call<ResponseNewprj>, p1: Response<ResponseNewprj>) {
+                if (p1.isSuccessful) {
+                    val resp = requireNotNull(p1.body()?.result)
+                    Log.d(NETWORK, "makeProject - makeNewPrj() : 성공\nresp = ${resp.projectId}")
+                    val intent = Intent(this@MakeProjectActivity, ProjectHomeActivity::class.java)
+                    intent.putExtra("projectId", resp.projectId)
+                    startActivity(intent)
+                } else {
+                    Log.d(NETWORK, "makeProject - makeNewPrj() : 실패")
+                }
+            }
+
+            override fun onFailure(p0: Call<ResponseNewprj>, p1: Throwable) {
+                Log.d(NETWORK, "makeProject - makeNewPrj()실패\nbecause : $p1")
+            }
+        })
     }
 }
