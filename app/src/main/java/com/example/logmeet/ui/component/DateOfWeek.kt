@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import com.example.logmeet.ProjectColorResources
 import com.example.logmeet.R
 import java.time.LocalDate
+import java.time.Month
 
 @Composable
 fun DateOfWeek(
@@ -54,7 +55,7 @@ fun DateOfWeek(
         (0..6).forEach { i ->
             val currentDate = startOfWeek.plusDays(i.toLong()).dayOfMonth
             val isSelected = (clickedDate == currentDate)
-            val textColor = determineTextColor(today, currentDate, i)
+            val textColor = determineTextColor(today, currentDate, i, today.month)
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Box(
@@ -69,7 +70,8 @@ fun DateOfWeek(
                     DrawCircle(
                         today = today,
                         currentDate = currentDate,
-                        isSelected = isSelected
+                        isSelected = isSelected,
+                        month = today.month
                     )
                     Text(
                         text = currentDate.toString(),
@@ -142,8 +144,8 @@ fun GetDaySchedule(date: LocalDate?) {
 }
 
 @Composable
-fun DrawCircle(today: LocalDate, currentDate: Int, isSelected: Boolean) {
-    if (today.dayOfMonth == currentDate) {
+fun DrawCircle(today: LocalDate, currentDate: Int, isSelected: Boolean, month: Month?) {
+    if (today.dayOfMonth == currentDate && today.month == month) {
         TodayBackgroundCircle()
     } else {
         val backgroundColor = if (isSelected) R.color.sub_blue else R.color.white
@@ -192,9 +194,9 @@ fun ScheduleCircle(color: Int) {
 }
 
 @Composable
-fun determineTextColor(today: LocalDate, currentDate: Int, dayIndex: Int): Color {
+fun determineTextColor(today: LocalDate, currentDate: Int, dayIndex: Int, month: Month?): Color {
     return when {
-        today.dayOfMonth == currentDate -> colorResource(id = R.color.white)
+        today.dayOfMonth == currentDate && today.month == month -> colorResource(id = R.color.white)
         dayIndex == 0 -> colorResource(id = R.color.error)
         dayIndex == 6 -> colorResource(id = R.color.main_blue)
         else -> colorResource(id = R.color.black)

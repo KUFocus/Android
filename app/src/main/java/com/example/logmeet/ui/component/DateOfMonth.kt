@@ -49,7 +49,6 @@ fun DateOfMonth(
         currentDay = currentDay.plusWeeks(1)
     }
 
-    // Store the full clicked date
     var clickedDate by remember { mutableStateOf<LocalDate?>(null) }
 
     Column {
@@ -62,9 +61,9 @@ fun DateOfMonth(
             ) {
                 week.forEach { day ->
                     val isInCurrentMonth = day.month == date.month
-                    val isSelected = clickedDate == day && isInCurrentMonth  // Check full date for selection
+                    val isSelected = clickedDate == day && isInCurrentMonth
                     val textColor = if (isInCurrentMonth) {
-                        determineTextColor(LocalDate.now(), day.dayOfMonth, day.dayOfWeek.value)
+                        determineTextColor(LocalDate.now(), day.dayOfMonth, day.dayOfWeek.value, day.month)
                     } else {
                         androidx.compose.ui.graphics.Color.Gray
                     }
@@ -76,11 +75,11 @@ fun DateOfMonth(
                                 .then(
                                     if (isInCurrentMonth) {
                                         Modifier.clickable {
-                                            clickedDate = day // Set the clicked date to the full date
+                                            clickedDate = day
                                             clicked(clickedDate!!)
                                         }
                                     } else {
-                                        Modifier // No clickable modifier for days outside the current month
+                                        Modifier
                                     }
                                 ),
                             contentAlignment = Alignment.Center
@@ -88,7 +87,8 @@ fun DateOfMonth(
                             DrawCircle(
                                 today = LocalDate.now(),
                                 currentDate = day.dayOfMonth,
-                                isSelected = isSelected
+                                isSelected = isSelected,
+                                month = day.month
                             )
                             Text(
                                 text = day.dayOfMonth.toString(),
