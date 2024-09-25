@@ -13,12 +13,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.logmeet.NETWORK
 import com.example.logmeet.R
-import com.example.logmeet.data.dto.project.RequestNewprj
-import com.example.logmeet.data.dto.project.ResponseNewprj
+import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectCreateResponse
+import com.example.logmeet.data.dto.project.api_reqeust.ProjectCreateRequest
+import com.example.logmeet.data.dto.project.api_response.ProjectCreateResponse
 import com.example.logmeet.databinding.ActivityMakeProjectBinding
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.tag
-import com.example.logmeet.ui.home.MainHomeActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -160,14 +160,14 @@ class MakeProjectActivity : AppCompatActivity() {
 
     private fun makeNewPrj() {
         Log.d(tag, "makeNewPrj: 함수 안 color : PROJECT_$color")
-        RetrofitClient.projectInstance.newprj(
-            newprj = RequestNewprj(
+        RetrofitClient.project_instance.projectCreate(
+            projectCreateRequest = ProjectCreateRequest(
                 name = name,
                 content = explain,
                 color = "PROJECT_$color"
             )
-        ).enqueue(object : Callback<ResponseNewprj> {
-            override fun onResponse(p0: Call<ResponseNewprj>, p1: Response<ResponseNewprj>) {
+        ).enqueue(object : Callback<BaseResponseProjectCreateResponse> {
+            override fun onResponse(p0: Call<BaseResponseProjectCreateResponse>, p1: Response<BaseResponseProjectCreateResponse>) {
                 if (p1.isSuccessful) {
                     val resp = requireNotNull(p1.body()?.result)
                     Log.d(NETWORK, "makeProject - makeNewPrj() : 성공\nresp = ${resp.projectId}")
@@ -179,7 +179,7 @@ class MakeProjectActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(p0: Call<ResponseNewprj>, p1: Throwable) {
+            override fun onFailure(p0: Call<BaseResponseProjectCreateResponse>, p1: Throwable) {
                 Log.d(NETWORK, "makeProject - makeNewPrj()실패\nbecause : $p1")
             }
         })

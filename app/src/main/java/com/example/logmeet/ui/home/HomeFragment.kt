@@ -112,10 +112,10 @@ class HomeFragment : Fragment() {
     private fun setProjectListData() {
         projectList.addAll(
             arrayListOf(
-                ProjectData("1", 1,"졸업프로젝트", "2024.03.05", "3", false),
-                ProjectData("4", 2,"IT동아리", "2023.03.20", "20", true),
-                ProjectData("7", 3,"산업협력프로젝트", "2023.04.05", "6",false),
-                ProjectData("4", 4,"로그밋프로젝트", "2024.03.20", "4",false),
+//                ProjectData("1", 1,"졸업프로젝트", "2024.03.05", "3", false),
+//                ProjectData("4", 2,"IT동아리", "2023.03.20", "20", true),
+//                ProjectData("7", 3,"산업협력프로젝트", "2023.04.05", "6",false),
+//                ProjectData("4", 4,"로그밋프로젝트", "2024.03.20", "4",false),
             )
         )
     }

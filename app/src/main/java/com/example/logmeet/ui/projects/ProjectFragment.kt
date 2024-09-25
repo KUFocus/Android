@@ -103,11 +103,11 @@ class ProjectFragment : Fragment() {
         bookmarkProjectList = arrayListOf()
         allProjectList.addAll(
             arrayListOf(
-                ProjectData("3",0,"졸업프로젝트","2024.04.10", "24", false),
-                ProjectData("4",1,"졸업프로젝트","2024.04.10", "24", false),
-                ProjectData("7",2,"졸업프로젝트","2024.04.10", "24", true),
-                ProjectData("9",3,"졸업프로젝트","2024.04.10", "24", false),
-                ProjectData("11",4,"졸업프로젝트","2024.04.10", "24", false),
+//                ProjectData("3",0,"졸업프로젝트","2024.04.10", "24", false),
+//                ProjectData("4",1,"졸업프로젝트","2024.04.10", "24", false),
+//                ProjectData("7",2,"졸업프로젝트","2024.04.10", "24", true),
+//                ProjectData("9",3,"졸업프로젝트","2024.04.10", "24", false),
+//                ProjectData("11",4,"졸업프로젝트","2024.04.10", "24", false),
             )
         )
         allProjectList.forEach {

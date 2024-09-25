@@ -1,11 +1,10 @@
-package com.example.logmeet.data.dto.auth
+package com.example.logmeet.data.dto.auth.api_request
 
-import com.google.android.material.textfield.TextInputEditText
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RequestLogin(
+data class AuthLoginRequest(
     @SerialName("email")
     var email: String,
     @SerialName("password")

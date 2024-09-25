@@ -13,11 +13,10 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.logmeet.MainActivity
 import com.example.logmeet.NETWORK
 import com.example.logmeet.R
-import com.example.logmeet.data.dto.auth.RequestLogin
-import com.example.logmeet.data.dto.auth.ResponseLogin
+import com.example.logmeet.data.dto.auth.api_request.AuthLoginRequest
+import com.example.logmeet.data.dto.auth.api_response.BaseResponseAuthLoginResponse
 import com.example.logmeet.databinding.ActivityLogin2Binding
 import com.example.logmeet.network.RetrofitClient
-import com.example.logmeet.tag
 import com.example.logmeet.ui.home.MainHomeActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -59,8 +58,7 @@ class Login2Activity : AppCompatActivity() {
             if (isEmailTyped and isPwdTyped) {
                 btnLogin.setBackgroundResource(R.drawable.btn_blue_8px)
                 btnLogin.setOnClickListener {
-                    val intent = Intent(this@Login2Activity, MainHomeActivity::class.java)
-                    startActivity(intent)
+                    login(tvEmail.text.toString(), tvPwd.text.toString())
                 }
             } else {
                 btnLogin.setBackgroundResource(R.drawable.btn_gray_8px)
@@ -105,23 +103,20 @@ class Login2Activity : AppCompatActivity() {
             }
 
         })
-
-        btnLogin.setOnClickListener {
-            val userInfo = RequestLogin(tvEmail.text.toString(), tvPwd.toString())
-            Log.d(tag, "login2 - userInfo $userInfo")
-            login(userInfo)
-        }
     }
 
-    private fun login(userInfo: RequestLogin) {
-        RetrofitClient.authInstance.login(
-            login = userInfo
-        ).enqueue(object :Callback<ResponseLogin> {
-            override fun onResponse(p0: Call<ResponseLogin>, p1: Response<ResponseLogin>) {
+    private fun login(email: String, password: String) {
+        RetrofitClient.auth_instance.login(
+            login = AuthLoginRequest(
+                email = email,
+                password = password
+            )
+        ).enqueue(object :Callback<BaseResponseAuthLoginResponse> {
+            override fun onResponse(p0: Call<BaseResponseAuthLoginResponse>, p1: Response<BaseResponseAuthLoginResponse>) {
                 if (p1.isSuccessful) {
                     val resp = requireNotNull(p1.body()?.result)
                     Log.d(NETWORK, "login2 - login() : 성공\nresp = ${resp.accessToken}, ${resp.refreshToken}")
-                    val intent = Intent(this@Login2Activity, MainActivity::class.java).apply {
+                    val intent = Intent(this@Login2Activity, MainHomeActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
                     intent.putExtra("accessToken", resp.accessToken)
@@ -132,7 +127,7 @@ class Login2Activity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(p0: Call<ResponseLogin>, p1: Throwable) {
+            override fun onFailure(p0: Call<BaseResponseAuthLoginResponse>, p1: Throwable) {
                 Log.d(NETWORK, "login2 - login()실패\nbecause : $p1")
             }
 

@@ -1,10 +1,10 @@
-package com.example.logmeet.data.dto.project
+package com.example.logmeet.data.dto.project.api_reqeust
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RequestNewprj(
+data class ProjectCreateRequest(
     @SerialName("name")
     val name: String,
     @SerialName("content")
