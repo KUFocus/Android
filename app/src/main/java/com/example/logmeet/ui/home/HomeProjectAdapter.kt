@@ -30,8 +30,8 @@ class HomeProjectAdapter(private val data: ArrayList<ProjectData>) :
             val color = colorList[item.prjColor.toInt()-1]
             binding.vPrjCircle.setBackgroundResource(color)
             binding.vPrjCircle2.setBackgroundResource(color)
-            binding.tvPrjName.text = item.prjName
-            binding.tvPrjDate.text = item.date
+            binding.tvPrjName.text = item.name
+            binding.tvPrjDate.text = item.createdAt
             binding.tvPrjPeople.text = item.people
         }
     }

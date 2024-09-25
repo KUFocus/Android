@@ -16,8 +16,8 @@ class ProjectPrjAdapter(private val data: ArrayList<ProjectData>) : RecyclerView
             val color = ProjectDrawableResources.colorList[item.prjColor.toInt()-1]
             binding.vPrjCircle.setBackgroundResource(color)
             binding.vPrjCircle2.setBackgroundResource(color)
-            binding.tvPrjName.text = item.prjName
-            binding.tvPrjDate.text = item.date
+            binding.tvPrjName.text = item.name
+            binding.tvPrjDate.text = item.createdAt
             binding.tvPrjPeople.text = item.people
             binding.apply {
                 ivPrjEmptyStar.visibility = if (item.bookmark) View.GONE else View.VISIBLE
@@ -34,7 +34,7 @@ class ProjectPrjAdapter(private val data: ArrayList<ProjectData>) : RecyclerView
             binding.root.setOnClickListener {
                 val context = it.context
                 val intent = Intent(context, ProjectHomeActivity::class.java)
-                intent.putExtra("projectId", item.prjId)
+                intent.putExtra("projectId", item.projectId)
                 context.startActivity(intent)
             }
         }
@@ -57,7 +57,7 @@ class ProjectPrjAdapter(private val data: ArrayList<ProjectData>) : RecyclerView
     private fun startPage(activity: Class<ProjectDetailActivity>, holder: ViewHolder, position: Int) {
         val context = holder.itemView.context
         val intent = Intent(context, activity)
-        intent.putExtra("projectId", data[position].prjId)
+        intent.putExtra("projectId", data[position].projectId)
         context.startActivity(intent)
     }
 

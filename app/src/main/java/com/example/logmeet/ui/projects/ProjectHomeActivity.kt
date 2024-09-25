@@ -1,19 +1,29 @@
 package com.example.logmeet.ui.projects
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.logmeet.NETWORK
+import com.example.logmeet.ProjectColorResources
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
 import com.example.logmeet.entity.MinutesData
 import com.example.logmeet.entity.ScheduleData
 import com.example.logmeet.databinding.ActivityProjectHomeBinding
+import com.example.logmeet.network.RetrofitClient
+import com.example.logmeet.tag
 import com.example.logmeet.ui.home.HomeScheduleAdapter
 import com.example.logmeet.ui.minutes.MinutesAdapter
 import formatDate
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.time.LocalDate
 
 class ProjectHomeActivity : AppCompatActivity() {
@@ -40,6 +50,7 @@ class ProjectHomeActivity : AppCompatActivity() {
 
     private fun init() {
         binding.tvPrjHomeDate.text = formatDate(LocalDate.now().toString())
+        getProjectDetail()
 
         setScheduleListData()
         val isScheduleEmpty = scheduleList.isEmpty()
@@ -52,6 +63,42 @@ class ProjectHomeActivity : AppCompatActivity() {
         binding.tvPrjHomeNoneMinutes.visibility = if (isMinutesEmpty) View.VISIBLE else View.GONE
         binding.rvPrjHomeMinutesList.visibility = if (isMinutesEmpty) View.GONE else View.VISIBLE
         if (!isMinutesEmpty) setMinutesRV()
+    }
+
+    private fun getProjectDetail() {
+        val projectId = intent.getStringExtra("projectId")?.toInt()
+        if (projectId != null) {
+            RetrofitClient.projectInstance.getProjectDetail(
+                projectId = projectId
+            ).enqueue(object : Callback<BaseResponseProjectInfoResult> {
+                override fun onResponse(
+                    p0: Call<BaseResponseProjectInfoResult>,
+                    p1: Response<BaseResponseProjectInfoResult>
+                ) {
+                    if (p1.isSuccessful) {
+                        val resp = requireNotNull(p1.body()?.result)
+                        Log.d(NETWORK, "ProjectHome - getProjectDetail() : 성공")
+                        binding.tvPrjHomePrjName.text = resp.name
+                        binding.tvPrjHomePrjExplain.text = resp.content
+                        val color = ProjectColorResources.getColorResourceByProject(resp.userProjects.color)
+                        if (color!=null) {
+                            binding.vPrjHomeBackground.setBackgroundColor(ContextCompat.getColor(this@ProjectHomeActivity, color))
+                        }else {
+                            Log.d(tag, "onResponse: ProjectHome (90) color = $color")
+                        }
+                    } else {
+                        Log.d(NETWORK, "ProjectHome - getProjectDetail() : 실패")
+                    }
+                }
+
+                override fun onFailure(p0: Call<BaseResponseProjectInfoResult>, p1: Throwable) {
+                    Log.d(NETWORK, "ProjectHome - getProjectDetail()실패\nbecause : $p1")
+                }
+
+            })
+        } else {
+            Log.d(tag, "ProjectHome - getProjectDetail : projectId = null 값임")
+        }
     }
 
     private fun setMinutesRV() {

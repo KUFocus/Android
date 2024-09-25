@@ -13,8 +13,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.logmeet.NETWORK
 import com.example.logmeet.R
-import com.example.logmeet.data.dto.auth.RequestSignup
-import com.example.logmeet.data.dto.auth.ResponseSignup
+import com.example.logmeet.data.dto.auth.api_request.AuthSignupRequest
+import com.example.logmeet.data.dto.auth.api_response.BaseResponseAuthSignupResponse
 import com.example.logmeet.databinding.ActivityJoin4Binding
 import com.example.logmeet.network.RetrofitClient
 import retrofit2.Call
@@ -69,7 +69,7 @@ class Join4Activity : AppCompatActivity() {
                         val password = intent.getStringExtra("password")
 
                         if (email != null && password != null) {
-                            val userInfo = RequestSignup(
+                            val userInfo = AuthSignupRequest(
                                 email = email,
                                 password = password,
                                 userName = s.toString()
@@ -85,11 +85,11 @@ class Join4Activity : AppCompatActivity() {
         })
     }
 
-    private fun signup(userInfo: RequestSignup) {
+    private fun signup(userInfo: AuthSignupRequest) {
         RetrofitClient.auth_instance.signup(
             signup = userInfo
-        ).enqueue(object : Callback<ResponseSignup> {
-            override fun onResponse(p0: Call<ResponseSignup>, p1: Response<ResponseSignup>) {
+        ).enqueue(object : Callback<BaseResponseAuthSignupResponse> {
+            override fun onResponse(p0: Call<BaseResponseAuthSignupResponse>, p1: Response<BaseResponseAuthSignupResponse>) {
                 if (p1.isSuccessful) {
                     Log.d(NETWORK, "Join4 - signup() : 성공")
                     val intent = Intent(this@Join4Activity, Join5Activity::class.java)
@@ -100,7 +100,7 @@ class Join4Activity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(p0: Call<ResponseSignup>, p1: Throwable) {
+            override fun onFailure(p0: Call<BaseResponseAuthSignupResponse>, p1: Throwable) {
                 Log.d(NETWORK, "Join4 - signup()실패\nbecause : $p1")
             }
         })

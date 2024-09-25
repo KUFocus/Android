@@ -1,5 +1,7 @@
 package com.example.logmeet
 
+import com.example.logmeet.entity.ProjectColor
+
 class ProjectColorResources {
     companion object {
         val colorList = arrayOf(
@@ -16,5 +18,14 @@ class ProjectColorResources {
             R.color.project11,
             R.color.project12
         )
+
+        fun getColorResourceByProject(projectString: String): Int? {
+            val projectColor = ProjectColor.fromString(projectString)
+
+            return projectColor?.let {
+                val index = it.ordinal  // enum의 순서를 가져옴 (0부터 시작)
+                colorList.getOrNull(index)
+            }
+        }
     }
 }
