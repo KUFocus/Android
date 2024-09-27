@@ -1,5 +1,6 @@
 package com.example.logmeet.ui.component
 
+import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -31,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.logmeet.R
+import com.example.logmeet.ui.home.HomeFullCalendarActivity
 import java.time.LocalDate
 import java.time.Month
 import java.util.Locale
@@ -74,10 +77,12 @@ fun WeeklyTitle() {
         }
 
         Row {
+            val context = LocalContext.current
             Image(
                 modifier = Modifier
                     .clickable {
-                        //전체캘린더 페이지로 연결
+                        val intent = Intent(context, HomeFullCalendarActivity::class.java)
+                        context.startActivity(intent)
                     }
                     .size(24.dp),
                 painter = painterResource(id = R.drawable.ic_add_calendar),
@@ -86,7 +91,10 @@ fun WeeklyTitle() {
             Spacer(modifier = Modifier.width(14.dp))
             Image(
                 modifier = Modifier
-                    .clickable { }
+                    .clickable {
+//                        val intent = Intent(context, Add::class.java)
+//                        context.startActivity(intent)
+                    }
                     .size(24.dp),
                 painter = painterResource(id = R.drawable.ic_add_calendar),
                 contentDescription = "일정추가"
