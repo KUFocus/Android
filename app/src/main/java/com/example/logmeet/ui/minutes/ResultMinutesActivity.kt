@@ -9,7 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.R
-import com.example.logmeet.entity.MinutesData
+import com.example.logmeet.domain.entity.MinutesData
 import com.example.logmeet.databinding.ActivityResultMinutesBinding
 
 class ResultMinutesActivity : AppCompatActivity() {

@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.R
-import com.example.logmeet.entity.MinutesData
+import com.example.logmeet.domain.entity.MinutesData
 import com.example.logmeet.databinding.FragmentMinutesBinding
 
 class MinutesFragment : Fragment() {

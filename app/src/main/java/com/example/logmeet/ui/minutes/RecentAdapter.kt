@@ -3,7 +3,7 @@ package com.example.logmeet.ui.minutes
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.logmeet.entity.RecentData
+import com.example.logmeet.domain.entity.RecentData
 import com.example.logmeet.databinding.ItemSearchRecentBinding
 
 class RecentAdapter(private val data: ArrayList<RecentData>): RecyclerView.Adapter<RecentAdapter.ViewHolder>() {

@@ -13,8 +13,8 @@ import com.example.logmeet.NETWORK
 import com.example.logmeet.ProjectColorResources
 import com.example.logmeet.R
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
-import com.example.logmeet.entity.MinutesData
-import com.example.logmeet.entity.ScheduleData
+import com.example.logmeet.domain.entity.MinutesData
+import com.example.logmeet.domain.entity.ScheduleData
 import com.example.logmeet.databinding.ActivityProjectHomeBinding
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.tag

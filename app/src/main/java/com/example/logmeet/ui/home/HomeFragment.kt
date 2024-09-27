@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.logmeet.entity.MinutesData
-import com.example.logmeet.entity.ProjectData
-import com.example.logmeet.entity.ScheduleData
+import com.example.logmeet.domain.entity.MinutesData
+import com.example.logmeet.domain.entity.ProjectData
+import com.example.logmeet.domain.entity.ScheduleData
 import com.example.logmeet.databinding.FragmentHomeBinding
 import com.example.logmeet.ui.component.WeeklyCalendar
 import com.example.logmeet.ui.minutes.MinutesAdapter

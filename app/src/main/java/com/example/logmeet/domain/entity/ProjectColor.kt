@@ -1,4 +1,4 @@
-package com.example.logmeet.entity
+package com.example.logmeet.domain.entity
 
 enum class ProjectColor(val type: String) {
     PROJECT_1("PROJECT_1"),

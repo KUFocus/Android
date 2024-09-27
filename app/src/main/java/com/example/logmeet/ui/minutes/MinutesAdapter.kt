@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.logmeet.R
-import com.example.logmeet.entity.MinutesData
+import com.example.logmeet.domain.entity.MinutesData
 import com.example.logmeet.databinding.ItemMinutesBinding
 
 class MinutesAdapter(private val data: ArrayList<MinutesData>) :

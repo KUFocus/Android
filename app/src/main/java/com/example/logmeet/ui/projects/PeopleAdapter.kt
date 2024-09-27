@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.logmeet.entity.PeopleData
+import com.example.logmeet.domain.entity.PeopleData
 import com.example.logmeet.databinding.ItemPeopleBinding
 
 class PeopleAdapter(private val data: ArrayList<PeopleData>) : RecyclerView.Adapter<PeopleAdapter.ViewHolder>() {

@@ -1,4 +1,4 @@
-package com.example.logmeet.entity
+package com.example.logmeet.domain.entity
 
 data class MinutesData(
     val prjId: Int,

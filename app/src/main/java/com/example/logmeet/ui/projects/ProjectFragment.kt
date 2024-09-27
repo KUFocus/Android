@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.logmeet.R
-import com.example.logmeet.entity.ProjectData
+import com.example.logmeet.domain.entity.ProjectData
 import com.example.logmeet.databinding.FragmentProjectBinding
 
 class ProjectFragment : Fragment() {
