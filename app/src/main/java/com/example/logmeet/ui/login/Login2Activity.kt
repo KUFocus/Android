@@ -11,13 +11,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.logmeet.NETWORK
 import com.example.logmeet.R
 import com.example.logmeet.data.dto.auth.api_request.AuthLoginRequest
 import com.example.logmeet.data.dto.auth.api_response.BaseResponseAuthLoginResponse
 import com.example.logmeet.databinding.ActivityLogin2Binding
 import com.example.logmeet.network.RetrofitClient
+import com.example.logmeet.ui.application.LogmeetApplication
 import com.example.logmeet.ui.home.MainHomeActivity
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -122,9 +125,12 @@ class Login2Activity : AppCompatActivity() {
                         NETWORK,
                         "login2 - login() : 성공\nresp = ${resp.accessToken}, ${resp.refreshToken}"
                     )
-                    val currentToken = getCurrentToken(this@Login2Activity)
-                    if (currentToken != resp.accessToken) {
-                        saveLoginInfo(this@Login2Activity, email, resp.accessToken)
+
+                    lifecycleScope.launch {
+                        LogmeetApplication.getInstance().getDataStore().also {
+                            it.setAccessToken(resp.accessToken)
+                            it.setRefreshToken(resp.refreshToken)
+                        }
                     }
                     val intent = Intent(this@Login2Activity, MainHomeActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

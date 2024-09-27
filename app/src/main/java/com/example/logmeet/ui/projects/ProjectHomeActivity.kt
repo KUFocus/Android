@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.NETWORK
 import com.example.logmeet.ProjectColorResources
@@ -18,9 +19,12 @@ import com.example.logmeet.domain.entity.ScheduleData
 import com.example.logmeet.databinding.ActivityProjectHomeBinding
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.tag
+import com.example.logmeet.ui.application.LogmeetApplication
 import com.example.logmeet.ui.home.HomeScheduleAdapter
 import com.example.logmeet.ui.minutes.MinutesAdapter
 import formatDate
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,7 +54,9 @@ class ProjectHomeActivity : AppCompatActivity() {
 
     private fun init() {
         binding.tvPrjHomeDate.text = formatDate(LocalDate.now().toString())
-        getProjectDetail()
+        lifecycleScope.launch {
+            getProjectDetail()
+        }
 
         setScheduleListData()
         val isScheduleEmpty = scheduleList.isEmpty()
@@ -65,10 +71,12 @@ class ProjectHomeActivity : AppCompatActivity() {
         if (!isMinutesEmpty) setMinutesRV()
     }
 
-    private fun getProjectDetail() {
+    private suspend fun getProjectDetail() {
         val projectId = intent.getStringExtra("projectId")?.toInt()
+        val bearerAccessToken = LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
         if (projectId != null) {
             RetrofitClient.projectInstance.getProjectDetail(
+                bearerAccessToken,
                 projectId = projectId
             ).enqueue(object : Callback<BaseResponseProjectInfoResult> {
                 override fun onResponse(
