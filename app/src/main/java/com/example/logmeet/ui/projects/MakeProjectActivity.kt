@@ -11,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.logmeet.NETWORK
 import com.example.logmeet.R
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectCreateResponse
@@ -19,6 +20,9 @@ import com.example.logmeet.data.dto.project.api_response.ProjectCreateResponse
 import com.example.logmeet.databinding.ActivityMakeProjectBinding
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.tag
+import com.example.logmeet.ui.application.LogmeetApplication
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -150,7 +154,9 @@ class MakeProjectActivity : AppCompatActivity() {
             binding.tvMakePDone.setBackgroundResource(R.drawable.btn_blue_8px)
             binding.tvMakePDone.setOnClickListener {
                 Log.d("chrin", "name : $name, explain : $explain, color : $color")
-                makeNewPrj()
+                lifecycleScope.launch {
+                    makeNewPrj()
+                }
             }
         } else {
             binding.tvMakePDone.setBackgroundResource(R.drawable.btn_gray_8px)
@@ -158,9 +164,11 @@ class MakeProjectActivity : AppCompatActivity() {
         }
     }
 
-    private fun makeNewPrj() {
+    private suspend fun makeNewPrj() {
         Log.d(tag, "makeNewPrj: 함수 안 color : PROJECT_$color")
+        val bearerAccessToken = LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
         RetrofitClient.project_instance.projectCreate(
+            bearerAccessToken,
             projectCreateRequest = ProjectCreateRequest(
                 name = name,
                 content = explain,

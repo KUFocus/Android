@@ -14,5 +14,5 @@ data class ProjectInfoResult(
     @SerialName("createdAt")
     val createdAt: String,
     @SerialName("userProjects")
-    val userProjects: UserProjectDto,
+    val userProjects: List<UserProjectDto>,
 )

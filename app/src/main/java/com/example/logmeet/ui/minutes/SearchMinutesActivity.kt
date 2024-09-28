@@ -11,7 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.R
-import com.example.logmeet.entity.RecentData
+import com.example.logmeet.domain.entity.RecentData
 import com.example.logmeet.databinding.ActivitySearchMinutesBinding
 
 class SearchMinutesActivity : AppCompatActivity() {

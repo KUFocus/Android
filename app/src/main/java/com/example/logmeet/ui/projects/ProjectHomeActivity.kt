@@ -8,19 +8,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.NETWORK
 import com.example.logmeet.ProjectColorResources
 import com.example.logmeet.R
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
-import com.example.logmeet.entity.MinutesData
-import com.example.logmeet.entity.ScheduleData
+import com.example.logmeet.domain.entity.MinutesData
+import com.example.logmeet.domain.entity.ScheduleData
 import com.example.logmeet.databinding.ActivityProjectHomeBinding
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.tag
+import com.example.logmeet.ui.application.LogmeetApplication
 import com.example.logmeet.ui.home.HomeScheduleAdapter
 import com.example.logmeet.ui.minutes.MinutesAdapter
 import formatDate
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,7 +54,9 @@ class ProjectHomeActivity : AppCompatActivity() {
 
     private fun init() {
         binding.tvPrjHomeDate.text = formatDate(LocalDate.now().toString())
-        getProjectDetail()
+        lifecycleScope.launch {
+            getProjectDetail()
+        }
 
         setScheduleListData()
         val isScheduleEmpty = scheduleList.isEmpty()
@@ -65,10 +71,13 @@ class ProjectHomeActivity : AppCompatActivity() {
         if (!isMinutesEmpty) setMinutesRV()
     }
 
-    private fun getProjectDetail() {
-        val projectId = intent.getStringExtra("projectId")?.toInt()
+    private suspend fun getProjectDetail() {
+        val projectId = intent.getIntExtra("projectId", -1)
+        val bearerAccessToken =
+            LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
         if (projectId != null) {
-            RetrofitClient.projectInstance.getProjectDetail(
+            RetrofitClient.project_instance.getProjectDetail(
+                bearerAccessToken,
                 projectId = projectId
             ).enqueue(object : Callback<BaseResponseProjectInfoResult> {
                 override fun onResponse(
@@ -80,11 +89,17 @@ class ProjectHomeActivity : AppCompatActivity() {
                         Log.d(NETWORK, "ProjectHome - getProjectDetail() : 성공")
                         binding.tvPrjHomePrjName.text = resp.name
                         binding.tvPrjHomePrjExplain.text = resp.content
-                        val color = ProjectColorResources.getColorResourceByProject(resp.userProjects.color)
-                        if (color!=null) {
-                            binding.vPrjHomeBackground.setBackgroundColor(ContextCompat.getColor(this@ProjectHomeActivity, color))
-                        }else {
-                            Log.d(tag, "onResponse: ProjectHome (90) color = $color")
+                        val color =
+                            ProjectColorResources.getColorResourceByProject(resp.userProjects[0].color)
+                        if (color != null) {
+                            binding.vPrjHomeBackground.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    this@ProjectHomeActivity,
+                                    color
+                                )
+                            )
+                        } else {
+                            Log.d(tag, "onResponse: ProjectHome (90) color = null")
                         }
                     } else {
                         Log.d(NETWORK, "ProjectHome - getProjectDetail() : 실패")
@@ -104,22 +119,23 @@ class ProjectHomeActivity : AppCompatActivity() {
     private fun setMinutesRV() {
         minutesAdapter = MinutesAdapter(minutesList)
         binding.rvPrjHomeMinutesList.adapter = minutesAdapter
-        binding.rvPrjHomeMinutesList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.rvPrjHomeMinutesList.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
     private fun setMinutesListData() {
         minutesList.addAll(
             arrayListOf(
-                MinutesData(0, "1차 회의록","2024.03.04", "1", 0, false),
-                MinutesData(1, "2차 회의록","2024.03.04", "2", 2, true),
-                MinutesData(4, "3차 회의록","2024.03.04", "3", 1, false),
-                MinutesData(5, "1차 회의록","2024.03.04", "1", 0, false),
-                MinutesData(6, "2차 회의록","2024.03.04", "2", 2, true),
-                MinutesData(7, "3차 회의록","2024.03.04", "3", 1, false),
-                MinutesData(8, "1차 회의록","2024.03.04", "1", 0, false),
-                MinutesData(9, "2차 회의록","2024.03.04", "2", 2, true),
-                MinutesData(41, "3차 회의록","2024.03.04", "3", 1, false),
-                MinutesData(20, "1차 회의록","2024.03.04", "1", 0, false),
+                MinutesData(0, "1차 회의록", "2024.03.04", "1", 0, false),
+                MinutesData(1, "2차 회의록", "2024.03.04", "2", 2, true),
+                MinutesData(4, "3차 회의록", "2024.03.04", "3", 1, false),
+                MinutesData(5, "1차 회의록", "2024.03.04", "1", 0, false),
+                MinutesData(6, "2차 회의록", "2024.03.04", "2", 2, true),
+                MinutesData(7, "3차 회의록", "2024.03.04", "3", 1, false),
+                MinutesData(8, "1차 회의록", "2024.03.04", "1", 0, false),
+                MinutesData(9, "2차 회의록", "2024.03.04", "2", 2, true),
+                MinutesData(41, "3차 회의록", "2024.03.04", "3", 1, false),
+                MinutesData(20, "1차 회의록", "2024.03.04", "1", 0, false),
             )
         )
     }
@@ -136,6 +152,7 @@ class ProjectHomeActivity : AppCompatActivity() {
     private fun setScheduleRV() {
         scheduleAdapter = HomeScheduleAdapter(scheduleList)
         binding.rvPrjHomeScheduleList.adapter = scheduleAdapter
-        binding.rvPrjHomeScheduleList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.rvPrjHomeScheduleList.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 }

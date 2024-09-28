@@ -1,4 +1,4 @@
-package com.example.logmeet.entity
+package com.example.logmeet.domain.entity
 
 data class ScheduleData(
     val prjColor: String,

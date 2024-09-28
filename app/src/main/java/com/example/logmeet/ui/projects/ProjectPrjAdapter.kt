@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.logmeet.ProjectDrawableResources
-import com.example.logmeet.entity.ProjectData
+import com.example.logmeet.domain.entity.ProjectData
 import com.example.logmeet.databinding.ItemProjectProjectBinding
 
 class ProjectPrjAdapter(private val data: ArrayList<ProjectData>) : RecyclerView.Adapter<ProjectPrjAdapter.ViewHolder>() {

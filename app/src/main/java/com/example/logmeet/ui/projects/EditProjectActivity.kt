@@ -13,7 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.R
-import com.example.logmeet.entity.PeopleData
+import com.example.logmeet.domain.entity.PeopleData
 import com.example.logmeet.databinding.ActivityEditProjectBinding
 import com.example.logmeet.ui.home.MainHomeActivity
 
