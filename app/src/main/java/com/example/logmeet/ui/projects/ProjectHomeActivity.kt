@@ -72,10 +72,11 @@ class ProjectHomeActivity : AppCompatActivity() {
     }
 
     private suspend fun getProjectDetail() {
-        val projectId = intent.getStringExtra("projectId")?.toInt()
-        val bearerAccessToken = LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+        val projectId = intent.getIntExtra("projectId", -1)
+        val bearerAccessToken =
+            LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
         if (projectId != null) {
-            RetrofitClient.projectInstance.getProjectDetail(
+            RetrofitClient.project_instance.getProjectDetail(
                 bearerAccessToken,
                 projectId = projectId
             ).enqueue(object : Callback<BaseResponseProjectInfoResult> {
@@ -88,11 +89,17 @@ class ProjectHomeActivity : AppCompatActivity() {
                         Log.d(NETWORK, "ProjectHome - getProjectDetail() : 성공")
                         binding.tvPrjHomePrjName.text = resp.name
                         binding.tvPrjHomePrjExplain.text = resp.content
-                        val color = ProjectColorResources.getColorResourceByProject(resp.userProjects.color)
-                        if (color!=null) {
-                            binding.vPrjHomeBackground.setBackgroundColor(ContextCompat.getColor(this@ProjectHomeActivity, color))
-                        }else {
-                            Log.d(tag, "onResponse: ProjectHome (90) color = $color")
+                        val color =
+                            ProjectColorResources.getColorResourceByProject(resp.userProjects[0].color)
+                        if (color != null) {
+                            binding.vPrjHomeBackground.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    this@ProjectHomeActivity,
+                                    color
+                                )
+                            )
+                        } else {
+                            Log.d(tag, "onResponse: ProjectHome (90) color = null")
                         }
                     } else {
                         Log.d(NETWORK, "ProjectHome - getProjectDetail() : 실패")
@@ -112,22 +119,23 @@ class ProjectHomeActivity : AppCompatActivity() {
     private fun setMinutesRV() {
         minutesAdapter = MinutesAdapter(minutesList)
         binding.rvPrjHomeMinutesList.adapter = minutesAdapter
-        binding.rvPrjHomeMinutesList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.rvPrjHomeMinutesList.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
     private fun setMinutesListData() {
         minutesList.addAll(
             arrayListOf(
-                MinutesData(0, "1차 회의록","2024.03.04", "1", 0, false),
-                MinutesData(1, "2차 회의록","2024.03.04", "2", 2, true),
-                MinutesData(4, "3차 회의록","2024.03.04", "3", 1, false),
-                MinutesData(5, "1차 회의록","2024.03.04", "1", 0, false),
-                MinutesData(6, "2차 회의록","2024.03.04", "2", 2, true),
-                MinutesData(7, "3차 회의록","2024.03.04", "3", 1, false),
-                MinutesData(8, "1차 회의록","2024.03.04", "1", 0, false),
-                MinutesData(9, "2차 회의록","2024.03.04", "2", 2, true),
-                MinutesData(41, "3차 회의록","2024.03.04", "3", 1, false),
-                MinutesData(20, "1차 회의록","2024.03.04", "1", 0, false),
+                MinutesData(0, "1차 회의록", "2024.03.04", "1", 0, false),
+                MinutesData(1, "2차 회의록", "2024.03.04", "2", 2, true),
+                MinutesData(4, "3차 회의록", "2024.03.04", "3", 1, false),
+                MinutesData(5, "1차 회의록", "2024.03.04", "1", 0, false),
+                MinutesData(6, "2차 회의록", "2024.03.04", "2", 2, true),
+                MinutesData(7, "3차 회의록", "2024.03.04", "3", 1, false),
+                MinutesData(8, "1차 회의록", "2024.03.04", "1", 0, false),
+                MinutesData(9, "2차 회의록", "2024.03.04", "2", 2, true),
+                MinutesData(41, "3차 회의록", "2024.03.04", "3", 1, false),
+                MinutesData(20, "1차 회의록", "2024.03.04", "1", 0, false),
             )
         )
     }
@@ -144,6 +152,7 @@ class ProjectHomeActivity : AppCompatActivity() {
     private fun setScheduleRV() {
         scheduleAdapter = HomeScheduleAdapter(scheduleList)
         binding.rvPrjHomeScheduleList.adapter = scheduleAdapter
-        binding.rvPrjHomeScheduleList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.rvPrjHomeScheduleList.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 }

@@ -11,7 +11,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ProjectController {
-    @POST("project/new")
+    @POST("projects/new")
     fun projectCreate(
         @Header("Authorization")
         authorization: String,
@@ -19,7 +19,7 @@ interface ProjectController {
         projectCreateRequest : ProjectCreateRequest
     ): Call<BaseResponseProjectCreateResponse>
 
-    @GET("project/{projectId}")
+    @GET("projects/{projectId}")
     fun getProjectDetail(
         @Header("Authorization")
         authorization: String,
