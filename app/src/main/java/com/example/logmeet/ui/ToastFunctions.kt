@@ -1,8 +1,9 @@
-package com.example.logmeet
+package com.example.logmeet.ui
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.Toast
+import com.example.logmeet.R
 import com.example.logmeet.databinding.ToastMinutesBinding
 
 fun showMinutesToast(context: Context, img: Int, message: String) {

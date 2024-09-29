@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.logmeet.ui.home.HomeFragment
 import com.example.logmeet.ui.minutes.MinutesFragment
-import com.example.logmeet.ui.my.MyFragment
+import com.example.logmeet.ui.user.MyFragment
 import com.example.logmeet.ui.projects.ProjectFragment
 
 class MainFragmentStatePagerAdapter(fm: FragmentManager, private val fragmentCount: Int) :

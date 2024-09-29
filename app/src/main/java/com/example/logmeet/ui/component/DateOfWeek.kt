@@ -31,7 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.logmeet.ProjectColorResources
+import com.example.logmeet.domain.entity.ProjectColorResources
 import com.example.logmeet.R
 import java.time.LocalDate
 import java.time.Month

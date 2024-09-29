@@ -5,20 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.logmeet.ProjectDrawableResources
-import com.example.logmeet.domain.entity.ProjectData
+import com.example.logmeet.domain.entity.ProjectDrawableResources
+import com.example.logmeet.data.dto.project.ProjectListResult
 import com.example.logmeet.databinding.ItemProjectProjectBinding
 
-class ProjectPrjAdapter(private val data: ArrayList<ProjectData>) : RecyclerView.Adapter<ProjectPrjAdapter.ViewHolder>() {
+class ProjectPrjAdapter(private val data: List<ProjectListResult>) : RecyclerView.Adapter<ProjectPrjAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemProjectProjectBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ProjectData) {
-            val color = ProjectDrawableResources.colorList[item.prjColor.toInt()-1]
+        fun bind(item: ProjectListResult) {
+            val number = item.projectColor.split("_")[1].toInt()
+            val color = ProjectDrawableResources.colorList[number-1]
             binding.vPrjCircle.setBackgroundResource(color)
             binding.vPrjCircle2.setBackgroundResource(color)
-            binding.tvPrjName.text = item.name
+            binding.tvPrjName.text = item.projectName
             binding.tvPrjDate.text = item.createdAt
-            binding.tvPrjPeople.text = item.people
+            binding.tvPrjPeople.text = item.numOfMember.toString()
             binding.apply {
                 ivPrjEmptyStar.visibility = if (item.bookmark) View.GONE else View.VISIBLE
                 ivPrjYellowStar.visibility = if (item.bookmark) View.VISIBLE else View.GONE

@@ -1,4 +1,6 @@
-package com.example.logmeet
+package com.example.logmeet.domain.entity
+
+import com.example.logmeet.R
 
 class ProjectDrawableResources {
     companion object {

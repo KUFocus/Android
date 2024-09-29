@@ -5,24 +5,36 @@ import android.content.Intent
 import android.graphics.Rect
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.logmeet.NETWORK
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.project.ProjectListResult
+import com.example.logmeet.data.dto.project.api_response.BaseResponseListProjectListResult
 import com.example.logmeet.domain.entity.ProjectData
 import com.example.logmeet.databinding.FragmentProjectBinding
+import com.example.logmeet.network.RetrofitClient
+import com.example.logmeet.ui.application.LogmeetApplication
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ProjectFragment : Fragment() {
     private lateinit var binding: FragmentProjectBinding
     private var tabNum = 0
     private lateinit var projectAdapter: ProjectPrjAdapter
-    private var allProjectList: ArrayList<ProjectData> = arrayListOf()
-    private var bookmarkProjectList: ArrayList<ProjectData> = arrayListOf()
+    private lateinit var allProjectList: List<ProjectListResult>
+    private lateinit var bookmarkProjectList: List<ProjectListResult>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,22 +42,23 @@ class ProjectFragment : Fragment() {
     ): View? {
         binding = FragmentProjectBinding.inflate(layoutInflater, container, false)
         init()
+
         return binding.root
     }
 
-    @SuppressLint("ResourceAsColor")
     private fun init() {
         setProjectTab()
-        getAllProjectList()
-        initSetProjectRV(allProjectList)
-
+        lifecycleScope.launch {
+            getAllProjectList()
+        }
+        setProjectRV(allProjectList)
         binding.ivProjectAddBtn.setOnClickListener {
             val intent = Intent(requireContext(), MakeProjectActivity::class.java)
             startActivity(intent)
         }
     }
 
-    private fun initSetProjectRV(projectList: ArrayList<ProjectData>) {
+    private fun initSetProjectRV(projectList: List<ProjectListResult>) {
         checkListEmpty(projectList.size)
         val projectRV = binding.rvProjectProjectList
         val spanCount = 2
@@ -64,11 +77,14 @@ class ProjectFragment : Fragment() {
 
     private fun checkListEmpty(size: Int) {
         val isEmpty = size == 0
-        binding.clProjectNoneProject.visibility = if (isEmpty && tabNum == 0) View.VISIBLE else View.GONE
-        binding.tvProjectNoneBookmark.visibility = if (isEmpty && tabNum != 0) View.VISIBLE else View.GONE
+        binding.clProjectNoneProject.visibility =
+            if (isEmpty && tabNum == 0) View.VISIBLE else View.GONE
+        binding.tvProjectNoneBookmark.visibility =
+            if (isEmpty && tabNum != 0) View.VISIBLE else View.GONE
     }
 
-    private fun setProjectRV(projectList: ArrayList<ProjectData>) {
+    private fun setProjectRV(projectList: List<ProjectListResult>) {
+        Log.d(tag, "setProjectRV: 실행됨 \nprojectList $projectList")
         checkListEmpty(projectList.size)
         val projectRV = binding.rvProjectProjectList
         projectAdapter = ProjectPrjAdapter(projectList)
@@ -98,21 +114,47 @@ class ProjectFragment : Fragment() {
     }
 
 
-    private fun getAllProjectList() {
+    private suspend fun getAllProjectList() {
         allProjectList = arrayListOf()
         bookmarkProjectList = arrayListOf()
-        allProjectList.addAll(
-            arrayListOf(
-//                ProjectData("3",0,"졸업프로젝트","2024.04.10", "24", false),
-//                ProjectData("4",1,"졸업프로젝트","2024.04.10", "24", false),
-//                ProjectData("7",2,"졸업프로젝트","2024.04.10", "24", true),
-//                ProjectData("9",3,"졸업프로젝트","2024.04.10", "24", false),
-//                ProjectData("11",4,"졸업프로젝트","2024.04.10", "24", false),
-            )
-        )
-        allProjectList.forEach {
-            if (it.bookmark) bookmarkProjectList.add(it)
-        }
+        val bearerAccessToken =
+            LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+        RetrofitClient.project_instance.getProjectList(
+            bearerAccessToken
+        ).enqueue(object : Callback<BaseResponseListProjectListResult> {
+            override fun onResponse(
+                p0: Call<BaseResponseListProjectListResult>,
+                p1: Response<BaseResponseListProjectListResult>
+            ) {
+                when (p1.code()) {
+                    200 -> {
+                        val resp = p1.body()?.result
+                        Log.d(NETWORK, "projectFragment - getAllProjectList() : 성공\n$resp")
+                        if (resp != null) {
+                            (allProjectList as ArrayList<ProjectListResult>).addAll(resp)
+                            allProjectList.forEach {
+                                Log.d(NETWORK, "it.bookmark ${it.bookmark}")
+                                if (it.bookmark) (bookmarkProjectList as ArrayList<ProjectListResult>).add(it)
+                            }
+                            Log.d(
+                                NETWORK,
+                                "allprojectList\n$allProjectList\nbookmarklist\n$bookmarkProjectList"
+                            )
+                        } else {
+                            allProjectList = emptyList()
+                        }
+                    }
+                    else -> {
+                        Log.d(NETWORK, "projectFragment - getAllProjectList() : 실패")
+                    }
+                }
+            }
+
+            override fun onFailure(p0: Call<BaseResponseListProjectListResult>, p1: Throwable) {
+                Log.d(NETWORK, "projectFragment - getAllProjectList() : 실패\nbecause $p1")
+            }
+
+        })
     }
 
     private fun setProjectTab() {
@@ -131,11 +173,11 @@ class ProjectFragment : Fragment() {
         for (index in 0..1) {
             tabList[index][0].setOnClickListener {
                 val selectedTextView = tabList[index][1] as TextView
-                val selectedView = tabList[index][2] as View
+                val selectedView = tabList[index][2]
 
                 val unselectedIndex = if (index == 0) 1 else 0
                 val unselectedTextView = tabList[unselectedIndex][1] as TextView
-                val unselectedView = tabList[unselectedIndex][2] as View
+                val unselectedView = tabList[unselectedIndex][2]
 
                 applyTabStyle(selectedTextView, selectedView, R.color.main_blue, Typeface.BOLD)
                 applyTabStyle(unselectedTextView, unselectedView, R.color.gray500, Typeface.NORMAL)
@@ -158,8 +200,11 @@ class ProjectFragment : Fragment() {
     }
 
     private fun changeListMode(index: Int) {
-        getAllProjectList()
+        lifecycleScope.launch {
+            getAllProjectList()
+        }
         val list = if (index == 0) allProjectList else bookmarkProjectList
+        Log.d(NETWORK, "changeListMode: index = $index list = $list")
         setProjectRV(list)
     }
 
