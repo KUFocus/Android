@@ -1,7 +1,9 @@
 package com.example.logmeet.data.dto.project
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ProjectListResult(
     @SerialName("projectId")
     val projectId: Int,

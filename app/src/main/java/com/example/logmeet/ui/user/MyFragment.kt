@@ -1,11 +1,10 @@
-package com.example.logmeet.ui.my
+package com.example.logmeet.ui.user
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.logmeet.R
 import com.example.logmeet.databinding.FragmentMyBinding
 
 class MyFragment : Fragment() {

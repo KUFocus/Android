@@ -1,6 +1,6 @@
-package com.example.logmeet
+package com.example.logmeet.domain.entity
 
-import com.example.logmeet.domain.entity.ProjectColor
+import com.example.logmeet.R
 
 class ProjectColorResources {
     companion object {

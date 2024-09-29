@@ -10,7 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.logmeet.R
 import com.example.logmeet.databinding.ActivityMinutesDetailBinding
-import com.example.logmeet.showMinutesToast
+import com.example.logmeet.ui.showMinutesToast
 
 class MinutesDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMinutesDetailBinding

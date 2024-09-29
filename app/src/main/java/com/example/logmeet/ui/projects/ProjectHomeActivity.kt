@@ -11,7 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.NETWORK
-import com.example.logmeet.ProjectColorResources
+import com.example.logmeet.domain.entity.ProjectColorResources
 import com.example.logmeet.R
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
 import com.example.logmeet.domain.entity.MinutesData

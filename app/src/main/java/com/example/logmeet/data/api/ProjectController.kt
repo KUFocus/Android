@@ -3,6 +3,7 @@ package com.example.logmeet.data.api
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectCreateResponse
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
 import com.example.logmeet.data.dto.project.api_reqeust.ProjectCreateRequest
+import com.example.logmeet.data.dto.project.api_response.BaseResponseListProjectListResult
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -26,4 +27,10 @@ interface ProjectController {
         @Path("projectId")
         projectId: Int
     ): Call<BaseResponseProjectInfoResult>
+
+    @GET("projects/project-list")
+    fun getProjectList(
+        @Header("Authorization")
+        authorization: String,
+    ): Call<BaseResponseListProjectListResult>
 }
