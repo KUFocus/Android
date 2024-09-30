@@ -45,7 +45,7 @@ class ProjectFragment : Fragment() {
 
         return binding.root
     }
-
+    
     override fun onStart() {
         super.onStart()
 
@@ -54,7 +54,6 @@ class ProjectFragment : Fragment() {
         }
         setProjectRV(allProjectList)
     }
-
     private fun init() {
         setProjectTab()
         lifecycleScope.launch {
