@@ -3,15 +3,31 @@ package com.example.logmeet.ui.projects
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.logmeet.NETWORK
 import com.example.logmeet.domain.entity.ProjectDrawableResources
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
 import com.example.logmeet.domain.entity.PeopleData
 import com.example.logmeet.databinding.ActivityProjectDetailBinding
+import com.example.logmeet.domain.entity.ProjectColorResources
+import com.example.logmeet.network.RetrofitClient
+import com.example.logmeet.tag
+import com.example.logmeet.ui.application.LogmeetApplication
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class ProjectDetailActivity : AppCompatActivity() {
     private lateinit var binding : ActivityProjectDetailBinding
@@ -29,7 +45,9 @@ class ProjectDetailActivity : AppCompatActivity() {
         }
 
         init()
-        getContent()
+        lifecycleScope.launch {
+            getContent()
+        }
     }
 
     private fun init() {
@@ -42,23 +60,47 @@ class ProjectDetailActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun getContent() {
-        //api로 정보 가져오기
-        binding.tietDetailPName.setText("로그밋프로젝트")
-        binding.tietDetailPExplain.setText("2024 졸업프로젝트로 진행하는 팀플")
-        binding.tietDetailPDate.setText("yyyy.MM.dd")
-        peopleList = arrayListOf(
-            PeopleData("김채린", false, 1, "email"),
-            PeopleData("구서정", false, 1, "email"),
-            PeopleData("나나나", false, 1, "email"),
-            PeopleData("이이이", false, 1, "email"),
-            PeopleData("전우진", true, 1, "email"),
-            PeopleData("마마마", false, 1, "email"),
-            PeopleData("자자자", false, 1, "email"),
-        )
-        setPeopleRv()
-        val colorId = "3"
-        setProjectColor(colorId)
+    private suspend fun getContent() {
+        val projectId = intent.getIntExtra("projectId", -1)
+        val bearerAccessToken =
+            LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+        RetrofitClient.project_instance.getProjectDetail(
+            bearerAccessToken,
+            projectId = projectId
+        ).enqueue(object : Callback<BaseResponseProjectInfoResult> {
+            override fun onResponse(
+                p0: Call<BaseResponseProjectInfoResult>,
+                p1: Response<BaseResponseProjectInfoResult>
+            ) {
+                if (p1.isSuccessful) {
+                    val resp = requireNotNull(p1.body()?.result)
+                    Log.d(NETWORK, "ProjectHome - getProjectDetail() : 성공")
+                    binding.tietDetailPName.setText(resp.name)
+                    binding.tietDetailPExplain.setText(resp.content)
+                    val dateTime = resp.createdAt.substring(0, 10)
+                    binding.tietDetailPDate.setText(dateTime)
+                    peopleList = arrayListOf(
+                        PeopleData("김채린", false, 1, "email"),
+                        PeopleData("구서정", false, 1, "email"),
+                        PeopleData("학생1", false, 1, "email"),
+                        PeopleData("학생2", false, 1, "email"),
+                        PeopleData("전우진", true, 1, "email"),
+                        PeopleData("학생3", false, 1, "email"),
+                    )
+                    setPeopleRv()
+
+                    val number = resp.userProjects[0].color.split("_")[1]
+                    setProjectColor(number)
+                } else {
+                    Log.d(NETWORK, "ProjectHome - getProjectDetail() : 실패")
+                }
+            }
+
+            override fun onFailure(p0: Call<BaseResponseProjectInfoResult>, p1: Throwable) {
+                Log.d(NETWORK, "ProjectHome - getProjectDetail()실패\nbecause : $p1")
+            }
+
+        })
     }
 
     private fun setPeopleRv() {
