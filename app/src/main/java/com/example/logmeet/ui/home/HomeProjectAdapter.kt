@@ -8,27 +8,15 @@ import com.example.logmeet.R
 import com.example.logmeet.data.dto.project.ProjectListResult
 import com.example.logmeet.domain.entity.ProjectData
 import com.example.logmeet.databinding.ItemProjectHomeBinding
+import com.example.logmeet.domain.entity.ProjectDrawableResources
 
 class HomeProjectAdapter(private val data: ArrayList<ProjectListResult>) :
     RecyclerView.Adapter<HomeProjectAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemProjectHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ProjectListResult) {
-            val colorList = arrayOf(
-                R.drawable.color_prj1,
-                R.drawable.color_prj2,
-                R.drawable.color_prj3,
-                R.drawable.color_prj4,
-                R.drawable.color_prj5,
-                R.drawable.color_prj6,
-                R.drawable.color_prj7,
-                R.drawable.color_prj8,
-                R.drawable.color_prj9,
-                R.drawable.color_prj10,
-                R.drawable.color_prj11,
-                R.drawable.color_prj12,
-            )
-            val color = colorList[item.projectColor.toInt()-1]
+            val number = item.projectColor.split("_")[1].toInt()
+            val color = ProjectDrawableResources.colorList[number-1]
             binding.vPrjCircle.setBackgroundResource(color)
             binding.vPrjCircle2.setBackgroundResource(color)
             binding.tvPrjName.text = item.projectName

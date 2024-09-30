@@ -60,10 +60,14 @@ class HomeFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        lifecycleScope.launch {
-            setProjectListData()
-            setProjectRV()
-        }
+//        lifecycleScope.launch {
+//            setProjectListData()
+//        }
+//        Log.d(tag, "onStart: $projectList")
+//        val isProjectEmpty = projectList.isEmpty()
+//        binding.clHomeAddProject.visibility = if (isProjectEmpty) View.VISIBLE else View.GONE
+//        binding.rvHomeProjectList.visibility = if (isProjectEmpty) View.GONE else View.VISIBLE
+//        if (!isProjectEmpty) setProjectRV()
     }
 
     private fun init() {
@@ -145,7 +149,10 @@ class HomeFragment : Fragment() {
                         Log.d(NETWORK, "HomeFragment - setProjectListData() : 성공\n$resp")
                         if (resp != null) {
                             projectList.addAll(resp)
-                            setProjectRV()
+                            val isProjectEmpty = projectList.isEmpty()
+                            binding.clHomeAddProject.visibility = if (isProjectEmpty) View.VISIBLE else View.GONE
+                            binding.rvHomeProjectList.visibility = if (isProjectEmpty) View.GONE else View.VISIBLE
+                            if (!isProjectEmpty) setProjectRV()
                         } else {
                             projectList = arrayListOf()
                         }
@@ -167,7 +174,7 @@ class HomeFragment : Fragment() {
         scheduleList.addAll(
             arrayListOf(
                 ScheduleData("1", "12:00", "디자인 회의", "졸업프로젝트"),
-                ScheduleData("1", "16:00", "디자인 회의2", "졸업프로젝트"),
+                ScheduleData("5", "16:00", "기획회의", "졸업프로젝트"),
             )
         )
     }
