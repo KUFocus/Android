@@ -57,6 +57,7 @@
 <!--        app:layout_constraintEnd_toEndOf="@id/guide_end"/>-->
 
     <TextView
+        android:id="@+id/iv_detailP_burger_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="수정하기"
