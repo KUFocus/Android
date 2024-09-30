@@ -182,6 +182,7 @@ class MakeProjectActivity : AppCompatActivity() {
                     val intent = Intent(this@MakeProjectActivity, ProjectHomeActivity::class.java)
                     intent.putExtra("projectId", resp.projectId)
                     startActivity(intent)
+                    finish()
                 } else {
                     Log.d(NETWORK, "makeProject - makeNewPrj() : 실패")
                 }
