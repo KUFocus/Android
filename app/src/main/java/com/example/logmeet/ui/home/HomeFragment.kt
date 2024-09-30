@@ -2,19 +2,31 @@ package com.example.logmeet.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.logmeet.NETWORK
+import com.example.logmeet.data.dto.project.ProjectListResult
+import com.example.logmeet.data.dto.project.api_response.BaseResponseListProjectListResult
 import com.example.logmeet.domain.entity.MinutesData
 import com.example.logmeet.domain.entity.ProjectData
 import com.example.logmeet.domain.entity.ScheduleData
 import com.example.logmeet.databinding.FragmentHomeBinding
+import com.example.logmeet.network.RetrofitClient
+import com.example.logmeet.ui.application.LogmeetApplication
 import com.example.logmeet.ui.component.WeeklyCalendar
 import com.example.logmeet.ui.minutes.MinutesAdapter
 import com.example.logmeet.ui.projects.MakeProjectActivity
 import formatDate
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -23,7 +35,7 @@ class HomeFragment : Fragment() {
     private lateinit var scheduleAdapter: HomeScheduleAdapter
     private var scheduleList: ArrayList<ScheduleData> = arrayListOf()
     private lateinit var projectAdapter: HomeProjectAdapter
-    private var projectList: ArrayList<ProjectData> = arrayListOf()
+    private var projectList: ArrayList<ProjectListResult> = arrayListOf()
     private lateinit var minutesAdapter: MinutesAdapter
     private var minutesList: ArrayList<MinutesData> = arrayListOf()
 
@@ -43,6 +55,15 @@ class HomeFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        lifecycleScope.launch {
+            setProjectListData()
+            setProjectRV()
+        }
     }
 
     private fun init() {
@@ -68,11 +89,13 @@ class HomeFragment : Fragment() {
         binding.rvHomeScheduleList.visibility = if (isScheduleEmpty) View.GONE else View.VISIBLE
         if (!isScheduleEmpty) setScheduleRV()
 
-        setProjectListData()
-        val isProjectEmpty = projectList.isEmpty()
-        binding.clHomeAddProject.visibility = if (isProjectEmpty) View.VISIBLE else View.GONE
-        binding.rvHomeProjectList.visibility = if (isProjectEmpty) View.GONE else View.VISIBLE
-        if (!isProjectEmpty) setProjectRV()
+        lifecycleScope.launch {
+            setProjectListData()
+            val isProjectEmpty = projectList.isEmpty()
+            binding.clHomeAddProject.visibility = if (isProjectEmpty) View.VISIBLE else View.GONE
+            binding.rvHomeProjectList.visibility = if (isProjectEmpty) View.GONE else View.VISIBLE
+            if (!isProjectEmpty) setProjectRV()
+        }
 
         setMinutesListData()
         val isMinutesEmpty = minutesList.isEmpty()
@@ -91,10 +114,10 @@ class HomeFragment : Fragment() {
         //4개까지만 넣기
         minutesList.addAll(
             arrayListOf(
-                MinutesData(0, "1차 회의록","2024.03.04", "1", 0, false),
-                MinutesData(1, "2차 회의록","2024.03.04", "2", 2, true),
-                MinutesData(4, "3차 회의록","2024.03.04", "3", 1, false),
-                MinutesData(5, "1차 회의록","2024.03.04", "1", 0, false),
+                MinutesData(0, "회의 예시 1","2024.03.04", "1", 0, false),
+                MinutesData(1, "회의 예시 2","2024.03.05", "2", 2, true),
+                MinutesData(4, "회의 예시 3","2024.03.06", "7", 1, false),
+                MinutesData(5, "회의 예시 4","2024.03.07", "11", 0, false),
             )
         )
     }
@@ -105,15 +128,39 @@ class HomeFragment : Fragment() {
         binding.rvHomeProjectList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
-    private fun setProjectListData() {
-        projectList.addAll(
-            arrayListOf(
-//                ProjectData("1", 1,"졸업프로젝트", "2024.03.05", "3", false),
-//                ProjectData("4", 2,"IT동아리", "2023.03.20", "20", true),
-//                ProjectData("7", 3,"산업협력프로젝트", "2023.04.05", "6",false),
-//                ProjectData("4", 4,"로그밋프로젝트", "2024.03.20", "4",false),
-            )
-        )
+    private suspend fun setProjectListData() {
+        projectList = arrayListOf()
+        val bearerAccessToken =
+            LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+        RetrofitClient.project_instance.getProjectList(
+            bearerAccessToken
+        ).enqueue(object : Callback<BaseResponseListProjectListResult> {
+            override fun onResponse(
+                p0: Call<BaseResponseListProjectListResult>,
+                p1: Response<BaseResponseListProjectListResult>
+            ) {
+                when (p1.code()) {
+                    200 -> {
+                        val resp = p1.body()?.result
+                        Log.d(NETWORK, "HomeFragment - setProjectListData() : 성공\n$resp")
+                        if (resp != null) {
+                            projectList.addAll(resp)
+                            setProjectRV()
+                        } else {
+                            projectList = arrayListOf()
+                        }
+                    }
+                    else -> {
+                        Log.d(NETWORK, "HomeFragment - setProjectListData() : 실패")
+                    }
+                }
+            }
+
+            override fun onFailure(p0: Call<BaseResponseListProjectListResult>, p1: Throwable) {
+                Log.d(NETWORK, "HomeFragment - setProjectListData() : 실패\nbecause $p1")
+            }
+
+        })
     }
 
     private fun setScheduleListData() {

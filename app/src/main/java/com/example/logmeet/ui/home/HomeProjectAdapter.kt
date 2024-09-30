@@ -5,14 +5,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.project.ProjectListResult
 import com.example.logmeet.domain.entity.ProjectData
 import com.example.logmeet.databinding.ItemProjectHomeBinding
 
-class HomeProjectAdapter(private val data: ArrayList<ProjectData>) :
+class HomeProjectAdapter(private val data: ArrayList<ProjectListResult>) :
     RecyclerView.Adapter<HomeProjectAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemProjectHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ProjectData) {
+        fun bind(item: ProjectListResult) {
             val colorList = arrayOf(
                 R.drawable.color_prj1,
                 R.drawable.color_prj2,
@@ -27,12 +28,12 @@ class HomeProjectAdapter(private val data: ArrayList<ProjectData>) :
                 R.drawable.color_prj11,
                 R.drawable.color_prj12,
             )
-            val color = colorList[item.prjColor.toInt()-1]
+            val color = colorList[item.projectColor.toInt()-1]
             binding.vPrjCircle.setBackgroundResource(color)
             binding.vPrjCircle2.setBackgroundResource(color)
-            binding.tvPrjName.text = item.name
+            binding.tvPrjName.text = item.projectName
             binding.tvPrjDate.text = item.createdAt
-            binding.tvPrjPeople.text = item.people
+            binding.tvPrjPeople.text = item.numOfMember.toString()
         }
     }
 

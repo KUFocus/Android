@@ -46,6 +46,15 @@ class ProjectFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        lifecycleScope.launch {
+            getAllProjectList()
+        }
+        setProjectRV(allProjectList)
+    }
+
     private fun init() {
         setProjectTab()
         lifecycleScope.launch {
@@ -140,12 +149,14 @@ class ProjectFragment : Fragment() {
                                 NETWORK,
                                 "allprojectList\n$allProjectList\nbookmarklist\n$bookmarkProjectList"
                             )
+                            setProjectRV(allProjectList)
                         } else {
                             allProjectList = emptyList()
                         }
                     }
                     else -> {
-                        Log.d(NETWORK, "projectFragment - getAllProjectList() : 실패")
+                        Log.d(NETWORK, p1.code().toString() )
+                        Log.d(NETWORK, "onResponse: ${p1.message()}")
                     }
                 }
             }
