@@ -29,7 +29,7 @@ class MinutesDetailActivity : AppCompatActivity() {
 
         setClickBtn()
         init()
-        showMinutesToast(this, R.drawable.ic_check_circle, "회의록 등록이 완료되었습니다.")
+//        showMinutesToast(this, R.drawable.ic_check_circle, "회의록 등록이 완료되었습니다.")
     }
 
     private fun setClickBtn() {

@@ -42,24 +42,8 @@ class ProjectFragment : Fragment() {
     ): View? {
         binding = FragmentProjectBinding.inflate(layoutInflater, container, false)
         init()
-        Log.d("lifecycle", "onCreateView: 실행됨")
 
         return binding.root
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        lifecycleScope.launch {
-            getAllProjectList()
-        }
-
-        Log.d("lifecycle", "onStart: 실행됨 ")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("lifecycle", "onResume: 실행됨 ")
     }
 
     private fun init() {
@@ -134,7 +118,7 @@ class ProjectFragment : Fragment() {
         bookmarkProjectList = arrayListOf()
         Log.d(tag, "getAllProjectList: 초기 값\nallProject : $allProjectList\nbookmark :  $bookmarkProjectList")
         val bearerAccessToken =
-            LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+            LogmeetApplication.getInstance().getDataStore().refreshToken.first()
         RetrofitClient.project_instance.getProjectList(
             bearerAccessToken
         ).enqueue(object : Callback<BaseResponseListProjectListResult> {
@@ -147,8 +131,9 @@ class ProjectFragment : Fragment() {
                         val resp = p1.body()?.result
                         Log.d(NETWORK, "projectFragment - getAllProjectList() : 성공\n$resp")
                         if (resp != null) {
-//                            (allProjectList as ArrayList<ProjectListResult>).addAll(resp)
+//                            (allProjectList as ArrayList<ProjectListResult>).addAll(resp.toList())
                             allProjectList = resp
+                            Log.d(tag, "getAllProjectList: 중간 값\nallProject : $allProjectList\nbookmark :  $bookmarkProjectList")
                             allProjectList.forEach {
                                 if (it.bookmark) (bookmarkProjectList as ArrayList<ProjectListResult>).add(it)
                             }

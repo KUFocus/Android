@@ -1,6 +1,7 @@
 package com.example.logmeet.ui.home
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +10,7 @@ import com.example.logmeet.data.dto.project.ProjectListResult
 import com.example.logmeet.domain.entity.ProjectData
 import com.example.logmeet.databinding.ItemProjectHomeBinding
 import com.example.logmeet.domain.entity.ProjectDrawableResources
+import com.example.logmeet.ui.projects.ProjectHomeActivity
 
 class HomeProjectAdapter(private val data: ArrayList<ProjectListResult>) :
     RecyclerView.Adapter<HomeProjectAdapter.ViewHolder>() {
@@ -20,8 +22,16 @@ class HomeProjectAdapter(private val data: ArrayList<ProjectListResult>) :
             binding.vPrjCircle.setBackgroundResource(color)
             binding.vPrjCircle2.setBackgroundResource(color)
             binding.tvPrjName.text = item.projectName
-            binding.tvPrjDate.text = item.createdAt
+            val dateTime = item.createdAt.substring(0, 10)
+            binding.tvPrjDate.text = dateTime
             binding.tvPrjPeople.text = item.numOfMember.toString()
+
+            binding.root.setOnClickListener {
+                val context = it.context
+                val intent = Intent(context, ProjectHomeActivity::class.java)
+                intent.putExtra("projectId", item.projectId)
+                context.startActivity(intent)
+            }
         }
     }
 

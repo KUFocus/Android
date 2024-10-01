@@ -54,7 +54,8 @@ class ProjectDetailActivity : AppCompatActivity() {
         binding.ivDetailPBack.setOnClickListener { finish() }
         binding.ivDetailPBurgerMenu.setOnClickListener {
             val intent = Intent(this, EditProjectActivity::class.java)
-            intent.putExtra("projectId", intent.getStringExtra("projectId"))
+            val projectID = getIntent().getIntExtra("projectId", -1)
+            intent.putExtra("projectId", projectID)
             startActivity(intent)
         }
     }
