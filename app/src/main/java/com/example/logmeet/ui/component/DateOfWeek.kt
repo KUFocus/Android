@@ -99,7 +99,12 @@ fun DateOfWeek(
 @Composable
 fun GetDaySchedule(date: LocalDate?) {
     val projectColorList = ProjectColorResources.colorList
-    val scheduleList = intArrayOf(1, 10, 12, 3) // 서버에서 가져올 데이터
+    lateinit var scheduleList : IntArray
+    if (date != null) {
+        if (date.dayOfMonth == 30) scheduleList = intArrayOf(1, 10, 12, 3)
+        else if (date.dayOfMonth == 3) scheduleList = intArrayOf(2,3)
+        else scheduleList = intArrayOf()
+    }
     val size = scheduleList.size
     val spacer = if (size == 2) 4 else 0
 

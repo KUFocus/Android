@@ -64,7 +64,7 @@ class ProjectHomeActivity : AppCompatActivity() {
         binding.rvPrjHomeScheduleList.visibility = if (isScheduleEmpty) View.GONE else View.VISIBLE
         if (!isScheduleEmpty) setScheduleRV()
 
-        setMinutesListData()
+        setMinutesListData("12")
         val isMinutesEmpty = minutesList.isEmpty()
         binding.tvPrjHomeNoneMinutes.visibility = if (isMinutesEmpty) View.VISIBLE else View.GONE
         binding.rvPrjHomeMinutesList.visibility = if (isMinutesEmpty) View.GONE else View.VISIBLE
@@ -75,45 +75,41 @@ class ProjectHomeActivity : AppCompatActivity() {
         val projectId = intent.getIntExtra("projectId", -1)
         val bearerAccessToken =
             LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
-        if (projectId != null) {
-            RetrofitClient.project_instance.getProjectDetail(
-                bearerAccessToken,
-                projectId = projectId
-            ).enqueue(object : Callback<BaseResponseProjectInfoResult> {
-                override fun onResponse(
-                    p0: Call<BaseResponseProjectInfoResult>,
-                    p1: Response<BaseResponseProjectInfoResult>
-                ) {
-                    if (p1.isSuccessful) {
-                        val resp = requireNotNull(p1.body()?.result)
-                        Log.d(NETWORK, "ProjectHome - getProjectDetail() : 성공")
-                        binding.tvPrjHomePrjName.text = resp.name
-                        binding.tvPrjHomePrjExplain.text = resp.content
-                        val color =
-                            ProjectColorResources.getColorResourceByProject(resp.userProjects[0].color)
-                        if (color != null) {
-                            binding.vPrjHomeBackground.setBackgroundColor(
-                                ContextCompat.getColor(
-                                    this@ProjectHomeActivity,
-                                    color
-                                )
+        RetrofitClient.project_instance.getProjectDetail(
+            bearerAccessToken,
+            projectId = projectId
+        ).enqueue(object : Callback<BaseResponseProjectInfoResult> {
+            override fun onResponse(
+                p0: Call<BaseResponseProjectInfoResult>,
+                p1: Response<BaseResponseProjectInfoResult>
+            ) {
+                if (p1.isSuccessful) {
+                    val resp = requireNotNull(p1.body()?.result)
+                    Log.d(NETWORK, "ProjectHome - getProjectDetail() : 성공")
+                    binding.tvPrjHomePrjName.text = resp.name
+                    binding.tvPrjHomePrjExplain.text = resp.content
+                    val color =
+                        ProjectColorResources.getColorResourceByProject(resp.userProjects[0].color)
+                    if (color != null) {
+                        binding.vPrjHomeBackground.setBackgroundColor(
+                            ContextCompat.getColor(
+                                this@ProjectHomeActivity,
+                                color
                             )
-                        } else {
-                            Log.d(tag, "onResponse: ProjectHome (90) color = null")
-                        }
+                        )
                     } else {
-                        Log.d(NETWORK, "ProjectHome - getProjectDetail() : 실패")
+                        Log.d(tag, "onResponse: ProjectHome (90) color = null")
                     }
+                } else {
+                    Log.d(NETWORK, "ProjectHome - getProjectDetail() : 실패")
                 }
+            }
 
-                override fun onFailure(p0: Call<BaseResponseProjectInfoResult>, p1: Throwable) {
-                    Log.d(NETWORK, "ProjectHome - getProjectDetail()실패\nbecause : $p1")
-                }
+            override fun onFailure(p0: Call<BaseResponseProjectInfoResult>, p1: Throwable) {
+                Log.d(NETWORK, "ProjectHome - getProjectDetail()실패\nbecause : $p1")
+            }
 
-            })
-        } else {
-            Log.d(tag, "ProjectHome - getProjectDetail : projectId = null 값임")
-        }
+        })
     }
 
     private fun setMinutesRV() {
@@ -123,30 +119,25 @@ class ProjectHomeActivity : AppCompatActivity() {
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
-    private fun setMinutesListData() {
+    private fun setMinutesListData(color: String) {
         minutesList.addAll(
             arrayListOf(
-                MinutesData(0, "1차 회의록", "2024.03.04", "1", 0, false),
-                MinutesData(1, "2차 회의록", "2024.03.04", "2", 2, true),
-                MinutesData(4, "3차 회의록", "2024.03.04", "3", 1, false),
-                MinutesData(5, "1차 회의록", "2024.03.04", "1", 0, false),
-                MinutesData(6, "2차 회의록", "2024.03.04", "2", 2, true),
-                MinutesData(7, "3차 회의록", "2024.03.04", "3", 1, false),
-                MinutesData(8, "1차 회의록", "2024.03.04", "1", 0, false),
-                MinutesData(9, "2차 회의록", "2024.03.04", "2", 2, true),
-                MinutesData(41, "3차 회의록", "2024.03.04", "3", 1, false),
-                MinutesData(20, "1차 회의록", "2024.03.04", "1", 0, false),
+                MinutesData(0, "1차 회의록", "2024.03.04",  color, 0, false),
+                MinutesData(1, "2차 회의록", "2024.03.04",  color, 2, true),
+                MinutesData(4, "3차 회의록", "2024.03.04",  color, 1, false),
+                MinutesData(5, "1차 회의록", "2024.03.04",  color, 0, false),
+                MinutesData(6, "2차 회의록", "2024.03.04",  color, 2, true),
+                MinutesData(7, "3차 회의록", "2024.03.04",  color, 1, false),
+                MinutesData(8, "1차 회의록", "2024.03.04",  color, 0, false),
+                MinutesData(9, "2차 회의록", "2024.03.04",  color, 2, true),
+                MinutesData(41, "3차 회의록", "2024.03.04", color, 1, false),
+                MinutesData(20, "1차 회의록", "2024.03.04", color, 0, false),
             )
         )
     }
 
     private fun setScheduleListData() {
-        scheduleList.addAll(
-            arrayListOf(
-                ScheduleData("1", "12:00", "디자인 회의", "졸업프로젝트"),
-                ScheduleData("1", "16:00", "디자인 회의2", "졸업프로젝트"),
-            )
-        )
+
     }
 
     private fun setScheduleRV() {
