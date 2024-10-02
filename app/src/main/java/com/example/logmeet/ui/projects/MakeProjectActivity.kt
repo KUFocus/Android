@@ -153,7 +153,6 @@ class MakeProjectActivity : AppCompatActivity() {
         if (isNamed && isExplained) {
             binding.tvMakePDone.setBackgroundResource(R.drawable.btn_blue_8px)
             binding.tvMakePDone.setOnClickListener {
-                Log.d("chrin", "name : $name, explain : $explain, color : $color")
                 lifecycleScope.launch {
                     makeNewPrj()
                 }
@@ -165,7 +164,6 @@ class MakeProjectActivity : AppCompatActivity() {
     }
 
     private suspend fun makeNewPrj() {
-        Log.d(tag, "makeNewPrj: 함수 안 color : PROJECT_$color")
         val bearerAccessToken = LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
         RetrofitClient.project_instance.projectCreate(
             bearerAccessToken,
