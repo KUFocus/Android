@@ -15,7 +15,6 @@ import com.example.logmeet.ui.showMinutesToast
 class MinutesDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMinutesDetailBinding
     private var contentPage = 0 //0 기본 내용, 1 요약본
-    //private val minutes :
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMinutesDetailBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -29,7 +28,7 @@ class MinutesDetailActivity : AppCompatActivity() {
 
         setClickBtn()
         init()
-//        showMinutesToast(this, R.drawable.ic_check_circle, "회의록 등록이 완료되었습니다.")
+        showMinutesToast(this, R.drawable.ic_check_circle, "회의록 등록이 완료되었습니다.")
     }
 
     private fun setClickBtn() {

@@ -57,19 +57,6 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-
-//        lifecycleScope.launch {
-//            setProjectListData()
-//        }
-//        Log.d(tag, "onStart: $projectList")
-//        val isProjectEmpty = projectList.isEmpty()
-//        binding.clHomeAddProject.visibility = if (isProjectEmpty) View.VISIBLE else View.GONE
-//        binding.rvHomeProjectList.visibility = if (isProjectEmpty) View.GONE else View.VISIBLE
-//        if (!isProjectEmpty) setProjectRV()
-    }
-
     private fun init() {
         binding.tvHomeDate.text = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")).toString()
         binding.clHomeAddProject.setOnClickListener {

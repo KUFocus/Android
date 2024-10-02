@@ -46,6 +46,15 @@ class ProjectFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("ResourceAsColor")
+    override fun onStart() {
+        super.onStart()
+
+        lifecycleScope.launch {
+            getAllProjectList()
+        }
+        setProjectRV(allProjectList)
+    }
     private fun init() {
         setProjectTab()
         lifecycleScope.launch {
@@ -84,6 +93,7 @@ class ProjectFragment : Fragment() {
     }
 
     private fun setProjectRV(projectList: List<ProjectListResult>) {
+        Log.d(tag, "setProjectRV: 실행됨 \nprojectList $projectList")
         checkListEmpty(projectList.size)
         val projectRV = binding.rvProjectProjectList
         projectAdapter = ProjectPrjAdapter(projectList)
@@ -116,9 +126,8 @@ class ProjectFragment : Fragment() {
     private suspend fun getAllProjectList() {
         allProjectList = arrayListOf()
         bookmarkProjectList = arrayListOf()
-        Log.d(tag, "getAllProjectList: 초기 값\nallProject : $allProjectList\nbookmark :  $bookmarkProjectList")
         val bearerAccessToken =
-            LogmeetApplication.getInstance().getDataStore().refreshToken.first()
+            LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
         RetrofitClient.project_instance.getProjectList(
             bearerAccessToken
         ).enqueue(object : Callback<BaseResponseListProjectListResult> {
@@ -153,8 +162,6 @@ class ProjectFragment : Fragment() {
             }
 
         })
-
-        Log.d(tag, "getAllProjectList: 마지막 값\nallProject : $allProjectList\nbookmark :  $bookmarkProjectList")
     }
 
     private fun setProjectTab() {
