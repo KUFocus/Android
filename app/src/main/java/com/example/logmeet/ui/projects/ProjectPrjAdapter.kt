@@ -18,7 +18,8 @@ class ProjectPrjAdapter(private val data: List<ProjectListResult>) : RecyclerVie
             binding.vPrjCircle.setBackgroundResource(color)
             binding.vPrjCircle2.setBackgroundResource(color)
             binding.tvPrjName.text = item.projectName
-            binding.tvPrjDate.text = item.createdAt
+            val dateTime = item.createdAt.substring(0, 10)
+            binding.tvPrjDate.text = dateTime
             binding.tvPrjPeople.text = item.numOfMember.toString()
             binding.apply {
                 ivPrjEmptyStar.visibility = if (item.bookmark) View.GONE else View.VISIBLE

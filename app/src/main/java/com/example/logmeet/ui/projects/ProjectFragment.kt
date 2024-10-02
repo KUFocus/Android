@@ -46,15 +46,7 @@ class ProjectFragment : Fragment() {
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        lifecycleScope.launch {
-            getAllProjectList()
-        }
-        setProjectRV(allProjectList)
-    }
-
+    @SuppressLint("ResourceAsColor")
     private fun init() {
         setProjectTab()
         lifecycleScope.launch {
@@ -93,7 +85,6 @@ class ProjectFragment : Fragment() {
     }
 
     private fun setProjectRV(projectList: List<ProjectListResult>) {
-        Log.d(tag, "setProjectRV: 실행됨 \nprojectList $projectList")
         checkListEmpty(projectList.size)
         val projectRV = binding.rvProjectProjectList
         projectAdapter = ProjectPrjAdapter(projectList)
@@ -126,8 +117,9 @@ class ProjectFragment : Fragment() {
     private suspend fun getAllProjectList() {
         allProjectList = arrayListOf()
         bookmarkProjectList = arrayListOf()
+        Log.d(tag, "getAllProjectList: 초기 값\nallProject : $allProjectList\nbookmark :  $bookmarkProjectList")
         val bearerAccessToken =
-            LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+            LogmeetApplication.getInstance().getDataStore().refreshToken.first()
         RetrofitClient.project_instance.getProjectList(
             bearerAccessToken
         ).enqueue(object : Callback<BaseResponseListProjectListResult> {
@@ -140,23 +132,19 @@ class ProjectFragment : Fragment() {
                         val resp = p1.body()?.result
                         Log.d(NETWORK, "projectFragment - getAllProjectList() : 성공\n$resp")
                         if (resp != null) {
-                            (allProjectList as ArrayList<ProjectListResult>).addAll(resp)
+//                            (allProjectList as ArrayList<ProjectListResult>).addAll(resp.toList())
+                            allProjectList = resp
+                            Log.d(tag, "getAllProjectList: 중간 값\nallProject : $allProjectList\nbookmark :  $bookmarkProjectList")
                             allProjectList.forEach {
-                                Log.d(NETWORK, "it.bookmark ${it.bookmark}")
                                 if (it.bookmark) (bookmarkProjectList as ArrayList<ProjectListResult>).add(it)
                             }
-                            Log.d(
-                                NETWORK,
-                                "allprojectList\n$allProjectList\nbookmarklist\n$bookmarkProjectList"
-                            )
                             setProjectRV(allProjectList)
                         } else {
                             allProjectList = emptyList()
                         }
                     }
                     else -> {
-                        Log.d(NETWORK, p1.code().toString() )
-                        Log.d(NETWORK, "onResponse: ${p1.message()}")
+                        Log.d(NETWORK, "projectFragment - getAllProjectList() : 실패" )
                     }
                 }
             }
@@ -166,6 +154,8 @@ class ProjectFragment : Fragment() {
             }
 
         })
+
+        Log.d(tag, "getAllProjectList: 마지막 값\nallProject : $allProjectList\nbookmark :  $bookmarkProjectList")
     }
 
     private fun setProjectTab() {
@@ -215,7 +205,6 @@ class ProjectFragment : Fragment() {
             getAllProjectList()
         }
         val list = if (index == 0) allProjectList else bookmarkProjectList
-        Log.d(NETWORK, "changeListMode: index = $index list = $list")
         setProjectRV(list)
     }
 

@@ -85,7 +85,7 @@ fun WeeklyTitle() {
                         context.startActivity(intent)
                     }
                     .size(24.dp),
-                painter = painterResource(id = R.drawable.ic_add_calendar),
+                painter = painterResource(id = R.drawable.ic_calendar_png),
                 contentDescription = "달력버튼"
             )
             Spacer(modifier = Modifier.width(14.dp))
