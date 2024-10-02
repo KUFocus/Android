@@ -135,8 +135,6 @@ class Login2Activity : AppCompatActivity() {
                     val intent = Intent(this@Login2Activity, MainHomeActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
-                    intent.putExtra("accessToken", resp.accessToken)
-                    intent.putExtra("refreshToken", resp.refreshToken)
                     startActivity(intent)
                 } else {
                     Log.d(NETWORK, "login2 - login() : 실패")
@@ -148,20 +146,5 @@ class Login2Activity : AppCompatActivity() {
             }
 
         })
-    }
-
-    private fun getCurrentToken(context: Context): String? {
-        val sharedPref = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        return sharedPref.getString("userToken", null)
-    }
-
-    private fun saveLoginInfo(context: Context, email: String?, token: String?)
-    {
-        val sharedPref = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-        with(sharedPref.edit()) {
-            email?.let { putString("userEmail", it) }
-            token?.let { putString("userToken", it) }
-            apply()
-        }
     }
 }
