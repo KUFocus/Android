@@ -1,8 +1,10 @@
 package com.example.logmeet.data.api
 
+import com.example.logmeet.data.dto.BaseResponseVoid
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectCreateResponse
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
 import com.example.logmeet.data.dto.project.api_reqeust.ProjectCreateRequest
+import com.example.logmeet.data.dto.project.api_reqeust.ProjectUpdateReqeust
 import com.example.logmeet.data.dto.project.api_response.BaseResponseListProjectListResult
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectBookmarkResult
 import retrofit2.Call
@@ -49,4 +51,14 @@ interface ProjectController {
         @Path("projectId")
         projectId: Int,
     ): Call<BaseResponseProjectBookmarkResult>
+
+    @PUT("projects/{projectId}")
+    fun editProjectInfo(
+        @Header("Authorization")
+        authorization: String,
+        @Path("projectId")
+        projectId: Int,
+        @Body
+        projectUpdateReqeust: ProjectUpdateReqeust
+    ): Call<BaseResponseVoid>
 }

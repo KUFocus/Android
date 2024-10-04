@@ -16,13 +16,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.NETWORK
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.BaseResponseVoid
 import com.example.logmeet.data.dto.project.UserProjectDto
+import com.example.logmeet.data.dto.project.api_reqeust.ProjectUpdateReqeust
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
-import com.example.logmeet.domain.entity.PeopleData
 import com.example.logmeet.databinding.ActivityEditProjectBinding
-import com.example.logmeet.domain.entity.ProjectDrawableResources
 import com.example.logmeet.network.RetrofitClient
-import com.example.logmeet.tag
 import com.example.logmeet.ui.application.LogmeetApplication
 import com.example.logmeet.ui.home.MainHomeActivity
 import kotlinx.coroutines.flow.first
@@ -239,13 +238,46 @@ class EditProjectActivity : AppCompatActivity() {
         if (isNamed or isExplained or isColorChange) {
             binding.tvEditPDone.setTextColor(ContextCompat.getColor(this, R.color.main_blue))
             binding.tvEditPDone.setOnClickListener {
-                val intent = Intent(this, MainHomeActivity::class.java)
-                startActivity(intent)
-                //수정완료 api
+                lifecycleScope.launch {
+                    editProject()
+                }
             }
         } else {
             binding.tvEditPDone.setTextColor(ContextCompat.getColor(this, R.color.gray400))
             binding.tvEditPDone.setOnClickListener(null)
         }
+    }
+
+    private suspend fun editProject() {
+        val project = ProjectUpdateReqeust(
+            name = name,
+            content = explain,
+            color = color
+        )
+        val projectId = intent.getIntExtra("projectId", -1)
+        val bearerAccessToken =
+            LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+        RetrofitClient.project_instance.editProjectInfo(
+            bearerAccessToken,
+            projectId,
+            project
+        ).enqueue(object : Callback<BaseResponseVoid>{
+            override fun onResponse(p0: Call<BaseResponseVoid>, p1: Response<BaseResponseVoid>) {
+                when (p1.code()) {
+                    200 -> {
+                        Log.d(NETWORK, "editProject - updateProject() : 성공")
+//                        val intent = Intent(this@EditProjectActivity, MainHomeActivity::class.java)
+//                        startActivity(intent)
+                        finish()
+                    }
+                    else -> Log.d(NETWORK, "editProject - updateProject() : 실패")
+                }
+            }
+
+            override fun onFailure(p0: Call<BaseResponseVoid>, p1: Throwable) {
+                Log.d(NETWORK, "editProject - updateProject() : 실패\nbecause $p1")
+            }
+
+        })
     }
 }
