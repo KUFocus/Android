@@ -47,27 +47,27 @@ class ProjectFragment : Fragment() {
     }
 
     @SuppressLint("ResourceAsColor")
-    override fun onStart() {
-        super.onStart()
-
+    override fun onResume() {
+        super.onResume()
         lifecycleScope.launch {
             getAllProjectList()
         }
         setProjectRV(allProjectList)
     }
+
     private fun init() {
         setProjectTab()
-        lifecycleScope.launch {
-            getAllProjectList()
-        }
-        setProjectRV(allProjectList)
+//        lifecycleScope.launch {
+//            getAllProjectList()
+//        }
+//        setProjectRV(allProjectList)
         binding.ivProjectAddBtn.setOnClickListener {
             val intent = Intent(requireContext(), MakeProjectActivity::class.java)
             startActivity(intent)
         }
     }
 
-    private fun initSetProjectRV(projectList: List<ProjectListResult>) {
+    private fun setProjectRV(projectList: List<ProjectListResult>) {
         checkListEmpty(projectList.size)
         val projectRV = binding.rvProjectProjectList
         val spanCount = 2
@@ -86,14 +86,11 @@ class ProjectFragment : Fragment() {
 
     private fun checkListEmpty(size: Int) {
         val isEmpty = size == 0
-        binding.clProjectNoneProject.visibility =
-            if (isEmpty && tabNum == 0) View.VISIBLE else View.GONE
-        binding.tvProjectNoneBookmark.visibility =
-            if (isEmpty && tabNum != 0) View.VISIBLE else View.GONE
+        binding.clProjectNoneProject.visibility = if (isEmpty && tabNum == 0) View.VISIBLE else View.GONE
+        binding.tvProjectNoneBookmark.visibility = if (isEmpty && tabNum != 0) View.VISIBLE else View.GONE
     }
 
-    private fun setProjectRV(projectList: List<ProjectListResult>) {
-        Log.d(tag, "setProjectRV: 실행됨 \nprojectList $projectList")
+    private fun origin_setProjectRV(projectList: List<ProjectListResult>) {
         checkListEmpty(projectList.size)
         val projectRV = binding.rvProjectProjectList
         projectAdapter = ProjectPrjAdapter(projectList)
@@ -114,11 +111,7 @@ class ProjectFragment : Fragment() {
             val position = (view.layoutParams as GridLayoutManager.LayoutParams).spanIndex
             val column = position % spanCount
 
-            if (column == 0) {
-                outRect.right = spacing
-            } else {
-                outRect.left = spacing
-            }
+            if (column == 0) { outRect.right = spacing } else { outRect.left = spacing }
         }
     }
 
@@ -140,12 +133,12 @@ class ProjectFragment : Fragment() {
                         val resp = p1.body()?.result
                         Log.d(NETWORK, "projectFragment - getAllProjectList() : 성공\n$resp")
                         if (resp != null) {
-//                            (allProjectList as ArrayList<ProjectListResult>).addAll(resp.toList())
-                            allProjectList = resp
-                            Log.d(tag, "getAllProjectList: 중간 값\nallProject : $allProjectList\nbookmark :  $bookmarkProjectList")
-                            allProjectList.forEach {
-                                if (it.bookmark) (bookmarkProjectList as ArrayList<ProjectListResult>).add(it)
-                            }
+                            (allProjectList as ArrayList<ProjectListResult>).addAll(resp.toList())
+//                            allProjectList = resp
+//                            Log.d(tag, "getAllProjectList: 중간 값\nallProject : $allProjectList\nbookmark :  $bookmarkProjectList")
+//                            allProjectList.forEach {
+//                                if (it.bookmark) (bookmarkProjectList as ArrayList<ProjectListResult>).add(it)
+//                            }
                             setProjectRV(allProjectList)
                         } else {
                             allProjectList = emptyList()
@@ -153,6 +146,42 @@ class ProjectFragment : Fragment() {
                     }
                     else -> {
                         Log.d(NETWORK, "projectFragment - getAllProjectList() : 실패" )
+                    }
+                }
+            }
+
+            override fun onFailure(p0: Call<BaseResponseListProjectListResult>, p1: Throwable) {
+                Log.d(NETWORK, "projectFragment - getAllProjectList() : 실패\nbecause $p1")
+            }
+
+        })
+    }
+
+    private suspend fun getBookmarkList() {
+        bookmarkProjectList = arrayListOf()
+        val bearerAccessToken =
+            LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+        RetrofitClient.project_instance.getProjectList(
+            bearerAccessToken
+        ).enqueue(object : Callback<BaseResponseListProjectListResult> {
+            override fun onResponse(
+                p0: Call<BaseResponseListProjectListResult>,
+                p1: Response<BaseResponseListProjectListResult>
+            ) {
+                when (p1.code()) {
+                    200 -> {
+                        val resp = p1.body()?.result
+                        Log.d(NETWORK, "projectFragment - getBookmarkList() : 성공\n$resp")
+                        if (resp != null) {
+                            (bookmarkProjectList as ArrayList<ProjectListResult>).addAll(resp.toList())
+                            setProjectRV(bookmarkProjectList)
+                        } else {
+                            bookmarkProjectList = emptyList()
+                        }
+                    }
+
+                    else -> {
+                        Log.d(NETWORK, "projectFragment - getBookmarkList() : 실패")
                     }
                 }
             }
@@ -207,11 +236,22 @@ class ProjectFragment : Fragment() {
     }
 
     private fun changeListMode(index: Int) {
-        lifecycleScope.launch {
-            getAllProjectList()
+//        lifecycleScope.launch {
+//            getAllProjectList()
+//        }
+//        val list = if (index == 0) allProjectList else bookmarkProjectList
+//        setProjectRV(list)
+        if (index == 0) {
+            lifecycleScope.launch {
+                getAllProjectList()
+            }
+            setProjectRV(allProjectList)
+        } else {
+            lifecycleScope.launch {
+                getBookmarkList()
+            }
+            setProjectRV(bookmarkProjectList)
         }
-        val list = if (index == 0) allProjectList else bookmarkProjectList
-        setProjectRV(list)
     }
 
 }

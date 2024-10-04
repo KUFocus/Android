@@ -33,4 +33,10 @@ interface ProjectController {
         @Header("Authorization")
         authorization: String,
     ): Call<BaseResponseListProjectListResult>
+
+    @GET("projects/bookmark-list")
+    fun getBookmarkList(
+        @Header("Authorization")
+        authorization: String,
+    ): Call<BaseResponseListProjectListResult>
 }
