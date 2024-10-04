@@ -172,7 +172,7 @@ class ProjectFragment : Fragment() {
                 when (p1.code()) {
                     200 -> {
                         val resp = p1.body()?.result
-                        Log.d(NETWORK, "projectFragment - getBookmarkList() : 성공\n$resp")
+                        Log.d(NETWORK, "projectFragment - getBookmarkList() : 성공")
                         if (resp != null) {
                             (bookmarkProjectList as ArrayList<ProjectListResult>).addAll(resp.toList())
                             setProjectRV(bookmarkProjectList)
