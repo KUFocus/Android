@@ -161,7 +161,7 @@ class ProjectFragment : Fragment() {
         bookmarkProjectList = arrayListOf()
         val bearerAccessToken =
             LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
-        RetrofitClient.project_instance.getProjectList(
+        RetrofitClient.project_instance.getBookmarkList(
             bearerAccessToken
         ).enqueue(object : Callback<BaseResponseListProjectListResult> {
             override fun onResponse(
