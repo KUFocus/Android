@@ -24,6 +24,7 @@ import com.example.logmeet.databinding.ActivityEditProjectBinding
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.ui.application.LogmeetApplication
 import com.example.logmeet.ui.home.MainHomeActivity
+import com.example.logmeet.ui.showMinutesToast
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
