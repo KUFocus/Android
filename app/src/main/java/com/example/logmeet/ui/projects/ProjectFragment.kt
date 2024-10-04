@@ -58,10 +58,6 @@ class ProjectFragment : Fragment() {
 
     private fun init() {
         setProjectTab()
-//        lifecycleScope.launch {
-//            getAllProjectList()
-//        }
-//        initProjectRV(allProjectList)
         binding.ivProjectAddBtn.setOnClickListener {
             val intent = Intent(requireContext(), MakeProjectActivity::class.java)
             startActivity(intent)
@@ -88,8 +84,10 @@ class ProjectFragment : Fragment() {
 
     private fun checkListEmpty(size: Int) {
         val isEmpty = size == 0
-        binding.clProjectNoneProject.visibility = if (isEmpty && tabNum == 0) View.VISIBLE else View.GONE
-        binding.tvProjectNoneBookmark.visibility = if (isEmpty && tabNum != 0) View.VISIBLE else View.GONE
+        binding.clProjectNoneProject.visibility =
+            if (isEmpty && tabNum == 0) View.VISIBLE else View.GONE
+        binding.tvProjectNoneBookmark.visibility =
+            if (isEmpty && tabNum != 0) View.VISIBLE else View.GONE
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -98,11 +96,6 @@ class ProjectFragment : Fragment() {
         if (!isProjectRVInitialized) {
             initProjectRV(allProjectList)
         }
-//        val projectRV = binding.rvProjectProjectList
-//        projectAdapter = ProjectPrjAdapter(projectList)
-//        projectRV.adapter = projectAdapter
-//        projectRV.layoutManager =
-//            GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
         projectAdapter.data = projectList
         projectAdapter.notifyDataSetChanged()
     }
@@ -119,7 +112,11 @@ class ProjectFragment : Fragment() {
             val position = (view.layoutParams as GridLayoutManager.LayoutParams).spanIndex
             val column = position % spanCount
 
-            if (column == 0) { outRect.right = spacing } else { outRect.left = spacing }
+            if (column == 0) {
+                outRect.right = spacing
+            } else {
+                outRect.left = spacing
+            }
         }
     }
 
@@ -142,18 +139,14 @@ class ProjectFragment : Fragment() {
                         Log.d(NETWORK, "projectFragment - getAllProjectList() : 성공\n$resp")
                         if (resp != null) {
                             (allProjectList as ArrayList<ProjectListResult>).addAll(resp.toList())
-//                            allProjectList = resp
-//                            Log.d(tag, "getAllProjectList: 중간 값\nallProject : $allProjectList\nbookmark :  $bookmarkProjectList")
-//                            allProjectList.forEach {
-//                                if (it.bookmark) (bookmarkProjectList as ArrayList<ProjectListResult>).add(it)
-//                            }
                             setProjectRV(allProjectList)
                         } else {
                             allProjectList = emptyList()
                         }
                     }
+
                     else -> {
-                        Log.d(NETWORK, "projectFragment - getAllProjectList() : 실패" )
+                        Log.d(NETWORK, "projectFragment - getAllProjectList() : 실패")
                     }
                 }
             }
@@ -244,20 +237,11 @@ class ProjectFragment : Fragment() {
     }
 
     private fun changeListMode(index: Int) {
-//        lifecycleScope.launch {
-//            getAllProjectList()
-//        }
-//        val list = if (index == 0) allProjectList else bookmarkProjectList
-//        setProjectRV(list)
         if (index == 0) {
-            lifecycleScope.launch {
-                getAllProjectList()
-            }
+            lifecycleScope.launch { getAllProjectList() }
             setProjectRV(allProjectList)
         } else {
-            lifecycleScope.launch {
-                getBookmarkList()
-            }
+            lifecycleScope.launch { getBookmarkList() }
             setProjectRV(bookmarkProjectList)
         }
     }
