@@ -54,6 +54,10 @@ class ProjectDetailActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
+        peopleList = arrayListOf()
+        lifecycleScope.launch {
+            getContent()
+        }
     }
 
     private fun init() {
