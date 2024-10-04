@@ -4,11 +4,13 @@ import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectCrea
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
 import com.example.logmeet.data.dto.project.api_reqeust.ProjectCreateRequest
 import com.example.logmeet.data.dto.project.api_response.BaseResponseListProjectListResult
+import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectBookmarkResult
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ProjectController {
@@ -39,4 +41,12 @@ interface ProjectController {
         @Header("Authorization")
         authorization: String,
     ): Call<BaseResponseListProjectListResult>
+
+    @PUT("projects/{projectId}/bookmark")
+    fun changeBookmark(
+        @Header("Authorization")
+        authorization: String,
+        @Path("projectId")
+        projectId: Int,
+    ): Call<BaseResponseProjectBookmarkResult>
 }
