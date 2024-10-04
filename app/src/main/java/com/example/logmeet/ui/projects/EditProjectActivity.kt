@@ -16,12 +16,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.NETWORK
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.BaseResponseVoid
+import com.example.logmeet.data.dto.project.UserProjectDto
+import com.example.logmeet.data.dto.project.api_reqeust.ProjectUpdateReqeust
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
-import com.example.logmeet.domain.entity.PeopleData
 import com.example.logmeet.databinding.ActivityEditProjectBinding
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.ui.application.LogmeetApplication
 import com.example.logmeet.ui.home.MainHomeActivity
+import com.example.logmeet.ui.showMinutesToast
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -31,13 +34,13 @@ import retrofit2.Response
 class EditProjectActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProjectBinding
     private lateinit var peopleEditAdapter: PeopleEditAdapter
-    private var peopleList: ArrayList<PeopleData> = arrayListOf()
+    private var peopleList: ArrayList<UserProjectDto> = arrayListOf()
     private var isNamed = false
     private var isExplained = false
     private var isColorChange = false
-    private var beforeName = ""
-    private var beforeExplain = ""
-    private var beforeColor = ""
+    private var beforeName = "-1"
+    private var beforeExplain = "-1"
+    private var beforeColor = "1"
     private var name = ""
     private var explain = ""
     private var color = ""
@@ -52,6 +55,10 @@ class EditProjectActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         lifecycleScope.launch {
             getContent()
@@ -63,7 +70,6 @@ class EditProjectActivity : AppCompatActivity() {
         binding.ivEditPBack.setOnClickListener { finish() }
         setupTextWatchers()
         setupClearBtns()
-        setupColorRadioBtn()
         updateButtonState()
     }
 
@@ -75,12 +81,12 @@ class EditProjectActivity : AppCompatActivity() {
         peopleRV.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
-    private fun sortPeopleList(peopleList: ArrayList<PeopleData>): ArrayList<PeopleData> {
+    private fun sortPeopleList(peopleList: ArrayList<UserProjectDto>): ArrayList<UserProjectDto> {
         return ArrayList(
             peopleList
                 .sortedWith(
-                    compareByDescending<PeopleData> { it.leader }
-                        .thenBy { it.name }
+                    compareByDescending<UserProjectDto> { it.role }
+                        .thenBy { it.userName }
                 )
         )
     }
@@ -134,17 +140,15 @@ class EditProjectActivity : AppCompatActivity() {
                     beforeExplain = resp.content
                     val dateTime = resp.createdAt.substring(0, 10)
                     binding.tietEditPDate.setText(dateTime)
-                    peopleList = arrayListOf(
-                        PeopleData("김채린", false, 1, "email"),
-                        PeopleData("구서정", false, 1, "email"),
-                        PeopleData("학생1", false, 1, "email"),
-                        PeopleData("학생2", false, 1, "email"),
-                        PeopleData("전우진", true, 1, "email"),
-                        PeopleData("학생3", false, 1, "email"),
-                    )
+                    peopleList.addAll(resp.userProjects)
                     setPeopleRV()
 
+                    binding.tietEditPName.setText(beforeName)
+                    binding.tvEditPTextLength.text = "${beforeName.length} / 8"
+                    binding.tietEditPExplain.setText(beforeExplain)
                     beforeColor = resp.userProjects[0].color.split("_")[1]
+                    color = beforeColor
+                    setupColorRadioBtn()
                 } else {
                     Log.d(NETWORK, "ProjectHome - getProjectDetail() : 실패")
                 }
@@ -155,12 +159,12 @@ class EditProjectActivity : AppCompatActivity() {
             }
 
         })
-
-        binding.tietEditPName.setText(beforeName)
-        binding.tvEditPTextLength.text = "${beforeName.length} / 8"
-        binding.tietEditPExplain.setText(beforeExplain)
-
-        color = beforeColor
+//        binding.tietEditPName.setText(beforeName)
+//        binding.tvEditPTextLength.text = "${beforeName.length} / 8"
+//        binding.tietEditPExplain.setText(beforeExplain)
+//        color = beforeColor
+//
+//        Log.d(tag, "22color = $color, before = $beforeColor")
     }
 
     private fun setupClearBtns() {
@@ -235,13 +239,46 @@ class EditProjectActivity : AppCompatActivity() {
         if (isNamed or isExplained or isColorChange) {
             binding.tvEditPDone.setTextColor(ContextCompat.getColor(this, R.color.main_blue))
             binding.tvEditPDone.setOnClickListener {
-                val intent = Intent(this, MainHomeActivity::class.java)
-                startActivity(intent)
-                //수정완료 api
+                lifecycleScope.launch {
+                    editProject()
+                }
             }
         } else {
             binding.tvEditPDone.setTextColor(ContextCompat.getColor(this, R.color.gray400))
             binding.tvEditPDone.setOnClickListener(null)
         }
+    }
+
+    private suspend fun editProject() {
+        val project = ProjectUpdateReqeust(
+            name = name,
+            content = explain,
+            color = color
+        )
+        val projectId = intent.getIntExtra("projectId", -1)
+        val bearerAccessToken =
+            LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+        RetrofitClient.project_instance.editProjectInfo(
+            bearerAccessToken,
+            projectId,
+            project
+        ).enqueue(object : Callback<BaseResponseVoid>{
+            override fun onResponse(p0: Call<BaseResponseVoid>, p1: Response<BaseResponseVoid>) {
+                when (p1.code()) {
+                    200 -> {
+                        Log.d(NETWORK, "editProject - updateProject() : 성공")
+//                        val intent = Intent(this@EditProjectActivity, MainHomeActivity::class.java)
+//                        startActivity(intent)
+                        finish()
+                    }
+                    else -> Log.d(NETWORK, "editProject - updateProject() : 실패")
+                }
+            }
+
+            override fun onFailure(p0: Call<BaseResponseVoid>, p1: Throwable) {
+                Log.d(NETWORK, "editProject - updateProject() : 실패\nbecause $p1")
+            }
+
+        })
     }
 }

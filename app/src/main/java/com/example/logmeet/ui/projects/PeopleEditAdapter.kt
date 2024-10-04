@@ -5,22 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.logmeet.domain.entity.PeopleData
+import com.example.logmeet.data.dto.project.UserProjectDto
 import com.example.logmeet.databinding.ItemPeopleEditBinding
+import com.example.logmeet.domain.entity.ProjectRole
 
-class PeopleEditAdapter(private val data: ArrayList<PeopleData>) : RecyclerView.Adapter<PeopleEditAdapter.ViewHolder>() {
+class PeopleEditAdapter(private val data: ArrayList<UserProjectDto>) : RecyclerView.Adapter<PeopleEditAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemPeopleEditBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: PeopleData) {
-            binding.tvPeopleName.text = item.name
-            binding.ivPeopleLeaderBlue.visibility = if (item.leader) View.VISIBLE else View.GONE
-            binding.ivPeopleLeaderGray.visibility = if (item.leader) View.GONE else View.VISIBLE
+        fun bind(item: UserProjectDto) {
+            binding.tvPeopleName.text = item.userName
+            var isLeader = item.role == ProjectRole.LEADER.name
+            binding.ivPeopleLeaderBlue.visibility = if (isLeader) View.VISIBLE else View.GONE
+            binding.ivPeopleLeaderGray.visibility = if (isLeader) View.GONE else View.VISIBLE
             binding.cvPeopleLead.setOnClickListener {
                 //즐겨찾기 변경 api
                 val isLeadChange = binding.ivPeopleLeaderBlue.visibility == View.VISIBLE
                 binding.ivPeopleLeaderBlue.visibility = if (isLeadChange) View.GONE else View.VISIBLE
                 binding.ivPeopleLeaderGray.visibility = if (isLeadChange) View.VISIBLE else View.GONE
-                item.leader = isLeadChange
+//                item.leader = isLeadChange =>  leader 변한 거 저장
                 updateLeaderStatus(adapterPosition)
             }
         }
@@ -40,10 +42,10 @@ class PeopleEditAdapter(private val data: ArrayList<PeopleData>) : RecyclerView.
 
     @SuppressLint("NotifyDataSetChanged")
     private fun updateLeaderStatus(selectedPosition: Int) {
-        data.forEachIndexed { index, peopleData ->
-            peopleData.leader = index == selectedPosition
+        data.forEachIndexed { index, it ->
+            if (index == selectedPosition) it.role = ProjectRole.LEADER.name
+            else it.role = ProjectRole.MEMBER.name
         }
-
         notifyDataSetChanged()
     }
 }

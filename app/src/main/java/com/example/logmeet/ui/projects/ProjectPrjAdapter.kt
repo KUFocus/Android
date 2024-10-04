@@ -1,15 +1,27 @@
 package com.example.logmeet.ui.projects
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.logmeet.NETWORK
 import com.example.logmeet.domain.entity.ProjectDrawableResources
 import com.example.logmeet.data.dto.project.ProjectListResult
+import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectBookmarkResult
 import com.example.logmeet.databinding.ItemProjectProjectBinding
+import com.example.logmeet.network.RetrofitClient
+import com.example.logmeet.ui.application.LogmeetApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class ProjectPrjAdapter(private val data: List<ProjectListResult>) : RecyclerView.Adapter<ProjectPrjAdapter.ViewHolder>() {
+class ProjectPrjAdapter(var data: List<ProjectListResult>) : RecyclerView.Adapter<ProjectPrjAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemProjectProjectBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ProjectListResult) {
@@ -26,8 +38,14 @@ class ProjectPrjAdapter(private val data: List<ProjectListResult>) : RecyclerVie
                 ivPrjYellowStar.visibility = if (item.bookmark) View.VISIBLE else View.GONE
             }
 
+            setClickListener(item.projectId)
+        }
+
+        private fun setClickListener(projectId: Int) {
             binding.clBookmark.setOnClickListener {
-                //즐겨찾기 변경 api
+                CoroutineScope(Dispatchers.IO).launch {
+                    changeBookmark(projectId)
+                }
                 val isStarEmptyVisible = binding.ivPrjEmptyStar.visibility == View.VISIBLE
                 binding.ivPrjEmptyStar.visibility = if (isStarEmptyVisible) View.GONE else View.VISIBLE
                 binding.ivPrjYellowStar.visibility = if (isStarEmptyVisible) View.VISIBLE else View.GONE
@@ -36,9 +54,36 @@ class ProjectPrjAdapter(private val data: List<ProjectListResult>) : RecyclerVie
             binding.root.setOnClickListener {
                 val context = it.context
                 val intent = Intent(context, ProjectHomeActivity::class.java)
-                intent.putExtra("projectId", item.projectId)
+                intent.putExtra("projectId", projectId)
                 context.startActivity(intent)
             }
+        }
+
+        private suspend fun changeBookmark(projectId: Int) {
+            val bearerAccessToken =
+                LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+            RetrofitClient.project_instance.changeBookmark(
+                authorization = bearerAccessToken,
+                projectId = projectId
+            ).enqueue(object : Callback<BaseResponseProjectBookmarkResult> {
+                override fun onResponse(
+                    p0: Call<BaseResponseProjectBookmarkResult>,
+                    p1: Response<BaseResponseProjectBookmarkResult>
+                ) {
+                    when (p1.code()) {
+                        200 -> {
+                            val resp = p1.body()?.result
+                            Log.d(NETWORK, "ProjectPrjAdapter - changeBookmark() : 성공\nprojectId : $projectId => $resp")
+                        }
+                        else -> Log.d(NETWORK, "ProjectPrjAdapter - changeBookmark() : 실패")
+                    }
+                }
+
+                override fun onFailure(p0: Call<BaseResponseProjectBookmarkResult>, p1: Throwable) {
+                    Log.d(NETWORK, "ProjectPrjAdapter - changeBookmark() : 실패\nbecause $p1")
+                }
+
+            })
         }
     }
 

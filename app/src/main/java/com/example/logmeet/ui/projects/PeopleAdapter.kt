@@ -4,15 +4,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.logmeet.data.dto.project.UserProjectDto
 import com.example.logmeet.domain.entity.PeopleData
 import com.example.logmeet.databinding.ItemPeopleBinding
+import com.example.logmeet.domain.entity.ProjectRole
 
-class PeopleAdapter(private val data: ArrayList<PeopleData>) : RecyclerView.Adapter<PeopleAdapter.ViewHolder>() {
+class PeopleAdapter(private val data: ArrayList<UserProjectDto>) : RecyclerView.Adapter<PeopleAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemPeopleBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: PeopleData) {
-            binding.tvPeopleName.text = item.name
-            binding.ivPeopleLeader.visibility = if (item.leader) View.VISIBLE else View.GONE
+        fun bind(item: UserProjectDto) {
+            binding.tvPeopleName.text = item.userName
+            var isLeader = item.role == ProjectRole.LEADER.name
+            binding.ivPeopleLeader.visibility = if (isLeader) View.VISIBLE else View.GONE
         }
     }
 
