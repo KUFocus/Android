@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.NETWORK
 import com.example.logmeet.domain.entity.ProjectDrawableResources
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.project.UserProjectDto
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
 import com.example.logmeet.domain.entity.PeopleData
 import com.example.logmeet.databinding.ActivityProjectDetailBinding
@@ -21,6 +22,7 @@ import com.example.logmeet.domain.entity.ProjectColorResources
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.tag
 import com.example.logmeet.ui.application.LogmeetApplication
+import com.example.logmeet.ui.showMinutesToast
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -32,7 +34,7 @@ import java.time.format.DateTimeFormatter
 class ProjectDetailActivity : AppCompatActivity() {
     private lateinit var binding : ActivityProjectDetailBinding
     private lateinit var peopleAdapter: PeopleAdapter
-    private var peopleList: ArrayList<PeopleData> = arrayListOf()
+    private var peopleList: ArrayList<UserProjectDto> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityProjectDetailBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -48,6 +50,10 @@ class ProjectDetailActivity : AppCompatActivity() {
         lifecycleScope.launch {
             getContent()
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
     }
 
     private fun init() {
@@ -80,14 +86,7 @@ class ProjectDetailActivity : AppCompatActivity() {
                     binding.tietDetailPExplain.setText(resp.content)
                     val dateTime = resp.createdAt.substring(0, 10)
                     binding.tietDetailPDate.setText(dateTime)
-                    peopleList = arrayListOf(
-                        PeopleData("김채린", false, 1, "email"),
-                        PeopleData("구서정", false, 1, "email"),
-                        PeopleData("학생1", false, 1, "email"),
-                        PeopleData("학생2", false, 1, "email"),
-                        PeopleData("전우진", true, 1, "email"),
-                        PeopleData("학생3", false, 1, "email"),
-                    )
+                    peopleList.addAll(resp.userProjects)
                     setPeopleRv()
 
                     val number = resp.userProjects[0].color.split("_")[1]
@@ -112,12 +111,12 @@ class ProjectDetailActivity : AppCompatActivity() {
         peopleRV.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
-    private fun sortPeopleList(peopleList: ArrayList<PeopleData>): ArrayList<PeopleData> {
+    private fun sortPeopleList(peopleList: ArrayList<UserProjectDto>): ArrayList<UserProjectDto> {
         return ArrayList(
             peopleList
                 .sortedWith(
-                    compareByDescending<PeopleData> { it.leader }
-                        .thenBy { it.name }
+                    compareByDescending<UserProjectDto> { it.role }
+                        .thenBy { it.userName }
                 )
         )
     }
