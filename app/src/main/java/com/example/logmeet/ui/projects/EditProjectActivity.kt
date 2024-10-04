@@ -19,7 +19,9 @@ import com.example.logmeet.R
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
 import com.example.logmeet.domain.entity.PeopleData
 import com.example.logmeet.databinding.ActivityEditProjectBinding
+import com.example.logmeet.domain.entity.ProjectDrawableResources
 import com.example.logmeet.network.RetrofitClient
+import com.example.logmeet.tag
 import com.example.logmeet.ui.application.LogmeetApplication
 import com.example.logmeet.ui.home.MainHomeActivity
 import kotlinx.coroutines.flow.first
@@ -35,9 +37,9 @@ class EditProjectActivity : AppCompatActivity() {
     private var isNamed = false
     private var isExplained = false
     private var isColorChange = false
-    private var beforeName = ""
-    private var beforeExplain = ""
-    private var beforeColor = ""
+    private var beforeName = "-1"
+    private var beforeExplain = "-1"
+    private var beforeColor = "1"
     private var name = ""
     private var explain = ""
     private var color = ""
@@ -52,6 +54,10 @@ class EditProjectActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         lifecycleScope.launch {
             getContent()
@@ -63,7 +69,6 @@ class EditProjectActivity : AppCompatActivity() {
         binding.ivEditPBack.setOnClickListener { finish() }
         setupTextWatchers()
         setupClearBtns()
-        setupColorRadioBtn()
         updateButtonState()
     }
 
@@ -144,7 +149,12 @@ class EditProjectActivity : AppCompatActivity() {
                     )
                     setPeopleRV()
 
+                    binding.tietEditPName.setText(beforeName)
+                    binding.tvEditPTextLength.text = "${beforeName.length} / 8"
+                    binding.tietEditPExplain.setText(beforeExplain)
                     beforeColor = resp.userProjects[0].color.split("_")[1]
+                    color = beforeColor
+                    setupColorRadioBtn()
                 } else {
                     Log.d(NETWORK, "ProjectHome - getProjectDetail() : 실패")
                 }
@@ -155,12 +165,12 @@ class EditProjectActivity : AppCompatActivity() {
             }
 
         })
-
-        binding.tietEditPName.setText(beforeName)
-        binding.tvEditPTextLength.text = "${beforeName.length} / 8"
-        binding.tietEditPExplain.setText(beforeExplain)
-
-        color = beforeColor
+//        binding.tietEditPName.setText(beforeName)
+//        binding.tvEditPTextLength.text = "${beforeName.length} / 8"
+//        binding.tietEditPExplain.setText(beforeExplain)
+//        color = beforeColor
+//
+//        Log.d(tag, "22color = $color, before = $beforeColor")
     }
 
     private fun setupClearBtns() {
