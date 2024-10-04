@@ -21,7 +21,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ProjectPrjAdapter(private val data: List<ProjectListResult>) : RecyclerView.Adapter<ProjectPrjAdapter.ViewHolder>() {
+class ProjectPrjAdapter(var data: List<ProjectListResult>) : RecyclerView.Adapter<ProjectPrjAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemProjectProjectBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ProjectListResult) {

@@ -35,6 +35,7 @@ class ProjectFragment : Fragment() {
     private lateinit var projectAdapter: ProjectPrjAdapter
     private lateinit var allProjectList: List<ProjectListResult>
     private lateinit var bookmarkProjectList: List<ProjectListResult>
+    private var isProjectRVInitialized = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,10 +58,10 @@ class ProjectFragment : Fragment() {
 
     private fun init() {
         setProjectTab()
-        lifecycleScope.launch {
-            getAllProjectList()
-        }
-        initProjectRV(allProjectList)
+//        lifecycleScope.launch {
+//            getAllProjectList()
+//        }
+//        initProjectRV(allProjectList)
         binding.ivProjectAddBtn.setOnClickListener {
             val intent = Intent(requireContext(), MakeProjectActivity::class.java)
             startActivity(intent)
@@ -82,6 +83,7 @@ class ProjectFragment : Fragment() {
                 spacing
             )
         )
+        isProjectRVInitialized = true
     }
 
     private fun checkListEmpty(size: Int) {
@@ -90,13 +92,19 @@ class ProjectFragment : Fragment() {
         binding.tvProjectNoneBookmark.visibility = if (isEmpty && tabNum != 0) View.VISIBLE else View.GONE
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setProjectRV(projectList: List<ProjectListResult>) {
         checkListEmpty(projectList.size)
-        val projectRV = binding.rvProjectProjectList
-        projectAdapter = ProjectPrjAdapter(projectList)
-        projectRV.adapter = projectAdapter
-        projectRV.layoutManager =
-            GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+        if (!isProjectRVInitialized) {
+            initProjectRV(allProjectList)
+        }
+//        val projectRV = binding.rvProjectProjectList
+//        projectAdapter = ProjectPrjAdapter(projectList)
+//        projectRV.adapter = projectAdapter
+//        projectRV.layoutManager =
+//            GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+        projectAdapter.data = projectList
+        projectAdapter.notifyDataSetChanged()
     }
 
 
