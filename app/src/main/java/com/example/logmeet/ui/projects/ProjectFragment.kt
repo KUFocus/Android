@@ -57,17 +57,17 @@ class ProjectFragment : Fragment() {
 
     private fun init() {
         setProjectTab()
-//        lifecycleScope.launch {
-//            getAllProjectList()
-//        }
-//        setProjectRV(allProjectList)
+        lifecycleScope.launch {
+            getAllProjectList()
+        }
+        initProjectRV(allProjectList)
         binding.ivProjectAddBtn.setOnClickListener {
             val intent = Intent(requireContext(), MakeProjectActivity::class.java)
             startActivity(intent)
         }
     }
 
-    private fun setProjectRV(projectList: List<ProjectListResult>) {
+    private fun initProjectRV(projectList: List<ProjectListResult>) {
         checkListEmpty(projectList.size)
         val projectRV = binding.rvProjectProjectList
         val spanCount = 2
@@ -90,7 +90,7 @@ class ProjectFragment : Fragment() {
         binding.tvProjectNoneBookmark.visibility = if (isEmpty && tabNum != 0) View.VISIBLE else View.GONE
     }
 
-    private fun origin_setProjectRV(projectList: List<ProjectListResult>) {
+    private fun setProjectRV(projectList: List<ProjectListResult>) {
         checkListEmpty(projectList.size)
         val projectRV = binding.rvProjectProjectList
         projectAdapter = ProjectPrjAdapter(projectList)
