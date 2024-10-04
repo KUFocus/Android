@@ -12,7 +12,7 @@ data class UserProjectDto(
     @SerialName("userName")
     val userName: String,
     @SerialName("role")
-    val role: String,
+    var role: String,
     @SerialName("bookmark")
     val bookmark: Boolean,
     @SerialName("color")

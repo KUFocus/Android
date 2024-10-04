@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.NETWORK
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.project.UserProjectDto
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
 import com.example.logmeet.domain.entity.PeopleData
 import com.example.logmeet.databinding.ActivityEditProjectBinding
@@ -33,7 +34,7 @@ import retrofit2.Response
 class EditProjectActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProjectBinding
     private lateinit var peopleEditAdapter: PeopleEditAdapter
-    private var peopleList: ArrayList<PeopleData> = arrayListOf()
+    private var peopleList: ArrayList<UserProjectDto> = arrayListOf()
     private var isNamed = false
     private var isExplained = false
     private var isColorChange = false
@@ -80,12 +81,12 @@ class EditProjectActivity : AppCompatActivity() {
         peopleRV.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
-    private fun sortPeopleList(peopleList: ArrayList<PeopleData>): ArrayList<PeopleData> {
+    private fun sortPeopleList(peopleList: ArrayList<UserProjectDto>): ArrayList<UserProjectDto> {
         return ArrayList(
             peopleList
                 .sortedWith(
-                    compareByDescending<PeopleData> { it.leader }
-                        .thenBy { it.name }
+                    compareByDescending<UserProjectDto> { it.role }
+                        .thenBy { it.userName }
                 )
         )
     }
@@ -139,14 +140,7 @@ class EditProjectActivity : AppCompatActivity() {
                     beforeExplain = resp.content
                     val dateTime = resp.createdAt.substring(0, 10)
                     binding.tietEditPDate.setText(dateTime)
-                    peopleList = arrayListOf(
-                        PeopleData("김채린", false, 1, "email"),
-                        PeopleData("구서정", false, 1, "email"),
-                        PeopleData("학생1", false, 1, "email"),
-                        PeopleData("학생2", false, 1, "email"),
-                        PeopleData("전우진", true, 1, "email"),
-                        PeopleData("학생3", false, 1, "email"),
-                    )
+                    peopleList.addAll(resp.userProjects)
                     setPeopleRV()
 
                     binding.tietEditPName.setText(beforeName)
