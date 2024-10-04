@@ -13,7 +13,10 @@ import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectBook
 import com.example.logmeet.databinding.ItemProjectProjectBinding
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.ui.application.LogmeetApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,7 +43,9 @@ class ProjectPrjAdapter(private val data: List<ProjectListResult>) : RecyclerVie
 
         private fun setClickListener(projectId: Int) {
             binding.clBookmark.setOnClickListener {
-                changeBookmark(projectId)
+                CoroutineScope(Dispatchers.IO).launch {
+                    changeBookmark(projectId)
+                }
                 val isStarEmptyVisible = binding.ivPrjEmptyStar.visibility == View.VISIBLE
                 binding.ivPrjEmptyStar.visibility = if (isStarEmptyVisible) View.GONE else View.VISIBLE
                 binding.ivPrjYellowStar.visibility = if (isStarEmptyVisible) View.VISIBLE else View.GONE
@@ -54,11 +59,11 @@ class ProjectPrjAdapter(private val data: List<ProjectListResult>) : RecyclerVie
             }
         }
 
-        private fun changeBookmark(projectId: Int) {
+        private suspend fun changeBookmark(projectId: Int) {
             val bearerAccessToken =
-                LogmeetApplication.getInstance().getDataStore().bearerAccessToken
+                LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
             RetrofitClient.project_instance.changeBookmark(
-                authorization = bearerAccessToken.toString(),
+                authorization = bearerAccessToken,
                 projectId = projectId
             ).enqueue(object : Callback<BaseResponseProjectBookmarkResult> {
                 override fun onResponse(
