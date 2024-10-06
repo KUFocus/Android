@@ -25,8 +25,8 @@ class Join2Activity : AppCompatActivity() {
         binding = ActivityJoin2Binding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(binding.root)
 
+        setContentView(binding.root)
         setupWindowInsets()
         setupClickListeners()
         setupTextWatchers()
@@ -47,7 +47,9 @@ class Join2Activity : AppCompatActivity() {
         binding.ivJoin2CodeClear.setOnClickListener { binding.tietJoin2Code.setText("") }
 
         binding.tvJoin2Send.setOnClickListener {
-
+            binding.tietJoin2Email.clearFocus()
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(binding.tietJoin2Email.windowToken, 0)
         }
         binding.tvJoin2Resend.setOnClickListener {
             // 인증 코드 다시 보내기
