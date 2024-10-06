@@ -197,7 +197,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="입력하신 이메일로 인증코드가 발송되었습니다."
-            style="@style/caption"
+            style="@style/body3B"
             android:textColor="@color/main_blue"
             app:layout_constraintStart_toEndOf="@id/iv_join2_email_done"
             app:layout_constraintTop_toTopOf="@id/iv_join2_email_done"
@@ -229,7 +229,7 @@
         app:layout_constraintTop_toBottomOf="@id/tiet_join2_email"
         app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:visibility="gone">
 
         <TextView
