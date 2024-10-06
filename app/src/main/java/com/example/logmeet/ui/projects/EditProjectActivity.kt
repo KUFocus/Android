@@ -159,12 +159,6 @@ class EditProjectActivity : AppCompatActivity() {
             }
 
         })
-//        binding.tietEditPName.setText(beforeName)
-//        binding.tvEditPTextLength.text = "${beforeName.length} / 8"
-//        binding.tietEditPExplain.setText(beforeExplain)
-//        color = beforeColor
-//
-//        Log.d(tag, "22color = $color, before = $beforeColor")
     }
 
     private fun setupClearBtns() {
@@ -267,8 +261,6 @@ class EditProjectActivity : AppCompatActivity() {
                 when (p1.code()) {
                     200 -> {
                         Log.d(NETWORK, "editProject - updateProject() : 성공")
-//                        val intent = Intent(this@EditProjectActivity, MainHomeActivity::class.java)
-//                        startActivity(intent)
                         finish()
                     }
                     else -> Log.d(NETWORK, "editProject - updateProject() : 실패")
