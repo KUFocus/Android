@@ -14,9 +14,22 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.databinding.adapters.TextViewBindingAdapter.setText
+import androidx.lifecycle.lifecycleScope
 import com.example.logmeet.MainActivity
 import com.example.logmeet.R
 import com.example.logmeet.databinding.ActivityJoin2Binding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.Properties
+import javax.mail.Authenticator
+import javax.mail.Message
+import javax.mail.PasswordAuthentication
+import javax.mail.Session
+import javax.mail.Transport
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeMessage
 
 class Join2Activity : AppCompatActivity() {
     private lateinit var binding: ActivityJoin2Binding
@@ -52,16 +65,43 @@ class Join2Activity : AppCompatActivity() {
             binding.tietJoin2Email.clearFocus()
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(binding.tietJoin2Email.windowToken, 0)
-            sendCodeToUserEmail()
+            lifecycleScope.launch {
+                sendCodeToUserEmail()
+            }
         }
         binding.tvJoin2Resend.setOnClickListener {
-            sendCodeToUserEmail()
+            lifecycleScope.launch {
+                sendCodeToUserEmail()
+            }
         }
     }
 
-    private fun sendCodeToUserEmail() {
+    private suspend fun sendCodeToUserEmail() = withContext(Dispatchers.IO) {
         verificationCode = (100000..999999).random()
+        try {
+            val props = Properties()
+            props["mail.smtp.host"] = "smtp.gmail.com"
+            props["mail.smtp.port"] = "587"
+            props["mail.smtp.auth"] = "true"
+            props["mail.smtp.starttls.enable"] = "true"
 
+            val session = Session.getInstance(props, object : Authenticator() {
+                override fun getPasswordAuthentication(): PasswordAuthentication {
+                    return PasswordAuthentication("rinring105@gmail.com", "gbmy yryz akxb fozw")
+                }
+            })
+
+            val message = MimeMessage(session).apply {
+                setFrom(InternetAddress("your_email@gmail.com"))
+                setRecipients(Message.RecipientType.TO, InternetAddress.parse(userEmail))
+                subject = "Verification Code"
+                setText("Your verification code is $verificationCode")
+            }
+
+            Transport.send(message)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 
