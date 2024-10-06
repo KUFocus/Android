@@ -18,11 +18,9 @@ class PeopleEditAdapter(private val data: ArrayList<UserProjectDto>) : RecyclerV
             binding.ivPeopleLeaderBlue.visibility = if (isLeader) View.VISIBLE else View.GONE
             binding.ivPeopleLeaderGray.visibility = if (isLeader) View.GONE else View.VISIBLE
             binding.cvPeopleLead.setOnClickListener {
-                //즐겨찾기 변경 api
                 val isLeadChange = binding.ivPeopleLeaderBlue.visibility == View.VISIBLE
                 binding.ivPeopleLeaderBlue.visibility = if (isLeadChange) View.GONE else View.VISIBLE
                 binding.ivPeopleLeaderGray.visibility = if (isLeadChange) View.VISIBLE else View.GONE
-//                item.leader = isLeadChange =>  leader 변한 거 저장
                 updateLeaderStatus(adapterPosition)
             }
         }
