@@ -3,9 +3,9 @@ package com.example.logmeet.ui.join
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.service.autofill.Validators.and
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
@@ -14,11 +14,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import androidx.lifecycle.lifecycleScope
-import com.example.logmeet.MainActivity
 import com.example.logmeet.R
 import com.example.logmeet.databinding.ActivityJoin2Binding
+import com.example.logmeet.tag
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -61,17 +61,8 @@ class Join2Activity : AppCompatActivity() {
         binding.ivJoin2EmailClear.setOnClickListener { binding.tietJoin2Email.setText("") }
         binding.ivJoin2CodeClear.setOnClickListener { binding.tietJoin2Code.setText("") }
 
-        binding.tvJoin2Send.setOnClickListener {
-            binding.tietJoin2Email.clearFocus()
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(binding.tietJoin2Email.windowToken, 0)
-            binding.clJoin2EmailError.visibility = View.GONE
-            binding.clJoin2EmailDone.visibility = View.VISIBLE
-            lifecycleScope.launch {
-                sendCodeToUserEmail()
-            }
-        }
         binding.tvJoin2Resend.setOnClickListener {
+            binding.tietJoin2Code.setText("")
             lifecycleScope.launch {
                 sendCodeToUserEmail()
             }
@@ -96,8 +87,8 @@ class Join2Activity : AppCompatActivity() {
             val message = MimeMessage(session).apply {
                 setFrom(InternetAddress("rinring105@gmail.com"))
                 setRecipients(Message.RecipientType.TO, InternetAddress.parse(userEmail))
-                subject = "Verification Code"
-                setText("Your verification code is $verificationCode")
+                subject = "[Logmeet] 이메일 인증코드"
+                setText("안녕하세요, 로그밋입니다.\n 인증코드는 다음과 같습니다. 앱에 인증코드 6자리를 입력해주세요. \n$verificationCode")
             }
 
             Transport.send(message)
@@ -119,9 +110,9 @@ class Join2Activity : AppCompatActivity() {
             },
             afterTextChanged = { s ->
                 toggleSendButton(s, binding.tvJoin2Send, binding.clJoin2EmailError) {
+                    userEmail = s.toString()
                     sendEmailVerification()
                 }
-                userEmail = s.toString()
             }
         ))
     }
@@ -133,7 +124,7 @@ class Join2Activity : AppCompatActivity() {
             },
             afterTextChanged = { s ->
                 toggleSendButton(s, binding.tvJoin2Certify, binding.clJoin2CodeError) {
-                    verifyCode()
+                    verifyCode(s.toString())
                 }
             }
         ))
@@ -183,23 +174,34 @@ class Join2Activity : AppCompatActivity() {
     }
 
     private fun sendEmailVerification() {
+        binding.clJoin2EmailDone.visibility = View.VISIBLE
+        binding.tietJoin2Email.clearFocus()
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.tietJoin2Email.windowToken, 0)
+        binding.clJoin2EmailError.visibility = View.GONE
+        lifecycleScope.launch {
+            sendCodeToUserEmail()
+            Log.d(tag, "setupClickListeners: 실행")
+        }
         binding.ivJoin2EmailClear.visibility = View.GONE
         binding.tvJoin2Send.visibility = View.GONE
         binding.clCode.visibility = View.VISIBLE
         hideKeyboard(binding.tvJoin2Send)
     }
 
-    private fun verifyCode() {
-        //코드 확인
-        binding.clJoin2CodeError.visibility = View.VISIBLE
+    private fun verifyCode(inputCode: String) {
+        if (verificationCode.toString() == inputCode) {
+            binding.ivJoin2CodeClear.visibility = View.GONE
+            binding.tvJoin2Resend.visibility = View.GONE
+            binding.tvJoin2Certify.visibility = View.GONE
+            binding.clJoin2CodeError.visibility = View.GONE
+            binding.tvJoin2DoneMsg.visibility = View.VISIBLE
+            binding.tvJoin2Next.visibility = View.VISIBLE
 
-        binding.ivJoin2CodeClear.visibility = View.GONE
-        binding.tvJoin2Resend.visibility = View.GONE
-        binding.tvJoin2Certify.visibility = View.GONE
-        binding.clJoin2CodeError.visibility = View.GONE
-        binding.tvJoin2DoneMsg.visibility = View.VISIBLE
-        binding.tvJoin2Next.visibility = View.VISIBLE
-        hideKeyboard(binding.tvJoin2Certify)
+            hideKeyboard(binding.tvJoin2Certify)
+        } else {
+            binding.clJoin2CodeError.visibility = View.VISIBLE
+        }
 
         binding.tvJoin2Next.setOnClickListener {
             val intent = Intent(this@Join2Activity, Join3Activity::class.java)
