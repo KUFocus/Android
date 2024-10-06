@@ -64,7 +64,7 @@ class ProjectHomeActivity : AppCompatActivity() {
         binding.rvPrjHomeScheduleList.visibility = if (isScheduleEmpty) View.GONE else View.VISIBLE
         if (!isScheduleEmpty) setScheduleRV()
 
-        setMinutesListData("12")
+        setMinutesListData()
         val isMinutesEmpty = minutesList.isEmpty()
         binding.tvPrjHomeNoneMinutes.visibility = if (isMinutesEmpty) View.VISIBLE else View.GONE
         binding.rvPrjHomeMinutesList.visibility = if (isMinutesEmpty) View.GONE else View.VISIBLE
@@ -119,25 +119,12 @@ class ProjectHomeActivity : AppCompatActivity() {
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
-    private fun setMinutesListData(color: String) {
-        minutesList.addAll(
-            arrayListOf(
-                MinutesData(0, "1차 회의록", "2024.03.04",  color, 0, false),
-                MinutesData(1, "2차 회의록", "2024.03.04",  color, 2, true),
-                MinutesData(4, "3차 회의록", "2024.03.04",  color, 1, false),
-                MinutesData(5, "1차 회의록", "2024.03.04",  color, 0, false),
-                MinutesData(6, "2차 회의록", "2024.03.04",  color, 2, true),
-                MinutesData(7, "3차 회의록", "2024.03.04",  color, 1, false),
-                MinutesData(8, "1차 회의록", "2024.03.04",  color, 0, false),
-                MinutesData(9, "2차 회의록", "2024.03.04",  color, 2, true),
-                MinutesData(41, "3차 회의록", "2024.03.04", color, 1, false),
-                MinutesData(20, "1차 회의록", "2024.03.04", color, 0, false),
-            )
-        )
+    private fun setMinutesListData() {
+        //회의록 데이터 불러오기
     }
 
     private fun setScheduleListData() {
-
+        //스케줄 목록 불러오기
     }
 
     private fun setScheduleRV() {
