@@ -42,6 +42,18 @@ android {
         dataBinding = true
         compose = true
     }
+    packaging {
+        resources {
+            excludes += listOf(
+                "META-INF/DEPENDENCIES",
+                "META-INF/LICENSE",
+                "META-INF/LICENSE.md",
+                "META-INF/NOTICE",
+                "META-INF/NOTICE.md",
+                "META-INF/ASL2.0"
+            )
+        }
+    }
 }
 
 dependencies {

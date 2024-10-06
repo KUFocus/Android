@@ -65,6 +65,8 @@ class Join2Activity : AppCompatActivity() {
             binding.tietJoin2Email.clearFocus()
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(binding.tietJoin2Email.windowToken, 0)
+            binding.clJoin2EmailError.visibility = View.GONE
+            binding.clJoin2EmailDone.visibility = View.VISIBLE
             lifecycleScope.launch {
                 sendCodeToUserEmail()
             }
@@ -92,7 +94,7 @@ class Join2Activity : AppCompatActivity() {
             })
 
             val message = MimeMessage(session).apply {
-                setFrom(InternetAddress("your_email@gmail.com"))
+                setFrom(InternetAddress("rinring105@gmail.com"))
                 setRecipients(Message.RecipientType.TO, InternetAddress.parse(userEmail))
                 subject = "Verification Code"
                 setText("Your verification code is $verificationCode")
