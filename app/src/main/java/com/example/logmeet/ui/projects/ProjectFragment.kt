@@ -50,6 +50,7 @@ class ProjectFragment : Fragment() {
     @SuppressLint("ResourceAsColor")
     override fun onResume() {
         super.onResume()
+
         lifecycleScope.launch {
             getAllProjectList()
         }
@@ -92,6 +93,7 @@ class ProjectFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun setProjectRV(projectList: List<ProjectListResult>) {
+        Log.d(tag, "setProjectRV: 실행됨 \nprojectList $projectList")
         checkListEmpty(projectList.size)
         if (!isProjectRVInitialized) {
             initProjectRV(allProjectList)
