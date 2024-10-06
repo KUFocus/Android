@@ -20,6 +20,8 @@ import com.example.logmeet.databinding.ActivityJoin2Binding
 
 class Join2Activity : AppCompatActivity() {
     private lateinit var binding: ActivityJoin2Binding
+    private var userEmail = ""
+    private var verificationCode = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityJoin2Binding.inflate(layoutInflater)
@@ -50,11 +52,18 @@ class Join2Activity : AppCompatActivity() {
             binding.tietJoin2Email.clearFocus()
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(binding.tietJoin2Email.windowToken, 0)
+            sendCodeToUserEmail()
         }
         binding.tvJoin2Resend.setOnClickListener {
-            // 인증 코드 다시 보내기
+            sendCodeToUserEmail()
         }
     }
+
+    private fun sendCodeToUserEmail() {
+        verificationCode = (100000..999999).random()
+
+    }
+
 
     private fun setupTextWatchers() {
         setupEmailTextWatcher()
@@ -70,6 +79,7 @@ class Join2Activity : AppCompatActivity() {
                 toggleSendButton(s, binding.tvJoin2Send, binding.clJoin2EmailError) {
                     sendEmailVerification()
                 }
+                userEmail = s.toString()
             }
         ))
     }
@@ -138,9 +148,13 @@ class Join2Activity : AppCompatActivity() {
     }
 
     private fun verifyCode() {
+        //코드 확인
+        binding.clJoin2CodeError.visibility = View.VISIBLE
+
         binding.ivJoin2CodeClear.visibility = View.GONE
         binding.tvJoin2Resend.visibility = View.GONE
         binding.tvJoin2Certify.visibility = View.GONE
+        binding.clJoin2CodeError.visibility = View.GONE
         binding.tvJoin2DoneMsg.visibility = View.VISIBLE
         binding.tvJoin2Next.visibility = View.VISIBLE
         hideKeyboard(binding.tvJoin2Certify)

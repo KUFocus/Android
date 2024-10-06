@@ -257,7 +257,7 @@
                 android:id="@+id/tv_join2_code_error_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/type_error_message"
+                android:text="인증코드가 일치하지 않습니다."
                 style="@style/caption"
                 android:textColor="@color/error"
                 app:layout_constraintStart_toEndOf="@id/iv_join2_code_error"
