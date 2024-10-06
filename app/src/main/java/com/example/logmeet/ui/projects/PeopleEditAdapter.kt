@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.logmeet.data.dto.project.UserProjectDto
 import com.example.logmeet.databinding.ItemPeopleEditBinding
 import com.example.logmeet.domain.entity.ProjectRole
+import com.example.logmeet.ui.CheckDialog
 
 class PeopleEditAdapter(private val data: ArrayList<UserProjectDto>) : RecyclerView.Adapter<PeopleEditAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemPeopleEditBinding) :
@@ -18,10 +19,7 @@ class PeopleEditAdapter(private val data: ArrayList<UserProjectDto>) : RecyclerV
             binding.ivPeopleLeaderBlue.visibility = if (isLeader) View.VISIBLE else View.GONE
             binding.ivPeopleLeaderGray.visibility = if (isLeader) View.GONE else View.VISIBLE
             binding.cvPeopleLead.setOnClickListener {
-                val isLeadChange = binding.ivPeopleLeaderBlue.visibility == View.VISIBLE
-                binding.ivPeopleLeaderBlue.visibility = if (isLeadChange) View.GONE else View.VISIBLE
-                binding.ivPeopleLeaderGray.visibility = if (isLeadChange) View.VISIBLE else View.GONE
-                updateLeaderStatus(adapterPosition)
+                checkDialog(binding, adapterPosition)
             }
         }
     }
@@ -45,5 +43,21 @@ class PeopleEditAdapter(private val data: ArrayList<UserProjectDto>) : RecyclerV
             else it.role = ProjectRole.MEMBER.name
         }
         notifyDataSetChanged()
+    }
+
+    private fun checkDialog(binding: ItemPeopleEditBinding, adapterPosition: Int) {
+        val dialog = CheckDialog(binding.root.context)
+
+        dialog.setItemClickListener(object : CheckDialog.ItemClickListener{
+            override fun onClick() {
+                //api
+                val isLeadChange = binding.ivPeopleLeaderBlue.visibility == View.VISIBLE
+                binding.ivPeopleLeaderBlue.visibility = if (isLeadChange) View.GONE else View.VISIBLE
+                binding.ivPeopleLeaderGray.visibility = if (isLeadChange) View.VISIBLE else View.GONE
+                updateLeaderStatus(adapterPosition)
+            }
+        })
+
+        dialog.show()
     }
 }
