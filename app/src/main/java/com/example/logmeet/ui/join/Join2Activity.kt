@@ -195,6 +195,7 @@ class Join2Activity : AppCompatActivity() {
             binding.tvJoin2Resend.visibility = View.GONE
             binding.tvJoin2Certify.visibility = View.GONE
             binding.clJoin2CodeError.visibility = View.GONE
+            binding.ivJoin2EmailDone.visibility = View.GONE
             binding.tvJoin2DoneMsg.visibility = View.VISIBLE
             binding.tvJoin2Next.visibility = View.VISIBLE
 
