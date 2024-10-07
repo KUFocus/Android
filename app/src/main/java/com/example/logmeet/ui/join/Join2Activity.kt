@@ -3,9 +3,9 @@ package com.example.logmeet.ui.join
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.service.autofill.Validators.and
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
@@ -14,19 +14,34 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.logmeet.MainActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.logmeet.R
 import com.example.logmeet.databinding.ActivityJoin2Binding
+import com.example.logmeet.tag
+import com.google.android.material.internal.ViewUtils.hideKeyboard
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.Properties
+import javax.mail.Authenticator
+import javax.mail.Message
+import javax.mail.PasswordAuthentication
+import javax.mail.Session
+import javax.mail.Transport
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeMessage
 
 class Join2Activity : AppCompatActivity() {
     private lateinit var binding: ActivityJoin2Binding
+    private var userEmail = ""
+    private var verificationCode = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityJoin2Binding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(binding.root)
 
+        setContentView(binding.root)
         setupWindowInsets()
         setupClickListeners()
         setupTextWatchers()
@@ -46,13 +61,42 @@ class Join2Activity : AppCompatActivity() {
         binding.ivJoin2EmailClear.setOnClickListener { binding.tietJoin2Email.setText("") }
         binding.ivJoin2CodeClear.setOnClickListener { binding.tietJoin2Code.setText("") }
 
-        binding.tvJoin2Send.setOnClickListener {
-
-        }
         binding.tvJoin2Resend.setOnClickListener {
-            // 인증 코드 다시 보내기
+            binding.tietJoin2Code.setText("")
+            lifecycleScope.launch {
+                sendCodeToUserEmail()
+            }
         }
     }
+
+    private suspend fun sendCodeToUserEmail() = withContext(Dispatchers.IO) {
+        verificationCode = (100000..999999).random()
+        try {
+            val props = Properties()
+            props["mail.smtp.host"] = "smtp.gmail.com"
+            props["mail.smtp.port"] = "587"
+            props["mail.smtp.auth"] = "true"
+            props["mail.smtp.starttls.enable"] = "true"
+
+            val session = Session.getInstance(props, object : Authenticator() {
+                override fun getPasswordAuthentication(): PasswordAuthentication {
+                    return PasswordAuthentication("rinring105@gmail.com", "gbmy yryz akxb fozw")
+                }
+            })
+
+            val message = MimeMessage(session).apply {
+                setFrom(InternetAddress("rinring105@gmail.com"))
+                setRecipients(Message.RecipientType.TO, InternetAddress.parse(userEmail))
+                subject = "[Logmeet] 이메일 인증코드"
+                setText("안녕하세요, 로그밋입니다.\n 인증코드는 다음과 같습니다. 앱에 인증코드 6자리를 입력해주세요. \n$verificationCode")
+            }
+
+            Transport.send(message)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
 
     private fun setupTextWatchers() {
         setupEmailTextWatcher()
@@ -66,6 +110,7 @@ class Join2Activity : AppCompatActivity() {
             },
             afterTextChanged = { s ->
                 toggleSendButton(s, binding.tvJoin2Send, binding.clJoin2EmailError) {
+                    userEmail = s.toString()
                     sendEmailVerification()
                 }
             }
@@ -79,7 +124,7 @@ class Join2Activity : AppCompatActivity() {
             },
             afterTextChanged = { s ->
                 toggleSendButton(s, binding.tvJoin2Certify, binding.clJoin2CodeError) {
-                    verifyCode()
+                    verifyCode(s.toString())
                 }
             }
         ))
@@ -129,19 +174,35 @@ class Join2Activity : AppCompatActivity() {
     }
 
     private fun sendEmailVerification() {
+        binding.clJoin2EmailDone.visibility = View.VISIBLE
+        binding.tietJoin2Email.clearFocus()
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.tietJoin2Email.windowToken, 0)
+        binding.clJoin2EmailError.visibility = View.GONE
+        lifecycleScope.launch {
+            sendCodeToUserEmail()
+            Log.d(tag, "setupClickListeners: 실행")
+        }
         binding.ivJoin2EmailClear.visibility = View.GONE
         binding.tvJoin2Send.visibility = View.GONE
         binding.clCode.visibility = View.VISIBLE
         hideKeyboard(binding.tvJoin2Send)
     }
 
-    private fun verifyCode() {
-        binding.ivJoin2CodeClear.visibility = View.GONE
-        binding.tvJoin2Resend.visibility = View.GONE
-        binding.tvJoin2Certify.visibility = View.GONE
-        binding.tvJoin2DoneMsg.visibility = View.VISIBLE
-        binding.tvJoin2Next.visibility = View.VISIBLE
-        hideKeyboard(binding.tvJoin2Certify)
+    private fun verifyCode(inputCode: String) {
+        if (verificationCode.toString() == inputCode) {
+            binding.ivJoin2CodeClear.visibility = View.GONE
+            binding.tvJoin2Resend.visibility = View.GONE
+            binding.tvJoin2Certify.visibility = View.GONE
+            binding.clJoin2CodeError.visibility = View.GONE
+            binding.ivJoin2EmailDone.visibility = View.GONE
+            binding.tvJoin2DoneMsg.visibility = View.VISIBLE
+            binding.tvJoin2Next.visibility = View.VISIBLE
+
+            hideKeyboard(binding.tvJoin2Certify)
+        } else {
+            binding.clJoin2CodeError.visibility = View.VISIBLE
+        }
 
         binding.tvJoin2Next.setOnClickListener {
             val intent = Intent(this@Join2Activity, Join3Activity::class.java)
