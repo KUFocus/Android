@@ -46,7 +46,7 @@ class PeopleEditAdapter(private val data: ArrayList<UserProjectDto>) : RecyclerV
     }
 
     private fun checkDialog(binding: ItemPeopleEditBinding, adapterPosition: Int) {
-        val dialog = CheckDialog(binding.root.context)
+        val dialog = CheckDialog(binding.root.context, "${data[adapterPosition].userName}님을\n리더로 설정합니다.")
 
         dialog.setItemClickListener(object : CheckDialog.ItemClickListener{
             override fun onClick() {
