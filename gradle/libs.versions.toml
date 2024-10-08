@@ -27,6 +27,7 @@ lifecycleViewmodelKtx = "2.9.0-alpha03"
 lifecycleLivedataKtx = "2.9.0-alpha03"
 androidMail = "1.6.7"
 androidActivation = "1.6.7"
+fragment = "1.8.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -55,6 +56,7 @@ androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifec
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 android-mail = { group = "com.sun.mail", name = "android-mail", version.ref = "androidMail" }
 android-activation = { group = "com.sun.mail", name = "android-activation", version.ref = "androidActivation" }
+androidx-fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
 #kakao-sdk-all = { group = "com.kakao.sdk", name = "v2-all", version = "2.20.3" }
 #kakao-sdk-user = { group = "com.kakao.sdk", name = "v2-user", version = "2.20.3" }
 #kakao-sdk-share = { group = "com.kakao.sdk", name = "v2-share", version = "2.20.3" }

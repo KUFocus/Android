@@ -257,4 +257,10 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="30dp"/>
 
+    <FrameLayout
+        android:id="@+id/fl_sidebar_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

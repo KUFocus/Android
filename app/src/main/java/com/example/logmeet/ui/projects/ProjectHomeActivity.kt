@@ -49,6 +49,9 @@ class ProjectHomeActivity : AppCompatActivity() {
         }
 
         binding.ivPrjHomeBack.setOnClickListener { finish() }
+        binding.ivPrjHomeBurgerMenu.setOnClickListener {
+            val sidebar = ProjectSidebarFragment()
+        }
         init()
     }
 
