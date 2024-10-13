@@ -41,7 +41,7 @@
         android:layout_marginEnd="18dp">
 
         <ImageView
-            android:id="@+id/iv_prj_side_star"
+            android:id="@+id/iv_prj_side_empty_star"
             android:layout_width="26dp"
             android:layout_height="26dp"
             android:src="@drawable/ic_empty_star"
@@ -50,6 +50,17 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="10dp"/>
 
+        <ImageView
+            android:id="@+id/iv_prj_side_full_star"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@drawable/ic_yellow_star"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"
+            android:visibility="gone"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,8 +68,8 @@
             style="@style/body2M"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_prj_side_star"
-            android:layout_marginStart="8dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="50dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

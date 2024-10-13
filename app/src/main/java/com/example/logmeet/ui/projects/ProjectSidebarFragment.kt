@@ -1,5 +1,6 @@
 package com.example.logmeet.ui.projects
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,20 +9,46 @@ import android.view.ViewGroup
 import com.example.logmeet.R
 import com.example.logmeet.databinding.FragmentProjectSidebarBinding
 
-class ProjectSidebarFragment : Fragment(), View.OnClickListener {
+class ProjectSidebarFragment(
+    val projectId: Int,
+    val projectName: String,
+    val isStar: Boolean,
+    val projectHomeActivity: ProjectHomeActivity
+) : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentProjectSidebarBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentProjectSidebarBinding.inflate(inflater, container, false)
 
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.tvPrjSideName.text = "${projectName}입니다 :)"
+        binding.ivPrjSideEmptyStar.visibility = if (isStar) View.GONE else View.VISIBLE
+        binding.ivPrjSideFullStar.visibility = if (isStar) View.VISIBLE else View.GONE
+
+        binding.clPrjSideStar.setOnClickListener(this)
+        binding.clPrjSideNotice.setOnClickListener(this)
+        binding.clPrjSideMinutes.setOnClickListener(this)
+        binding.clPrjSideCalendar.setOnClickListener(this)
+        binding.clPrjSideSetting.setOnClickListener(this)
+        binding.clPrjSideInvite.setOnClickListener(this)
+    }
+
     override fun onClick(v: View?) {
-        TODO("Not yet implemented")
+        when (v?.id) {
+            R.id.cl_prj_side_star -> {
+                //즐겨찾기 api
+
+            }
+        }
     }
 
 }
