@@ -9,6 +9,7 @@ import com.example.logmeet.data.dto.project.api_response.BaseResponseListProject
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectBookmarkResult
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -60,5 +61,13 @@ interface ProjectController {
         projectId: Int,
         @Body
         projectUpdateReqeust: ProjectUpdateReqeust
+    ): Call<BaseResponseVoid>
+
+    @DELETE("projects/{projectId}/leave")
+    fun leaveProject(
+        @Header("Authorization")
+        authorization: String,
+        @Path("projectId")
+        projectId: Int
     ): Call<BaseResponseVoid>
 }

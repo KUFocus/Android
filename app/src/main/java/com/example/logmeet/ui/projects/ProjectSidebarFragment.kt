@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.logmeet.NETWORK
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.BaseResponseVoid
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectBookmarkResult
 import com.example.logmeet.databinding.FragmentProjectSidebarBinding
 import com.example.logmeet.network.RetrofitClient
@@ -47,6 +48,7 @@ class ProjectSidebarFragment(
         binding.clPrjSideCalendar.setOnClickListener(this)
         binding.clPrjSideSetting.setOnClickListener(this)
         binding.clPrjSideInvite.setOnClickListener(this)
+        binding.clPrjSideExit.setOnClickListener(this)
         return binding.root
     }
 
@@ -59,7 +61,7 @@ class ProjectSidebarFragment(
         when (v?.id) {
             R.id.cl_prj_side_star -> {
                 CoroutineScope(Dispatchers.IO).launch {
-                    changeBookmark(projectId)
+                    changeBookmark()
                 }
                 isBookmark = !isBookmark
                 binding.ivPrjSideEmptyStar.visibility = if (isBookmark) View.GONE else View.VISIBLE
@@ -81,12 +83,38 @@ class ProjectSidebarFragment(
 
             }
             R.id.cl_prj_side_exit -> {
-
+                CoroutineScope(Dispatchers.IO).launch {
+                    leaveProject()
+                }
             }
         }
     }
 
-    private suspend fun changeBookmark(projectId: Int) {
+    private suspend fun leaveProject() {
+        val bearerAccessToken =
+            LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+        RetrofitClient.project_instance.leaveProject(
+            authorization = bearerAccessToken,
+            projectId = projectId
+        ).enqueue(object : Callback<BaseResponseVoid> {
+            override fun onResponse(p0: Call<BaseResponseVoid>, p1: Response<BaseResponseVoid>) {
+                when (p1.code()) {
+                    200 -> {
+                        val resp = p1.body()?.result
+                        Log.d(NETWORK, "ProjectSidebar - leaveProject() : 성공\nprojectId : $projectId => $resp")
+                    }
+                    else -> Log.d(NETWORK, "ProjectSidebar - leaveProject() : 실패")
+                }
+            }
+
+            override fun onFailure(p0: Call<BaseResponseVoid>, p1: Throwable) {
+                Log.d(NETWORK, "ProjectSidebar - leaveProject() : 실패\nbecause $p1")
+            }
+
+        })
+    }
+
+    private suspend fun changeBookmark() {
         val bearerAccessToken =
             LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
         RetrofitClient.project_instance.changeBookmark(
