@@ -52,18 +52,8 @@ class ProjectHomeActivity : AppCompatActivity() {
             insets
         }
 
-        drawerLayout = binding.root
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fl_sidebar_menu, ProjectSidebarFragment(
-                1, "", false, this@ProjectHomeActivity
-            )).commit()
-
-        binding.ivPrjHomeBack.setOnClickListener { finish() }
-        binding.ivPrjHomeBurgerMenu.setOnClickListener {
-            Log.d("chrin", "버거메뉴 클릭됨")
-            drawerLayout.openDrawer(GravityCompat.END)
-        }
         init()
+        binding.ivPrjHomeBack.setOnClickListener { finish() }
     }
 
     private fun init() {
@@ -111,6 +101,17 @@ class ProjectHomeActivity : AppCompatActivity() {
                                 color
                             )
                         )
+
+                        drawerLayout = binding.root
+                        supportFragmentManager.beginTransaction()
+                            .replace(
+                                R.id.fl_sidebar_menu, ProjectSidebarFragment(
+                                    resp.projectId, resp.name, resp.userProjects[0].bookmark, this@ProjectHomeActivity
+                                )
+                            ).commit()
+                        binding.ivPrjHomeBurgerMenu.setOnClickListener {
+                            drawerLayout.openDrawer(GravityCompat.END)
+                        }
                     } else {
                         Log.d(tag, "onResponse: ProjectHome (90) color = null")
                     }
