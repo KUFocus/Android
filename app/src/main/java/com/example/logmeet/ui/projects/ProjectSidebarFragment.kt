@@ -15,20 +15,15 @@ class ProjectSidebarFragment(
     val isStar: Boolean,
     val projectHomeActivity: ProjectHomeActivity
 ) : Fragment(), View.OnClickListener {
-    private lateinit var binding: FragmentProjectSidebarBinding
+//    private lateinit var binding: FragmentProjectSidebarBinding
+    private var _binding: FragmentProjectSidebarBinding? =null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentProjectSidebarBinding.inflate(inflater, container, false)
-
-        return binding.root
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentProjectSidebarBinding.inflate(inflater, container, false)
 
         binding.tvPrjSideName.text = "${projectName}입니다 :)"
         binding.ivPrjSideEmptyStar.visibility = if (isStar) View.GONE else View.VISIBLE
@@ -40,15 +35,15 @@ class ProjectSidebarFragment(
         binding.clPrjSideCalendar.setOnClickListener(this)
         binding.clPrjSideSetting.setOnClickListener(this)
         binding.clPrjSideInvite.setOnClickListener(this)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.cl_prj_side_star -> {
-                //즐겨찾기 api
-
-            }
-        }
     }
 
 }

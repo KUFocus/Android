@@ -1,266 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.projects.ProjectHomeActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".ui.projects.ProjectHomeActivity">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guide_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.05"/>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guide_end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.95"/>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guide_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.03"/>
-
-    <View
-        android:id="@+id/v_prj_home_background"
+    <FrameLayout
+        android:id="@+id/fl_main_content"
         android:layout_width="match_parent"
-        android:layout_height="258dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/project1"/>
-
-    <ImageView
-        android:id="@+id/iv_prj_home_back"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_left_chevron"
-        app:layout_constraintTop_toTopOf="@id/guide_top"
-        app:layout_constraintStart_toStartOf="@id/guide_start"/>
-
-
-    <ImageView
-        android:id="@+id/iv_prj_home_burger_menu"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_burger_menu"
-        app:layout_constraintTop_toTopOf="@id/iv_prj_home_back"
-        app:layout_constraintEnd_toEndOf="@id/guide_end"/>
-
-    <View
-        android:id="@+id/v_prj_home_circle1"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@drawable/project_circle_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/v_prj_home_background"
-        android:layout_marginBottom="80dp"
-        android:layout_marginEnd="116dp"/>
-
-    <View
-        android:id="@+id/v_prj_home_circle2"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@drawable/project_circle_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/v_prj_home_background"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="6dp"/>
-
-    <TextView
-        android:id="@+id/tv_prj_home_prjName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="프로젝트명"
-        style="@style/headline2B"
-        app:layout_constraintStart_toStartOf="@id/guide_start"
-        app:layout_constraintTop_toBottomOf="@id/iv_prj_home_back"
-        android:layout_marginTop="64dp"/>
-
-    <TextView
-        android:id="@+id/tv_prj_home_prjExplain"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="프로젝트 설명"
-        style="@style/body1R"
-        app:layout_constraintTop_toBottomOf="@id/tv_prj_home_prjName"
-        app:layout_constraintStart_toStartOf="@id/guide_start"
-        app:layout_constraintEnd_toEndOf="@id/guide_end"
-        android:layout_marginTop="6dp"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_prj_home_schedule_box"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/box_gray_10px"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/v_prj_home_background"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="-20dp">
-
-        <ImageView
-            android:id="@+id/iv_prj_home_check"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_check"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="10dp"/>
-
-        <TextView
-            android:id="@+id/tv_prj_home_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/example_date"
-            android:textColor="@color/black"
-            style="@style/body1B"
-            app:layout_constraintStart_toEndOf="@id/iv_prj_home_check"
-            app:layout_constraintTop_toTopOf="@id/iv_prj_home_check"
-            app:layout_constraintBottom_toBottomOf="@id/iv_prj_home_check"
-            android:layout_marginStart="4dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="일정"
-            android:textColor="@color/black"
-            style="@style/body1B"
-            app:layout_constraintStart_toEndOf="@id/tv_prj_home_date"
-            app:layout_constraintTop_toTopOf="@id/tv_prj_home_date"
-            app:layout_constraintBottom_toBottomOf="@id/tv_prj_home_date"
-            android:layout_marginStart="4dp"/>
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_prj_home_nonschedule"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_prj_home_check"
-            android:layout_margin="12dp"
-            android:paddingBottom="20dp"
-            android:visibility="gone">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.06" />
+
+            <View
+                android:id="@+id/v_prj_home_background"
+                android:layout_width="match_parent"
+                android:layout_height="258dp"
+                android:background="@color/project1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_prj_home_back"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_left_chevron"
+                app:layout_constraintStart_toStartOf="@id/guide_start"
+                app:layout_constraintTop_toTopOf="@id/guide_top" />
+
+
+            <ImageView
+                android:id="@+id/iv_prj_home_burger_menu"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_burger_menu"
+                app:layout_constraintEnd_toEndOf="@id/guide_end"
+                app:layout_constraintTop_toTopOf="@id/iv_prj_home_back" />
+
+            <View
+                android:id="@+id/v_prj_home_circle1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="116dp"
+                android:layout_marginBottom="80dp"
+                android:background="@drawable/project_circle_white"
+                app:layout_constraintBottom_toBottomOf="@id/v_prj_home_background"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                android:id="@+id/v_prj_home_circle2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/project_circle_white"
+                app:layout_constraintBottom_toBottomOf="@id/v_prj_home_background"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
-                android:id="@+id/tv_prj_home_nonschedule1"
+                android:id="@+id/tv_prj_home_prjName"
+                style="@style/headline2B"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="해당 일자에 일정이 없습니다."
-                style="@style/body2M"
-                android:textColor="@color/gray400"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="24dp"/>
+                android:layout_marginTop="64dp"
+                android:text="프로젝트명"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="@id/guide_start"
+                app:layout_constraintTop_toBottomOf="@id/iv_prj_home_back" />
+
             <TextView
-                android:id="@+id/tv_prj_home_nonschedule2"
+                android:id="@+id/tv_prj_home_prjExplain"
+                style="@style/body1R"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="프로젝트 설명"
+                app:layout_constraintEnd_toEndOf="@id/guide_end"
+                app:layout_constraintStart_toStartOf="@id/guide_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_prj_home_prjName" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_prj_home_schedule_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="-20dp"
+                android:background="@drawable/box_gray_10px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/v_prj_home_background">
+
+                <ImageView
+                    android:id="@+id/iv_prj_home_check"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_check"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_prj_home_date"
+                    style="@style/body1B"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="@string/example_date"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_prj_home_check"
+                    app:layout_constraintStart_toEndOf="@id/iv_prj_home_check"
+                    app:layout_constraintTop_toTopOf="@id/iv_prj_home_check" />
+
+                <TextView
+                    style="@style/body1B"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="일정"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_prj_home_date"
+                    app:layout_constraintStart_toEndOf="@id/tv_prj_home_date"
+                    app:layout_constraintTop_toTopOf="@id/tv_prj_home_date" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_prj_home_nonschedule"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:paddingBottom="20dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_prj_home_check">
+
+                    <TextView
+                        android:id="@+id/tv_prj_home_nonschedule1"
+                        style="@style/body2M"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:text="해당 일자에 일정이 없습니다."
+                        android:textColor="@color/gray400"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_prj_home_nonschedule2"
+                        style="@style/body2M"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:text="우측 상단 버튼을 눌러 일정을 추가해보세요."
+                        android:textColor="@color/gray400"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_prj_home_nonschedule1" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_prj_home_schedule_list"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    app:layout_constraintBottom_toBottomOf="@id/cl_prj_home_schedule_box"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_prj_home_check">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/iv_prj_home_paper"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="42dp"
+                android:src="@drawable/ic_paper"
+                app:layout_constraintStart_toStartOf="@id/guide_start"
+                app:layout_constraintTop_toBottomOf="@id/cl_prj_home_schedule_box" />
+
+            <TextView
+                style="@style/body1B"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="우측 상단 버튼을 눌러 일정을 추가해보세요."
+                android:layout_marginStart="4dp"
+                android:text="@string/recent_mom"
+                app:layout_constraintBottom_toBottomOf="@id/iv_prj_home_paper"
+                app:layout_constraintStart_toEndOf="@id/iv_prj_home_paper"
+                app:layout_constraintTop_toTopOf="@id/iv_prj_home_paper" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_prj_home_more_mom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/iv_prj_home_paper"
+                app:layout_constraintEnd_toEndOf="@id/guide_end"
+                app:layout_constraintTop_toTopOf="@id/iv_prj_home_paper">
+
+                <TextView
+                    android:id="@+id/tv_prj_home_more_mom"
+                    style="@style/caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/more"
+                    android:textColor="@color/main_blue"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginStart="2dp"
+                    android:src="@drawable/ic_right_chevron"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_prj_home_more_mom"
+                    app:layout_constraintStart_toEndOf="@id/tv_prj_home_more_mom"
+                    app:layout_constraintTop_toTopOf="@id/tv_prj_home_more_mom" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_prj_home_none_minutes"
                 style="@style/body2M"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="작성된 회의록이 없습니다."
                 android:textColor="@color/gray400"
-                app:layout_constraintTop_toBottomOf="@id/tv_prj_home_nonschedule1"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="24dp"/>
+                app:layout_constraintStart_toStartOf="@id/guide_start"
+                app:layout_constraintTop_toBottomOf="@id/iv_prj_home_paper" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_prj_home_minutes_list"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guide_end"
+                app:layout_constraintStart_toStartOf="@id/guide_start"
+                app:layout_constraintTop_toBottomOf="@id/iv_prj_home_paper" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_prj_home_schedule_list"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_prj_home_check"
-            app:layout_constraintBottom_toBottomOf="@id/cl_prj_home_schedule_box"
-            android:layout_margin="12dp">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ImageView
-        android:id="@+id/iv_prj_home_paper"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/ic_paper"
-        app:layout_constraintTop_toBottomOf="@id/cl_prj_home_schedule_box"
-        app:layout_constraintStart_toStartOf="@id/guide_start"
-        android:layout_marginTop="42dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/recent_mom"
-        style="@style/body1B"
-        app:layout_constraintTop_toTopOf="@id/iv_prj_home_paper"
-        app:layout_constraintBottom_toBottomOf="@id/iv_prj_home_paper"
-        app:layout_constraintStart_toEndOf="@id/iv_prj_home_paper"
-        android:layout_marginStart="4dp"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_prj_home_more_mom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/iv_prj_home_paper"
-        app:layout_constraintBottom_toBottomOf="@id/iv_prj_home_paper"
-        app:layout_constraintEnd_toEndOf="@id/guide_end">
-
-        <TextView
-            android:id="@+id/tv_prj_home_more_mom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/more"
-            style="@style/caption"
-            android:textColor="@color/main_blue"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:src="@drawable/ic_right_chevron"
-            app:layout_constraintStart_toEndOf="@id/tv_prj_home_more_mom"
-            app:layout_constraintTop_toTopOf="@id/tv_prj_home_more_mom"
-            app:layout_constraintBottom_toBottomOf="@id/tv_prj_home_more_mom"
-            android:layout_marginStart="2dp"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/tv_prj_home_none_minutes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="작성된 회의록이 없습니다."
-        style="@style/body2M"
-        android:textColor="@color/gray400"
-        app:layout_constraintStart_toStartOf="@id/guide_start"
-        app:layout_constraintTop_toBottomOf="@id/iv_prj_home_paper"
-        android:layout_marginTop="16dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_prj_home_minutes_list"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="@id/guide_start"
-        app:layout_constraintEnd_toEndOf="@id/guide_end"
-        app:layout_constraintTop_toBottomOf="@id/iv_prj_home_paper"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="30dp"/>
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/fl_sidebar_menu"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:layout_gravity="end"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
