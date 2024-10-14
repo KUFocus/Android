@@ -1,13 +1,16 @@
 package com.example.logmeet.ui.projects
 
 import android.os.Bundle
+import android.system.Os.remove
 import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.NETWORK
@@ -31,6 +34,7 @@ import retrofit2.Response
 import java.time.LocalDate
 
 class ProjectHomeActivity : AppCompatActivity() {
+    private lateinit var drawerLayout: DrawerLayout
     private lateinit var binding: ActivityProjectHomeBinding
     private lateinit var scheduleAdapter: HomeScheduleAdapter
     private var scheduleList: ArrayList<ScheduleData> = arrayListOf()
@@ -48,8 +52,8 @@ class ProjectHomeActivity : AppCompatActivity() {
             insets
         }
 
-        binding.ivPrjHomeBack.setOnClickListener { finish() }
         init()
+        binding.ivPrjHomeBack.setOnClickListener { finish() }
     }
 
     private fun init() {
@@ -97,6 +101,17 @@ class ProjectHomeActivity : AppCompatActivity() {
                                 color
                             )
                         )
+
+                        drawerLayout = binding.root
+                        supportFragmentManager.beginTransaction()
+                            .replace(
+                                R.id.fl_sidebar_menu, ProjectSidebarFragment(
+                                    resp.projectId, resp.name, resp.userProjects[0].bookmark, this@ProjectHomeActivity
+                                )
+                            ).commit()
+                        binding.ivPrjHomeBurgerMenu.setOnClickListener {
+                            drawerLayout.openDrawer(GravityCompat.END)
+                        }
                     } else {
                         Log.d(tag, "onResponse: ProjectHome (90) color = null")
                     }

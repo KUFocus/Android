@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.projects.ProjectSidebarFragment">
+
+    <TextView
+        android:id="@+id/tv_prj_side_t1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="안녕하세요,"
+        style="@style/body2M"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="58dp"
+        android:layout_marginStart="20dp"/>
+
+    <TextView
+        android:id="@+id/tv_prj_side_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="프로젝트명입니다 :)"
+        style="@style/body1M"
+        app:layout_constraintTop_toBottomOf="@id/tv_prj_side_t1"
+        app:layout_constraintStart_toStartOf="@id/tv_prj_side_t1"
+        android:layout_marginTop="2dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_prj_side_star"
+        android:layout_width="176dp"
+        android:layout_height="36dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_prj_side_name"
+        app:layout_constraintStart_toStartOf="@id/tv_prj_side_t1"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/box_gray_10px"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="18dp">
+
+        <ImageView
+            android:id="@+id/iv_prj_side_empty_star"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@drawable/ic_empty_star"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"/>
+
+        <ImageView
+            android:id="@+id/iv_prj_side_full_star"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@drawable/ic_yellow_star"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="즐겨찾기"
+            style="@style/body2M"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="50dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_prj_side_notice"
+        android:layout_width="176dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/tv_prj_side_t1"
+        app:layout_constraintTop_toBottomOf="@id/cl_prj_side_star"
+        android:layout_marginTop="36dp">
+
+        <ImageView
+            android:id="@+id/iv_prj_side_notice"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_flag"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="공지사항"
+            style="@style/body1M"
+            app:layout_constraintTop_toTopOf="@id/iv_prj_side_notice"
+            app:layout_constraintBottom_toBottomOf="@id/iv_prj_side_notice"
+            app:layout_constraintStart_toEndOf="@id/iv_prj_side_notice"
+            android:layout_marginStart="6dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_prj_side_minutes"
+        android:layout_width="176dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/tv_prj_side_t1"
+        app:layout_constraintTop_toBottomOf="@id/cl_prj_side_notice"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/iv_prj_side_minutes"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_clipboard_full"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회의록"
+            style="@style/body1M"
+            app:layout_constraintTop_toTopOf="@id/iv_prj_side_minutes"
+            app:layout_constraintBottom_toBottomOf="@id/iv_prj_side_minutes"
+            app:layout_constraintStart_toEndOf="@id/iv_prj_side_minutes"
+            android:layout_marginStart="6dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_prj_side_calendar"
+        android:layout_width="176dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/tv_prj_side_t1"
+        app:layout_constraintTop_toBottomOf="@id/cl_prj_side_minutes"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/iv_prj_side_calendar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_calendar_png"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="캘린더"
+            style="@style/body1M"
+            app:layout_constraintTop_toTopOf="@id/iv_prj_side_calendar"
+            app:layout_constraintBottom_toBottomOf="@id/iv_prj_side_calendar"
+            app:layout_constraintStart_toEndOf="@id/iv_prj_side_calendar"
+            android:layout_marginStart="6dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/v_prj_side"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/gray200"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_prj_side_calendar"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginTop="24dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_prj_side_setting"
+        android:layout_width="176dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/tv_prj_side_t1"
+        app:layout_constraintTop_toBottomOf="@id/v_prj_side"
+        android:layout_marginTop="24dp">
+
+        <ImageView
+            android:id="@+id/iv_prj_side_setting"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_dashboard"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="프로젝트 설정"
+            style="@style/body1M"
+            app:layout_constraintTop_toTopOf="@id/iv_prj_side_setting"
+            app:layout_constraintBottom_toBottomOf="@id/iv_prj_side_setting"
+            app:layout_constraintStart_toEndOf="@id/iv_prj_side_setting"
+            android:layout_marginStart="6dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_prj_side_invite"
+        android:layout_width="176dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/tv_prj_side_t1"
+        app:layout_constraintTop_toBottomOf="@id/cl_prj_side_setting"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/iv_prj_side_invite"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_add_box"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="초대하기"
+            style="@style/body1M"
+            app:layout_constraintTop_toTopOf="@id/iv_prj_side_invite"
+            app:layout_constraintBottom_toBottomOf="@id/iv_prj_side_invite"
+            app:layout_constraintStart_toEndOf="@id/iv_prj_side_invite"
+            android:layout_marginStart="6dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/v_prj_side_2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/gray200"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginBottom="60dp"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_prj_side_exit"
+        android:layout_width="176dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/tv_prj_side_t1"
+        app:layout_constraintTop_toBottomOf="@id/v_prj_side_2"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_prj_side_exit"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_exit_project"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="프로젝트 나가기"
+            style="@style/body1B"
+            android:textColor="@color/red_400"
+            app:layout_constraintTop_toTopOf="@id/iv_prj_side_exit"
+            app:layout_constraintBottom_toBottomOf="@id/iv_prj_side_exit"
+            app:layout_constraintStart_toEndOf="@id/iv_prj_side_exit"
+            android:layout_marginStart="6dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

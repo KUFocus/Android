@@ -80,6 +80,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.android.mail)
     implementation(libs.android.activation)
+    implementation(libs.androidx.fragment)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -100,5 +101,6 @@ dependencies {
 //    implementation(libs.kakao.sdk.friend) // 피커 API 모듈
 //    implementation(libs.kakao.sdk.navi) // 카카오내비 API 모듈
 //    implementation(libs.kakao.sdk.cert) // 카카오톡 인증 서비스 API 모듈
+    implementation(kotlin("script-runtime"))
 
 }
