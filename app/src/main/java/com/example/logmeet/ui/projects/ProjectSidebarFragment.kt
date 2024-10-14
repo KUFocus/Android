@@ -48,6 +48,7 @@ class ProjectSidebarFragment(
         binding.clPrjSideCalendar.setOnClickListener(this)
         binding.clPrjSideSetting.setOnClickListener(this)
         binding.clPrjSideInvite.setOnClickListener(this)
+        binding.clPrjSideExit.setOnClickListener(this)
         return binding.root
     }
 
