@@ -7,6 +7,10 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import com.example.logmeet.databinding.CheckDialogBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
 
 class CheckDialog(context: Context, title: String) : Dialog(context) {
     private lateinit var itemClickListener: ItemClickListener
@@ -33,13 +37,14 @@ class CheckDialog(context: Context, title: String) : Dialog(context) {
         }
 
         binding.tvCheckDialogConfirm.setOnClickListener {
-            itemClickListener.onClick()
-            dismiss()
+            CoroutineScope(Dispatchers.IO).launch {
+                itemClickListener.onClick()
+            }
         }
     }
 
     interface ItemClickListener {
-        fun onClick() {
+        suspend fun onClick() {
 
         }
     }

@@ -41,13 +41,13 @@ class ProjectDetailActivity : AppCompatActivity() {
         }
 
         init()
-        lifecycleScope.launch {
-            getContent()
-        }
+//        lifecycleScope.launch {
+//            getContent()
+//        }
     }
 
-    override fun onRestart() {
-        super.onRestart()
+    override fun onResume() {
+        super.onResume()
         peopleList = arrayListOf()
         lifecycleScope.launch {
             getContent()
