@@ -47,12 +47,7 @@ class HomeFullCalendarActivity : AppCompatActivity() {
     }
 
     private fun setScheduleListData() {
-        scheduleList.addAll(
-            arrayListOf(
-                ScheduleData("1", "12:00", "디자인 회의", "졸업프로젝트"),
-                ScheduleData("1", "16:00", "디자인 회의2", "졸업프로젝트"),
-            )
-        )
+
     }
 
     private fun setScheduleRV() {
@@ -60,13 +55,4 @@ class HomeFullCalendarActivity : AppCompatActivity() {
         binding.rvHomeFullScheduleList.adapter = scheduleAdapter
         binding.rvHomeFullScheduleList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
-
-
-//    @SuppressLint("SetTextI18n")
-//    private fun setScheduleDate(day: LocalDate) {
-//        val beforeFormat = LocalDate.of(day.year, day.month, day.dayOfMonth)
-//        val formattedDate = beforeFormat.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))
-//
-//        binding.tvHomeFullDate.text = formattedDate
-//    }
 }
