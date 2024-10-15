@@ -66,12 +66,6 @@ class PeopleEditAdapter(
 
         dialog.setItemClickListener(object : CheckDialog.ItemClickListener {
             override suspend fun onClick() {
-//                projectLeaderDelegation(data[adapterPosition].id, data[adapterPosition].userId)
-//
-//                val isLeadChange = binding.ivPeopleLeaderBlue.visibility == View.VISIBLE
-//                binding.ivPeopleLeaderBlue.visibility = if (isLeadChange) View.GONE else View.VISIBLE
-//                binding.ivPeopleLeaderGray.visibility = if (isLeadChange) View.VISIBLE else View.GONE
-//                updateLeaderStatus(adapterPosition)
                 CoroutineScope(Dispatchers.IO).launch {
                     val result = projectLeaderDelegation(
                         projectId,
