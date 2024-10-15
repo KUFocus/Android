@@ -110,10 +110,11 @@ class ProjectDetailActivity : AppCompatActivity() {
     }
 
     private fun sortPeopleList(peopleList: ArrayList<UserProjectDto>): ArrayList<UserProjectDto> {
+        val rolePriority = mapOf("MEMBER" to 2, "LEADER" to 1)
         return ArrayList(
             peopleList
                 .sortedWith(
-                    compareByDescending<UserProjectDto> { it.role }
+                    compareByDescending<UserProjectDto> { rolePriority[it.role] ?: 0}
                         .thenBy { it.userName }
                 )
         )
