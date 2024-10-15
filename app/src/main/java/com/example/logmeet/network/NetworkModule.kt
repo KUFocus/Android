@@ -2,6 +2,7 @@ package com.example.logmeet.network
 
 import com.example.logmeet.data.api.AuthController
 import com.example.logmeet.data.api.ProjectController
+import com.example.logmeet.data.api.ScheduleController
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -14,8 +15,9 @@ const val BASE_URL = "http://13.124.14.33:8080/"
 
 object RetrofitClient {
     private val retrofit = getRetrofit()
-    val auth_instance = retrofit.create(AuthController::class.java)
-    val project_instance = retrofit.create(ProjectController::class.java)
+    val auth_instance: AuthController = retrofit.create(AuthController::class.java)
+    val project_instance: ProjectController = retrofit.create(ProjectController::class.java)
+    val schedule_instance: ScheduleController = retrofit.create(ScheduleController::class.java)
 
     private val jsonRetrofit = getJsonRetrofit()
     val authInstance =
