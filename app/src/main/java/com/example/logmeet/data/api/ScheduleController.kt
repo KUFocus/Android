@@ -59,7 +59,7 @@ interface ScheduleController {
         projectId: Int,
         @Query("date")
         date: String
-    ): Call<ScheduleListResult>
+    ): Call<List<ScheduleListResult>>
 
     @GET("schedule/{projectId}/schedule-list") //프로젝트 특정 달
     fun getProjectMonthlySchedule(
