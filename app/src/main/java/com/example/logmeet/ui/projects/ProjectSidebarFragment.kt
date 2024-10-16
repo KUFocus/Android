@@ -1,6 +1,7 @@
 package com.example.logmeet.ui.projects
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -74,7 +75,9 @@ class ProjectSidebarFragment(
 
             }
             R.id.cl_prj_side_calendar -> {
-
+                val intent = Intent(projectHomeActivity, ProjectCalendarActivity::class.java)
+                intent.putExtra("projectId", projectId)
+                startActivity(intent)
             }
             R.id.cl_prj_side_setting -> {
 
