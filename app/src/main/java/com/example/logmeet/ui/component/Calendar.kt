@@ -31,11 +31,13 @@ fun WeeklyCalendar(
 
 @Composable
 fun MonthlyCalendar(
-    selectedDate: (LocalDate) -> Unit
+    selectedDate: (LocalDate) -> Unit,
+    isBottomSheet: Boolean
 ) {
     var currentDate by remember { mutableStateOf<LocalDate>(LocalDate.now()) }
     Column {
         MonthlyTitle(
+            isBottomSheet = isBottomSheet,
             clicked = {
                 currentDate =  LocalDate.of(currentDate.year, it, currentDate.dayOfMonth)
                 selectedDate(currentDate)
