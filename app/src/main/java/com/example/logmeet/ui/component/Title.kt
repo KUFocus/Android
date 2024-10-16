@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.logmeet.R
 import com.example.logmeet.ui.home.HomeFullCalendarActivity
+import com.example.logmeet.ui.schedule.AddScheduleActivity
 import java.time.LocalDate
 import java.time.Month
 import java.util.Locale
@@ -92,8 +93,8 @@ fun WeeklyTitle() {
             Image(
                 modifier = Modifier
                     .clickable {
-//                        val intent = Intent(context, Add::class.java)
-//                        context.startActivity(intent)
+                        val intent = Intent(context, AddScheduleActivity::class.java)
+                        context.startActivity(intent)
                     }
                     .size(24.dp),
                 painter = painterResource(id = R.drawable.ic_add_calendar),
@@ -105,7 +106,8 @@ fun WeeklyTitle() {
 
 @Composable
 fun MonthlyTitle(
-    clicked: (Month) -> Unit
+    clicked: (Month) -> Unit,
+    isBottomSheet: Boolean
 ) {
     var currentDate by remember { mutableStateOf(LocalDate.now()) }
     var year = currentDate.year.toString()
@@ -180,18 +182,20 @@ fun MonthlyTitle(
                     contentDescription = "다음"
                 )
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentWidth(Alignment.End)
-            ) {
-                Image(
+            if (!isBottomSheet) {
+                Box(
                     modifier = Modifier
-                        .clickable { }
-                        .size(24.dp),
-                    painter = painterResource(id = R.drawable.ic_add_calendar),
-                    contentDescription = "일정추가"
-                )
+                        .fillMaxWidth()
+                        .wrapContentWidth(Alignment.End)
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .clickable { }
+                            .size(24.dp),
+                        painter = painterResource(id = R.drawable.ic_add_calendar),
+                        contentDescription = "일정추가"
+                    )
+                }
             }
         }
     }
