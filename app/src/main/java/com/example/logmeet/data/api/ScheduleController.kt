@@ -77,7 +77,7 @@ interface ScheduleController {
         authorization: String,
         @Query("date")
         date: String
-    ): Call<ScheduleListResult>
+    ): Call<List<ScheduleListResult>>
 
     @GET("schedule/users/schedule-list") //사용자 특정 달
     fun getUsersMonthlySchedule(
