@@ -14,8 +14,6 @@ import com.example.logmeet.data.dto.project.ProjectListResult
 import com.example.logmeet.data.dto.project.api_response.BaseResponseListProjectListResult
 import com.example.logmeet.data.dto.schedule.ScheduleListResult
 import com.example.logmeet.domain.entity.MinutesData
-import com.example.logmeet.domain.entity.ProjectData
-import com.example.logmeet.domain.entity.ScheduleData
 import com.example.logmeet.databinding.FragmentHomeBinding
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.ui.application.LogmeetApplication
@@ -23,9 +21,9 @@ import com.example.logmeet.ui.component.WeeklyCalendar
 import com.example.logmeet.ui.minutes.MinutesAdapter
 import com.example.logmeet.ui.projects.MakeProjectActivity
 import formatDate
+import formatDateForServer
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import reformatDate
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -160,7 +158,7 @@ class HomeFragment : Fragment() {
     }
 
     private suspend fun setScheduleListData() {
-        val dayOfMonth = reformatDate(binding.tvHomeDate.text.toString())
+        val dayOfMonth = formatDateForServer(binding.tvHomeDate.text.toString())
         val bearerAccessToken =
             LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
 

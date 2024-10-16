@@ -24,15 +24,24 @@ fun formatDate(dayOfMonth: String): String? {
     }
 }
 
-fun reformatDate(dayOfMonth: String): String? {
+fun formatDateForServer(date: String): String? {
     return try {
         val inputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
         val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
-        val date = inputFormat.parse(dayOfMonth)
-        outputFormat.format(date!!)
+        val newDate = inputFormat.parse(date)
+        outputFormat.format(newDate!!)
     } catch (e: Exception) {
         e.printStackTrace()
         null
     }
+}
+
+
+fun formatDateForFront(date: String): String {
+    val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val outputFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+
+    val parsedDate = LocalDate.parse(date, inputFormatter)
+    return parsedDate.format(outputFormatter)
 }
