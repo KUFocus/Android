@@ -8,9 +8,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.widget.addTextChangedListener
 import com.example.logmeet.R
 import com.example.logmeet.databinding.ActivityAddScheduleBinding
+import formatDateForFront
 
 class AddScheduleActivity : AppCompatActivity() {
     lateinit var binding: ActivityAddScheduleBinding
@@ -26,7 +26,12 @@ class AddScheduleActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        binding.ivAddScheduleClose.setOnClickListener { finish() }
         val btnNameClear = binding.ivAddScheduleNameClear
+        binding.ivAddScheduleNameClear.setOnClickListener {
+            binding.tietAddScheduleName.setText("")
+        }
 
         binding.tietAddScheduleName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -46,7 +51,13 @@ class AddScheduleActivity : AppCompatActivity() {
             }
         })
 
-        binding.tietAddScheduleDate.setOnClickListener {  }
+        binding.tietAddScheduleDate.setOnClickListener {
+            val datePicker = DatePickerBottomSheetFragment { selectedDate ->
+                val date = formatDateForFront(selectedDate)
+                binding.tietAddScheduleDate.setText(date)
+            }
+            datePicker.show(supportFragmentManager, "DatePickerBottomSheet")
+        }
 
         binding.tietAddScheduleTime.setOnClickListener {  }
 
