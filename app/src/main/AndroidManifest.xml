@@ -20,6 +20,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.schedule.AddScheduleActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.projects.ProjectCalendarActivity"
             android:exported="false" />
         <activity
