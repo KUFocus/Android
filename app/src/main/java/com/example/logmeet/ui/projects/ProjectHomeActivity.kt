@@ -17,6 +17,7 @@ import com.example.logmeet.NETWORK
 import com.example.logmeet.domain.entity.ProjectColorResources
 import com.example.logmeet.R
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
+import com.example.logmeet.data.dto.schedule.ScheduleListResult
 import com.example.logmeet.domain.entity.MinutesData
 import com.example.logmeet.domain.entity.ScheduleData
 import com.example.logmeet.databinding.ActivityProjectHomeBinding
@@ -37,7 +38,7 @@ class ProjectHomeActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var binding: ActivityProjectHomeBinding
     private lateinit var scheduleAdapter: HomeScheduleAdapter
-    private var scheduleList: ArrayList<ScheduleData> = arrayListOf()
+    private var scheduleList: ArrayList<ScheduleListResult> = arrayListOf()
     private lateinit var minutesAdapter: MinutesAdapter
     private var minutesList: ArrayList<MinutesData> = arrayListOf()
 
