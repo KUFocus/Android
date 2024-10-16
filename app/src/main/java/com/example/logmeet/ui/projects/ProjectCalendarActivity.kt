@@ -50,6 +50,9 @@ class ProjectCalendarActivity : AppCompatActivity() {
         binding.compProjectCalendarCalendar.setContent {
             MonthlyCalendar {
                 binding.tvProjectCalendarDate.text = formatDate(it.toString())
+                lifecycleScope.launch {
+                    setProjectDayScheduleListData()
+                }
             }
         }
 
@@ -59,11 +62,11 @@ class ProjectCalendarActivity : AppCompatActivity() {
     private fun init() {
         lifecycleScope.launch {
             setProjectDayScheduleListData()
+//            val isScheduleEmpty = scheduleList.isEmpty()
+//            binding.clProjectCalendarNonschedule.visibility = if (isScheduleEmpty) View.VISIBLE else View.GONE
+//            binding.rvProjectCalendarScheduleList.visibility = if (isScheduleEmpty) View.GONE else View.VISIBLE
+//            if (!isScheduleEmpty) setScheduleRV()
         }
-        val isScheduleEmpty = scheduleList.isEmpty()
-        binding.clProjectCalendarNonschedule.visibility = if (isScheduleEmpty) View.VISIBLE else View.GONE
-        binding.rvProjectCalendarScheduleList.visibility = if (isScheduleEmpty) View.GONE else View.VISIBLE
-        if (!isScheduleEmpty) setScheduleRV()
     }
 
     private suspend fun setProjectDayScheduleListData() {
@@ -86,6 +89,10 @@ class ProjectCalendarActivity : AppCompatActivity() {
                             val resp = p1.body()
                             Log.d(NETWORK, "ProjectCalendar - setProjectDayScheduleListData() : 성공\n")
                             scheduleList = resp as ArrayList<ScheduleListResult>
+                            val isScheduleEmpty = scheduleList.isEmpty()
+                            binding.clProjectCalendarNonschedule.visibility = if (isScheduleEmpty) View.VISIBLE else View.GONE
+                            binding.rvProjectCalendarScheduleList.visibility = if (isScheduleEmpty) View.GONE else View.VISIBLE
+                            if (!isScheduleEmpty) setScheduleRV()
                         }
                         else -> Log.d(NETWORK, "ProjectCalendar - setProjectDayScheduleListData() : 실패")
                     }
