@@ -9,7 +9,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.R
 import com.example.logmeet.data.dto.schedule.ScheduleListResult
-import com.example.logmeet.domain.entity.ScheduleData
 import com.example.logmeet.databinding.ActivityHomeFullCalendarBinding
 import com.example.logmeet.ui.component.MonthlyCalendar
 import formatDate
@@ -30,10 +29,12 @@ class HomeFullCalendarActivity : AppCompatActivity() {
         }
 
         binding.compHomeFullCalendar.setContent {
-            MonthlyCalendar {
-                //setScheduleDate(it)
-                binding.tvHomeFullDate.text = formatDate(it.toString())
-            }
+            MonthlyCalendar(
+                isBottomSheet = false,
+                selectedDate = {
+                    binding.tvHomeFullDate.text = formatDate(it.toString())
+                }
+            )
         }
 
         init()

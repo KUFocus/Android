@@ -18,9 +18,9 @@ import com.example.logmeet.ui.application.LogmeetApplication
 import com.example.logmeet.ui.component.MonthlyCalendar
 import com.example.logmeet.ui.home.HomeScheduleAdapter
 import formatDate
+import formatDateForServer
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import reformatDate
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,12 +48,15 @@ class ProjectCalendarActivity : AppCompatActivity() {
         projectId = intent.getIntExtra("projectId", -1)
 
         binding.compProjectCalendarCalendar.setContent {
-            MonthlyCalendar {
-                binding.tvProjectCalendarDate.text = formatDate(it.toString())
-                lifecycleScope.launch {
-                    setProjectDayScheduleListData()
+            MonthlyCalendar(
+                isBottomSheet = false,
+                selectedDate = {
+                    binding.tvProjectCalendarDate.text = formatDate(it.toString())
+                    lifecycleScope.launch {
+                        setProjectDayScheduleListData()
+                    }
                 }
-            }
+            )
         }
 
         init()
@@ -70,7 +73,7 @@ class ProjectCalendarActivity : AppCompatActivity() {
     }
 
     private suspend fun setProjectDayScheduleListData() {
-        val dayOfMonth = reformatDate(binding.tvProjectCalendarDate.text.toString())
+        val dayOfMonth = formatDateForServer(binding.tvProjectCalendarDate.text.toString())
         val bearerAccessToken =
             LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
 
