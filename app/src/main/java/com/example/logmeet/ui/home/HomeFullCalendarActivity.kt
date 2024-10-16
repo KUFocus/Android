@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.schedule.ScheduleListResult
 import com.example.logmeet.domain.entity.ScheduleData
 import com.example.logmeet.databinding.ActivityHomeFullCalendarBinding
 import com.example.logmeet.ui.component.MonthlyCalendar
@@ -16,7 +17,7 @@ import formatDate
 class HomeFullCalendarActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeFullCalendarBinding
     private lateinit var scheduleAdapter: HomeScheduleAdapter
-    private var scheduleList: ArrayList<ScheduleData> = arrayListOf()
+    private var scheduleList: ArrayList<ScheduleListResult> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityHomeFullCalendarBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -47,12 +48,7 @@ class HomeFullCalendarActivity : AppCompatActivity() {
     }
 
     private fun setScheduleListData() {
-        scheduleList.addAll(
-            arrayListOf(
-                ScheduleData("1", "12:00", "디자인 회의", "졸업프로젝트"),
-                ScheduleData("1", "16:00", "디자인 회의2", "졸업프로젝트"),
-            )
-        )
+
     }
 
     private fun setScheduleRV() {
@@ -60,13 +56,4 @@ class HomeFullCalendarActivity : AppCompatActivity() {
         binding.rvHomeFullScheduleList.adapter = scheduleAdapter
         binding.rvHomeFullScheduleList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
-
-
-//    @SuppressLint("SetTextI18n")
-//    private fun setScheduleDate(day: LocalDate) {
-//        val beforeFormat = LocalDate.of(day.year, day.month, day.dayOfMonth)
-//        val formattedDate = beforeFormat.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))
-//
-//        binding.tvHomeFullDate.text = formattedDate
-//    }
 }

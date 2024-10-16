@@ -1,7 +1,6 @@
 package com.example.logmeet.ui.projects
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -23,8 +22,6 @@ import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfo
 import com.example.logmeet.databinding.ActivityEditProjectBinding
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.ui.application.LogmeetApplication
-import com.example.logmeet.ui.home.MainHomeActivity
-import com.example.logmeet.ui.showMinutesToast
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -73,10 +70,10 @@ class EditProjectActivity : AppCompatActivity() {
         updateButtonState()
     }
 
-    private fun setPeopleRV() {
+    private fun setPeopleRV(projectId: Int) {
         val peopleRV = binding.rvEditPPeopleList
         val sortedList = sortPeopleList(peopleList)
-        peopleEditAdapter = PeopleEditAdapter(sortedList)
+        peopleEditAdapter = PeopleEditAdapter(sortedList, projectId, this)
         peopleRV.adapter = peopleEditAdapter
         peopleRV.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
@@ -141,7 +138,7 @@ class EditProjectActivity : AppCompatActivity() {
                     val dateTime = resp.createdAt.substring(0, 10)
                     binding.tietEditPDate.setText(dateTime)
                     peopleList.addAll(resp.userProjects)
-                    setPeopleRV()
+                    setPeopleRV(resp.projectId)
 
                     binding.tietEditPName.setText(beforeName)
                     binding.tvEditPTextLength.text = "${beforeName.length} / 8"

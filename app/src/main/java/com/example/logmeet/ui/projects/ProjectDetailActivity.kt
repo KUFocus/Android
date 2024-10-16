@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
@@ -16,20 +15,15 @@ import com.example.logmeet.domain.entity.ProjectDrawableResources
 import com.example.logmeet.R
 import com.example.logmeet.data.dto.project.UserProjectDto
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
-import com.example.logmeet.domain.entity.PeopleData
 import com.example.logmeet.databinding.ActivityProjectDetailBinding
-import com.example.logmeet.domain.entity.ProjectColorResources
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.tag
 import com.example.logmeet.ui.application.LogmeetApplication
-import com.example.logmeet.ui.showMinutesToast
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class ProjectDetailActivity : AppCompatActivity() {
     private lateinit var binding : ActivityProjectDetailBinding
@@ -47,13 +41,13 @@ class ProjectDetailActivity : AppCompatActivity() {
         }
 
         init()
-        lifecycleScope.launch {
-            getContent()
-        }
+//        lifecycleScope.launch {
+//            getContent()
+//        }
     }
 
-    override fun onRestart() {
-        super.onRestart()
+    override fun onResume() {
+        super.onResume()
         peopleList = arrayListOf()
         lifecycleScope.launch {
             getContent()
@@ -116,10 +110,11 @@ class ProjectDetailActivity : AppCompatActivity() {
     }
 
     private fun sortPeopleList(peopleList: ArrayList<UserProjectDto>): ArrayList<UserProjectDto> {
+        val rolePriority = mapOf("MEMBER" to 2, "LEADER" to 1)
         return ArrayList(
             peopleList
                 .sortedWith(
-                    compareByDescending<UserProjectDto> { it.role }
+                    compareByDescending<UserProjectDto> { rolePriority[it.role] ?: 0}
                         .thenBy { it.userName }
                 )
         )

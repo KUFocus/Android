@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFullCalendarActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".ui.projects.ProjectCalendarActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guide_start"
@@ -29,36 +29,44 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.03"/>
 
+    <ImageView
+        android:id="@+id/iv_project_calendar_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_close"
+        app:layout_constraintTop_toTopOf="@id/guide_top"
+        app:layout_constraintStart_toStartOf="@id/guide_start"/>
+
     <androidx.compose.ui.platform.ComposeView
-        android:id="@+id/comp_home_full_calendar"
+        android:id="@+id/comp_project_calendar_calendar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_project_calendar_back"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="10dp"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/main_blue"
-        app:layout_constraintTop_toTopOf="@id/cl_home_full_schedule_box"
+        app:layout_constraintTop_toTopOf="@id/cl_project_calendar_schedule_box"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="60dp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_home_full_schedule_box"
+        android:id="@+id/cl_project_calendar_schedule_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/box_gray_10px"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/comp_home_full_calendar"
+        app:layout_constraintTop_toBottomOf="@id/comp_project_calendar_calendar"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="20dp">
 
         <ImageView
-            android:id="@+id/iv_home_full_check"
+            android:id="@+id/iv_project_calendar_check"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_check"
@@ -68,15 +76,15 @@
             android:layout_marginTop="10dp"/>
 
         <TextView
-            android:id="@+id/tv_home_full_date"
+            android:id="@+id/tv_project_calendar_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2024.08.06"
             android:textColor="@color/black"
             style="@style/body1B"
-            app:layout_constraintStart_toEndOf="@id/iv_home_full_check"
-            app:layout_constraintTop_toTopOf="@id/iv_home_full_check"
-            app:layout_constraintBottom_toBottomOf="@id/iv_home_full_check"
+            app:layout_constraintStart_toEndOf="@id/iv_project_calendar_check"
+            app:layout_constraintTop_toTopOf="@id/iv_project_calendar_check"
+            app:layout_constraintBottom_toBottomOf="@id/iv_project_calendar_check"
             android:layout_marginStart="4dp"/>
 
         <TextView
@@ -85,24 +93,24 @@
             android:text="일정"
             android:textColor="@color/black"
             style="@style/body1B"
-            app:layout_constraintStart_toEndOf="@id/tv_home_full_date"
-            app:layout_constraintTop_toTopOf="@id/tv_home_full_date"
-            app:layout_constraintBottom_toBottomOf="@id/tv_home_full_date"
+            app:layout_constraintStart_toEndOf="@id/tv_project_calendar_date"
+            app:layout_constraintTop_toTopOf="@id/tv_project_calendar_date"
+            app:layout_constraintBottom_toBottomOf="@id/tv_project_calendar_date"
             android:layout_marginStart="4dp"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_home_full_nonschedule"
+            android:id="@+id/cl_project_calendar_nonschedule"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_home_full_check"
+            app:layout_constraintTop_toBottomOf="@id/iv_project_calendar_check"
             android:layout_margin="12dp"
             android:paddingBottom="20dp"
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/tv_home_full_nonschedule1"
+                android:id="@+id/tv_project_calendar_nonschedule1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="해당 일자에 일정이 없습니다."
@@ -112,26 +120,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="24dp"/>
             <TextView
-                android:id="@+id/tv_home_full_nonschedule2"
+                android:id="@+id/tv_project_calendar_nonschedule2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="우측 상단 버튼을 눌러 일정을 추가해보세요."
                 style="@style/body2M"
                 android:textColor="@color/gray400"
-                app:layout_constraintTop_toBottomOf="@id/tv_home_full_nonschedule1"
+                app:layout_constraintTop_toBottomOf="@id/tv_project_calendar_nonschedule1"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="24dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_home_full_schedule_list"
+            android:id="@+id/rv_project_calendar_schedule_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             tools:listitem="@layout/item_schedule"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_home_full_check"
-            app:layout_constraintBottom_toBottomOf="@id/cl_home_full_schedule_box"
+            app:layout_constraintTop_toBottomOf="@id/iv_project_calendar_check"
+            app:layout_constraintBottom_toBottomOf="@id/cl_project_calendar_schedule_box"
             android:layout_margin="12dp">
 
         </androidx.recyclerview.widget.RecyclerView>
