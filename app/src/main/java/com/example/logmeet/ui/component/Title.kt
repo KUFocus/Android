@@ -51,13 +51,11 @@ fun WeeklyTitle(
     val today = LocalDate.now()
     val year = today.year.toString()
     val month = today.month.toString()
+    val context = LocalContext.current
 
     val startForResult = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
-//        if (result.resultCode == Activity.RESULT_OK) {
-//            showMinutesToast(editProjectActivity, R.drawable.ic_check_circle, "리더가 변경되었습니다.")
-//        }
         onAddScheduleComplete(result.resultCode)
     }
 
@@ -94,7 +92,6 @@ fun WeeklyTitle(
         }
 
         Row {
-            val context = LocalContext.current
             Image(
                 modifier = Modifier
                     .clickable {
@@ -129,6 +126,13 @@ fun MonthlyTitle(
     var currentDate by remember { mutableStateOf(LocalDate.now()) }
     var year = currentDate.year.toString()
     var month by remember { mutableStateOf(currentDate.month.toString()) }
+    val context = LocalContext.current
+
+    val startForResult = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        onAddScheduleComplete(result.resultCode)
+    }
 
     Column(
         modifier = Modifier
@@ -207,7 +211,10 @@ fun MonthlyTitle(
                 ) {
                     Image(
                         modifier = Modifier
-                            .clickable { }
+                            .clickable {
+                                val intent = Intent(context, AddScheduleActivity::class.java)
+                                startForResult.launch(intent)
+                            }
                             .size(24.dp),
                         painter = painterResource(id = R.drawable.ic_add_calendar),
                         contentDescription = "일정추가"

@@ -1,11 +1,14 @@
 package com.example.logmeet.ui.schedule
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.logmeet.R
 import com.example.logmeet.databinding.FragmentDatePickerBottomSheetBinding
 import com.example.logmeet.ui.component.MonthlyCalendar
+import com.example.logmeet.ui.showMinutesToast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class DatePickerBottomSheetFragment(
@@ -28,12 +31,15 @@ class DatePickerBottomSheetFragment(
 
         binding.compDatePickerCalendar.setContent {
             MonthlyCalendar(
-                beforeActivity = null,
                 isBottomSheet = true,
                 selectedDate = {selectedDate ->
                     onDateSelected(selectedDate.toString())
                 },
-                onDismiss = { dismiss() }
+                onDismiss = { dismiss() },
+                onAddScheduleComplete = { resultCode ->
+                    if (resultCode == Activity.RESULT_OK)
+                        showMinutesToast(requireContext(), R.drawable.ic_check_circle, "일정이 추가되었습니다.")
+                }
             )
         }
     }

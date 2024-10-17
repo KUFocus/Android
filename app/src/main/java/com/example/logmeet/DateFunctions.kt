@@ -1,3 +1,4 @@
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -44,4 +45,23 @@ fun formatDateForFront(date: String): String {
 
     val parsedDate = LocalDate.parse(date, inputFormatter)
     return parsedDate.format(outputFormatter)
+}
+
+fun splitDateTime(dateTime: String): Pair<String, String> {
+    return try {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        val date = inputFormat.parse(dateTime)
+
+        val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+        val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+
+        if (date != null) {
+            Pair(dateFormat.format(date), timeFormat.format(date))
+        } else {
+            Pair("", "")
+        }
+    } catch (e: Exception) {
+        Log.e("splitDateTime", "Error parsing dateTime: ${e.message}")
+        Pair("", "")
+    }
 }

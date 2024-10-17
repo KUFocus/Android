@@ -15,6 +15,7 @@ import com.example.logmeet.R
 import com.example.logmeet.data.dto.project.ProjectListResult
 import com.example.logmeet.data.dto.project.api_response.BaseResponseListProjectListResult
 import com.example.logmeet.data.dto.schedule.ScheduleListResult
+import com.example.logmeet.data.dto.schedule.api_response.ScheduleDayResponse
 import com.example.logmeet.domain.entity.MinutesData
 import com.example.logmeet.databinding.FragmentHomeBinding
 import com.example.logmeet.network.RetrofitClient
@@ -161,6 +162,7 @@ class HomeFragment : Fragment() {
     }
 
     private suspend fun setScheduleListData() {
+        scheduleList = arrayListOf()
         val dayOfMonth = formatDateForServer(binding.tvHomeDate.text.toString())
         val bearerAccessToken =
             LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
@@ -169,17 +171,18 @@ class HomeFragment : Fragment() {
             RetrofitClient.schedule_instance.getUsersDaySchedule(
                 authorization = bearerAccessToken,
                 date = dayOfMonth
-            ).enqueue(object : Callback<List<ScheduleListResult>>{
+            ).enqueue(object : Callback<ScheduleDayResponse>{
                 override fun onResponse(
-                    p0: Call<List<ScheduleListResult>>,
-                    p1: Response<List<ScheduleListResult>>
+                    p0: Call<ScheduleDayResponse>,
+                    p1: Response<ScheduleDayResponse>
                 ) {
                     when (p1.code()) {
                         200 -> {
-                            val resp = p1.body()
+                            val resp = p1.body()?.result
                             Log.d(NETWORK, "HomeFragment - setScheduleListData() : 성공\n")
                             scheduleList = resp as ArrayList<ScheduleListResult>
-                            val isScheduleEmpty = scheduleList.isEmpty()
+
+                            val isScheduleEmpty = scheduleList.size == 0
                             binding.clHomeNonschedule.visibility = if (isScheduleEmpty) View.VISIBLE else View.GONE
                             binding.rvHomeScheduleList.visibility = if (isScheduleEmpty) View.GONE else View.VISIBLE
                             if (!isScheduleEmpty) setScheduleRV()
@@ -188,7 +191,7 @@ class HomeFragment : Fragment() {
                     }
                 }
 
-                override fun onFailure(p0: Call<List<ScheduleListResult>>, p1: Throwable) {
+                override fun onFailure(p0: Call<ScheduleDayResponse>, p1: Throwable) {
                     Log.d(NETWORK, "HomeFragment - setScheduleListData() : 실패\nbecause $p1")
                 }
 

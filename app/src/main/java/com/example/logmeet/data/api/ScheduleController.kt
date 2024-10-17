@@ -6,6 +6,7 @@ import com.example.logmeet.data.dto.schedule.ScheduleListResult
 import com.example.logmeet.data.dto.schedule.api_request.ScheduleCreateRequest
 import com.example.logmeet.data.dto.schedule.api_request.ScheduleUpdateRequest
 import com.example.logmeet.data.dto.schedule.api_response.ScheduleCreateResponse
+import com.example.logmeet.data.dto.schedule.api_response.ScheduleDayResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -59,7 +60,7 @@ interface ScheduleController {
         projectId: Int,
         @Query("date")
         date: String
-    ): Call<List<ScheduleListResult>>
+    ): Call<ScheduleDayResponse>
 
     @GET("schedule/{projectId}/schedule-list") //프로젝트 특정 달
     fun getProjectMonthlySchedule(
@@ -77,7 +78,7 @@ interface ScheduleController {
         authorization: String,
         @Query("date")
         date: String
-    ): Call<List<ScheduleListResult>>
+    ): Call<ScheduleDayResponse>
 
     @GET("schedule/users/schedule-list") //사용자 특정 달
     fun getUsersMonthlySchedule(

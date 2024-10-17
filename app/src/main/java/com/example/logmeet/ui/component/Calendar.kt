@@ -25,8 +25,6 @@ fun WeeklyCalendar(
 ) {
     Column {
         WeeklyTitle() { resultCode ->
-//            if (resultCode == Activity.RESULT_OK)
-//                showMinutesToast(HomeFragment().requireContext(), R.drawable.ic_check_circle, "일정이 추가되었습니다.")
             onAddScheduleComplete(resultCode)
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -40,10 +38,10 @@ fun WeeklyCalendar(
 
 @Composable
 fun MonthlyCalendar(
-    beforeActivity: Activity?,
-    selectedDate: (LocalDate) -> Unit,
+    selectedDate: (String) -> Unit,
     isBottomSheet: Boolean,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onAddScheduleComplete: (Int) -> Unit
 ) {
     var currentDate by remember { mutableStateOf<LocalDate>(LocalDate.now()) }
     Column {
@@ -51,12 +49,10 @@ fun MonthlyCalendar(
             isBottomSheet = isBottomSheet,
             clicked = {
                 currentDate = LocalDate.of(currentDate.year, it, currentDate.dayOfMonth)
-                selectedDate(currentDate)
+                selectedDate(currentDate.toString())
             },
-            onAddScheduleComplete = {
-                if (beforeActivity != null ) {
-                    showMinutesToast(beforeActivity, R.drawable.ic_check_circle, "일정이 추가되었습니다.")
-                }
+            onAddScheduleComplete = { resultCode ->
+                onAddScheduleComplete(resultCode)
             }
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -66,7 +62,7 @@ fun MonthlyCalendar(
             isBottomSheet = isBottomSheet,
             date = currentDate
         ) {
-            selectedDate(it)
+            selectedDate(it.toString())
             currentDate = it
             onDismiss()
         }
