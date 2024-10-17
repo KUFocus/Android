@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingVertical="4dp">
+
+    <View
+        android:id="@+id/v_project_selection_color"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:background="@drawable/color_prj1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="4dp"/>
+
+    <ImageView
+        android:id="@+id/iv_project_selection_check"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:src="@drawable/ic_check_circle"
+        app:layout_constraintTop_toTopOf="@id/v_project_selection_color"
+        app:layout_constraintStart_toStartOf="@id/v_project_selection_color"
+        app:layout_constraintBottom_toBottomOf="@id/v_project_selection_color"
+        app:tint="@color/gray800"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_project_selection_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/project_name"
+        style="@style/body1R"
+        app:layout_constraintStart_toEndOf="@id/v_project_selection_color"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="10dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

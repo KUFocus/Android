@@ -157,6 +157,39 @@
         app:layout_constraintBottom_toBottomOf="@id/tiet_add_schedule_project"
         app:layout_constraintEnd_toEndOf="@id/tiet_add_schedule_project"/>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_add_schedule_project"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tiet_add_schedule_project"
+        app:layout_constraintStart_toStartOf="@id/tiet_add_schedule_project"
+        app:layout_constraintBottom_toBottomOf="@id/tiet_add_schedule_project"
+        app:layout_constraintEnd_toEndOf="@id/tiet_add_schedule_project"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/v_add_schedule_project_color"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:background="@drawable/color_prj1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="4dp"/>
+
+        <TextView
+            android:id="@+id/tv_add_schedule_project_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/project_name"
+            style="@style/body1R"
+            app:layout_constraintStart_toEndOf="@id/v_add_schedule_project_color"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="10dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/tiet_add_schedule_project"
         android:layout_width="0dp"
@@ -171,6 +204,18 @@
         android:layout_marginStart="2dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="2dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_add_schedule_project_list"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:background="@drawable/box_gray_10px"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/tiet_add_schedule_project"
+        android:visibility="gone"/>
+
 
     <TextView
         android:id="@+id/tv_add_schedule_done"
