@@ -1,4 +1,4 @@
-package com.example.logmeet.ui.schedule
+package com.example.logmeet.ui.component
 
 import android.annotation.SuppressLint
 import android.util.Log
