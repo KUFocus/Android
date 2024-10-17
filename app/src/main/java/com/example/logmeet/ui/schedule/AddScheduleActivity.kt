@@ -1,5 +1,6 @@
 package com.example.logmeet.ui.schedule
 
+import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,22 +16,27 @@ import com.example.logmeet.NETWORK
 import com.example.logmeet.R
 import com.example.logmeet.data.dto.project.ProjectListResult
 import com.example.logmeet.data.dto.project.api_response.BaseResponseListProjectListResult
+import com.example.logmeet.data.dto.schedule.api_request.ScheduleCreateRequest
+import com.example.logmeet.data.dto.schedule.api_response.ScheduleCreateResponse
 import com.example.logmeet.databinding.ActivityAddScheduleBinding
 import com.example.logmeet.domain.entity.ProjectDrawableResources
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.ui.application.LogmeetApplication
+import com.example.logmeet.ui.showMinutesToast
 import formatDateForFront
+import formatDateForServer
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AddScheduleActivity : AppCompatActivity(), ProjectSelectionAdapter.OnProjectClickListener {
+class AddScheduleActivity() : AppCompatActivity(), ProjectSelectionAdapter.OnProjectClickListener {
     lateinit var binding: ActivityAddScheduleBinding
     var isNameNotNull = false
     private lateinit var projectSelectionAdapter: ProjectSelectionAdapter
     private var projectList: List<ProjectListResult> = arrayListOf()
+    private var projectId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityAddScheduleBinding.inflate(layoutInflater)
@@ -85,16 +91,13 @@ class AddScheduleActivity : AppCompatActivity(), ProjectSelectionAdapter.OnProje
 
         binding.tietAddScheduleProject.setOnClickListener {
             binding.rvAddScheduleProjectList.visibility = View.VISIBLE
-            lifecycleScope.launch {
-                setProjectList()
-            }
+            lifecycleScope.launch { setProjectList() }
         }
 
     }
 
     private suspend fun setProjectList() {
-        val bearerAccessToken =
-            LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+        val bearerAccessToken = LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
         RetrofitClient.project_instance.getProjectList(
             bearerAccessToken
         ).enqueue(object : Callback<BaseResponseListProjectListResult> {
@@ -135,17 +138,57 @@ class AddScheduleActivity : AppCompatActivity(), ProjectSelectionAdapter.OnProje
     }
 
 
-    fun checkBtnAvailable() {
+    private fun checkBtnAvailable() {
         val btnDone = binding.tvAddScheduleDone
         if (isNameNotNull) {
             btnDone.setBackgroundResource(R.drawable.btn_blue_8px)
             btnDone.setOnClickListener {
-                //api 연결 및 화면 이동
+                lifecycleScope.launch { createSchedule() }
             }
         } else {
             btnDone.setBackgroundResource(R.drawable.btn_gray_8px)
             btnDone.setOnClickListener { }
         }
+    }
+
+    private suspend fun createSchedule() {
+        val content = binding.tietAddScheduleName.text
+        val beforeDate = binding.tietAddScheduleDate.text
+        val date = formatDateForServer(beforeDate.toString())
+        val time = binding.tietAddScheduleTime.text
+
+        val bearerAccessToken = LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+
+        RetrofitClient.schedule_instance.createSchedule(
+            authorization = bearerAccessToken,
+            scheduleCreateRequest = ScheduleCreateRequest(
+                scheduleContent = content.toString(),
+                scheduleDate = "${date}T${time}",
+                projectId = this.projectId
+            )
+        ).enqueue(object : Callback<ScheduleCreateResponse> {
+            override fun onResponse(
+                p0: Call<ScheduleCreateResponse>,
+                p1: Response<ScheduleCreateResponse>
+            ) {
+                when (p1.code()) {
+                    200 -> {
+                        Log.d(NETWORK, "addSchedule - createSchedule() : 성공\n")
+                        setResult(Activity.RESULT_OK)
+                        finish()
+                    }
+
+                    else -> {
+                        Log.d(NETWORK, "addSchedule - createSchedule() : 실패")
+                    }
+                }
+            }
+
+            override fun onFailure(p0: Call<ScheduleCreateResponse>, p1: Throwable) {
+                Log.d(NETWORK, "addSchedule - createSchedule() : 실패\nbecause $p1")
+            }
+
+        })
     }
 
     override fun onProjectClick(
@@ -161,5 +204,7 @@ class AddScheduleActivity : AppCompatActivity(), ProjectSelectionAdapter.OnProje
         val color = ProjectDrawableResources.colorList[number - 1]
         binding.vAddScheduleProjectColor.setBackgroundResource(color)
         binding.rvAddScheduleProjectList.visibility = View.GONE
+
+        this.projectId = projectId
     }
 }

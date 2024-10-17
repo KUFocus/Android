@@ -29,6 +29,7 @@ import java.time.LocalDate
 
 @Composable
 fun DateOfMonth(
+    isBottomSheet: Boolean,
     date: LocalDate,
     clicked: (LocalDate) -> Unit,
 ) {
@@ -101,7 +102,7 @@ fun DateOfMonth(
                             )
                         }
                         Spacer(modifier = Modifier.height(6.dp))
-                        if (isInCurrentMonth) {
+                        if (isInCurrentMonth && !isBottomSheet) {
                             GetDaySchedule(
                                 date = day
                             )

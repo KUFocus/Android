@@ -1,7 +1,10 @@
 package com.example.logmeet.ui.component
 
+import android.app.Activity
 import android.content.Intent
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,15 +39,27 @@ import androidx.compose.ui.unit.sp
 import com.example.logmeet.R
 import com.example.logmeet.ui.home.HomeFullCalendarActivity
 import com.example.logmeet.ui.schedule.AddScheduleActivity
+import com.example.logmeet.ui.showMinutesToast
 import java.time.LocalDate
 import java.time.Month
 import java.util.Locale
 
 @Composable
-fun WeeklyTitle() {
+fun WeeklyTitle(
+    onAddScheduleComplete: (Int) -> Unit
+) {
     val today = LocalDate.now()
     val year = today.year.toString()
     val month = today.month.toString()
+
+    val startForResult = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+//        if (result.resultCode == Activity.RESULT_OK) {
+//            showMinutesToast(editProjectActivity, R.drawable.ic_check_circle, "리더가 변경되었습니다.")
+//        }
+        onAddScheduleComplete(result.resultCode)
+    }
 
     Row(
         modifier = Modifier
@@ -94,7 +110,7 @@ fun WeeklyTitle() {
                 modifier = Modifier
                     .clickable {
                         val intent = Intent(context, AddScheduleActivity::class.java)
-                        context.startActivity(intent)
+                        startForResult.launch(intent)
                     }
                     .size(24.dp),
                 painter = painterResource(id = R.drawable.ic_add_calendar),
@@ -108,6 +124,7 @@ fun WeeklyTitle() {
 fun MonthlyTitle(
     clicked: (Month) -> Unit,
     isBottomSheet: Boolean,
+    onAddScheduleComplete: (Int) -> Unit
 ) {
     var currentDate by remember { mutableStateOf(LocalDate.now()) }
     var year = currentDate.year.toString()

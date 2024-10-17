@@ -1,5 +1,6 @@
 package com.example.logmeet.ui.home
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.NETWORK
+import com.example.logmeet.R
 import com.example.logmeet.data.dto.project.ProjectListResult
 import com.example.logmeet.data.dto.project.api_response.BaseResponseListProjectListResult
 import com.example.logmeet.data.dto.schedule.ScheduleListResult
@@ -20,6 +22,7 @@ import com.example.logmeet.ui.application.LogmeetApplication
 import com.example.logmeet.ui.component.WeeklyCalendar
 import com.example.logmeet.ui.minutes.MinutesAdapter
 import com.example.logmeet.ui.projects.MakeProjectActivity
+import com.example.logmeet.ui.showMinutesToast
 import formatDate
 import formatDateForServer
 import kotlinx.coroutines.flow.first
@@ -48,12 +51,16 @@ class HomeFragment : Fragment() {
         init()
 
         binding.compHomeCalendar.setContent {
-            WeeklyCalendar( selectedDate = {
-                binding.tvHomeDate.text = formatDate(it)
-                lifecycleScope.launch {
-                    setScheduleListData()
+            WeeklyCalendar(
+                selectedDate = {
+                    binding.tvHomeDate.text = formatDate(it)
+                    lifecycleScope.launch { setScheduleListData() }
+                },
+                onAddScheduleComplete = { resultCode ->
+                    if (resultCode == Activity.RESULT_OK)
+                        showMinutesToast(requireContext(), R.drawable.ic_check_circle, "일정이 추가되었습니다.")
                 }
-            })
+            )
         }
 
         return binding.root
@@ -82,10 +89,6 @@ class HomeFragment : Fragment() {
 
         lifecycleScope.launch {
             setProjectListData()
-//            val isProjectEmpty = projectList.isEmpty()
-//            binding.clHomeAddProject.visibility = if (isProjectEmpty) View.VISIBLE else View.GONE
-//            binding.rvHomeProjectList.visibility = if (isProjectEmpty) View.GONE else View.VISIBLE
-//            if (!isProjectEmpty) setProjectRV()
         }
 
         setMinutesListData()

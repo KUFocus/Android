@@ -67,7 +67,7 @@ class PeopleEditAdapter(
         dialog.setItemClickListener(object : CheckDialog.ItemClickListener {
             override suspend fun onClick() {
                 CoroutineScope(Dispatchers.IO).launch {
-                    val result = projectLeaderDelegation(
+                    projectLeaderDelegation(
                         projectId,
                         data[adapterPosition].userId
                     )

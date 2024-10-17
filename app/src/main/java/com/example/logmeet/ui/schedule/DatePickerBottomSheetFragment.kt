@@ -28,6 +28,7 @@ class DatePickerBottomSheetFragment(
 
         binding.compDatePickerCalendar.setContent {
             MonthlyCalendar(
+                beforeActivity = null,
                 isBottomSheet = true,
                 selectedDate = {selectedDate ->
                     onDateSelected(selectedDate.toString())

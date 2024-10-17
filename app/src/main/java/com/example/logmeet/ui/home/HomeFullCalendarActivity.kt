@@ -30,6 +30,7 @@ class HomeFullCalendarActivity : AppCompatActivity() {
 
         binding.compHomeFullCalendar.setContent {
             MonthlyCalendar(
+                beforeActivity = this@HomeFullCalendarActivity,
                 isBottomSheet = false,
                 selectedDate = {
                     binding.tvHomeFullDate.text = formatDate(it.toString())

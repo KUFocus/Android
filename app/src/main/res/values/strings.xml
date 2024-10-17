@@ -34,6 +34,4 @@
     <string name="search">검색</string>
     <string name="example_search">제목이나 키워드를 입력하세요.</string>
     <string name="add_schedule_title">일정 추가</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -49,6 +49,7 @@ class ProjectCalendarActivity : AppCompatActivity() {
 
         binding.compProjectCalendarCalendar.setContent {
             MonthlyCalendar(
+                beforeActivity = this@ProjectCalendarActivity,
                 isBottomSheet = false,
                 selectedDate = {
                     binding.tvProjectCalendarDate.text = formatDate(it.toString())
