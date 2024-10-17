@@ -55,7 +55,8 @@ class ProjectCalendarActivity : AppCompatActivity() {
                     lifecycleScope.launch {
                         setProjectDayScheduleListData()
                     }
-                }
+                },
+                onDismiss = { }
             )
         }
 

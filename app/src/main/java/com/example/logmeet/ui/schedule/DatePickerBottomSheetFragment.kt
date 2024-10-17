@@ -31,8 +31,8 @@ class DatePickerBottomSheetFragment(
                 isBottomSheet = true,
                 selectedDate = {selectedDate ->
                     onDateSelected(selectedDate.toString())
-                    dismiss()
-                }
+                },
+                onDismiss = { dismiss() }
             )
         }
     }

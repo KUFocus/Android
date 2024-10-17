@@ -33,7 +33,8 @@ class HomeFullCalendarActivity : AppCompatActivity() {
                 isBottomSheet = false,
                 selectedDate = {
                     binding.tvHomeFullDate.text = formatDate(it.toString())
-                }
+                },
+                onDismiss = { }
             )
         }
 

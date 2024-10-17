@@ -107,7 +107,7 @@ fun WeeklyTitle() {
 @Composable
 fun MonthlyTitle(
     clicked: (Month) -> Unit,
-    isBottomSheet: Boolean
+    isBottomSheet: Boolean,
 ) {
     var currentDate by remember { mutableStateOf(LocalDate.now()) }
     var year = currentDate.year.toString()
