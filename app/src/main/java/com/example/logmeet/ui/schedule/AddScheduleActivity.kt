@@ -59,7 +59,12 @@ class AddScheduleActivity : AppCompatActivity() {
             datePicker.show(supportFragmentManager, "DatePickerBottomSheet")
         }
 
-        binding.tietAddScheduleTime.setOnClickListener {  }
+        binding.tietAddScheduleTime.setOnClickListener {
+            val timePicker = TimePickerBottomSheetFragment { selectedTime ->
+                binding.tietAddScheduleTime.setText(selectedTime)
+            }
+            timePicker.show(supportFragmentManager, "TimePickerBottomSheet")
+        }
 
         binding.tietAddScheduleProject.setOnClickListener {  }
 
