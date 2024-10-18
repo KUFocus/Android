@@ -5,10 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,15 +14,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -37,12 +32,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.logmeet.R
+import com.example.logmeet.domain.entity.FileType
 
 @Composable
 fun MakeMinutesDialog(
     title: String,
     onClickCancel: () -> Unit,
-    onClickConfirm: () -> Unit
+    onClick: (String) -> Unit
 ) {
     Dialog(
         onDismissRequest = { onClickCancel() },
@@ -94,18 +90,28 @@ fun MakeMinutesDialog(
                 Row(
                     modifier = Modifier.padding(bottom = 10.dp)
                 ) {
-                    MakeMinutesBtn(image = R.drawable.ic_photo, content = "사진 업로드")
+                    MakeMinutesBtn(image = R.drawable.ic_photo, content = "사진 업로드") {
+                        onClick(FileType.PICTURE.type)
+                    }
                     Spacer(modifier = Modifier.width(18.dp))
-                    MakeMinutesBtn(image = R.drawable.ic_camera, content = "사진 촬영")
+                    MakeMinutesBtn(image = R.drawable.ic_camera, content = "사진 촬영") {
+                        onClick(FileType.CAMERA.type)
+                    }
                 }
                 Row(
                     modifier = Modifier.padding(bottom = 10.dp)
                 ) {
-                    MakeMinutesBtn(image = R.drawable.ic_video, content = "녹음 업로드")
+                    MakeMinutesBtn(image = R.drawable.ic_video, content = "녹음 업로드") {
+                        onClick(FileType.VOICE.type)
+                    }
                     Spacer(modifier = Modifier.width(18.dp))
-                    MakeMinutesBtn(image = R.drawable.ic_microphone, content = "음성녹음")
+                    MakeMinutesBtn(image = R.drawable.ic_microphone, content = "음성녹음") {
+                        onClick(FileType.RECORD.type)
+                    }
                 }
-                MakeMinutesBtn(image = R.drawable.ic_text, content = "직접 작성")
+                MakeMinutesBtn(image = R.drawable.ic_text, content = "직접 작성") {
+                    onClick(FileType.MANUAL.type)
+                }
 
                 Spacer(modifier = Modifier.height(20.dp))
             }

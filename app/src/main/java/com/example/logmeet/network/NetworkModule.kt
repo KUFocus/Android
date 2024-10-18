@@ -1,6 +1,7 @@
 package com.example.logmeet.network
 
 import com.example.logmeet.data.api.AuthController
+import com.example.logmeet.data.api.MinutesController
 import com.example.logmeet.data.api.ProjectController
 import com.example.logmeet.data.api.ScheduleController
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -18,6 +19,7 @@ object RetrofitClient {
     val auth_instance: AuthController = retrofit.create(AuthController::class.java)
     val project_instance: ProjectController = retrofit.create(ProjectController::class.java)
     val schedule_instance: ScheduleController = retrofit.create(ScheduleController::class.java)
+    val minutes_instance: MinutesController = retrofit.create(MinutesController::class.java)
 
     private val jsonRetrofit = getJsonRetrofit()
     val authInstance =

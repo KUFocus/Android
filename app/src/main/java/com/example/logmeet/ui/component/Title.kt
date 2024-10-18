@@ -1,7 +1,10 @@
 package com.example.logmeet.ui.component
 
+import android.app.Activity
 import android.content.Intent
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,15 +38,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.logmeet.R
 import com.example.logmeet.ui.home.HomeFullCalendarActivity
+import com.example.logmeet.ui.schedule.AddScheduleActivity
+import com.example.logmeet.ui.showMinutesToast
 import java.time.LocalDate
 import java.time.Month
 import java.util.Locale
 
 @Composable
-fun WeeklyTitle() {
+fun WeeklyTitle(
+    onAddScheduleComplete: (Int) -> Unit
+) {
     val today = LocalDate.now()
     val year = today.year.toString()
     val month = today.month.toString()
+    val context = LocalContext.current
+
+    val startForResult = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        onAddScheduleComplete(result.resultCode)
+    }
 
     Row(
         modifier = Modifier
@@ -77,7 +92,6 @@ fun WeeklyTitle() {
         }
 
         Row {
-            val context = LocalContext.current
             Image(
                 modifier = Modifier
                     .clickable {
@@ -92,8 +106,8 @@ fun WeeklyTitle() {
             Image(
                 modifier = Modifier
                     .clickable {
-//                        val intent = Intent(context, Add::class.java)
-//                        context.startActivity(intent)
+                        val intent = Intent(context, AddScheduleActivity::class.java)
+                        startForResult.launch(intent)
                     }
                     .size(24.dp),
                 painter = painterResource(id = R.drawable.ic_add_calendar),
@@ -105,11 +119,20 @@ fun WeeklyTitle() {
 
 @Composable
 fun MonthlyTitle(
-    clicked: (Month) -> Unit
+    clicked: (Month) -> Unit,
+    isBottomSheet: Boolean,
+    onAddScheduleComplete: (Int) -> Unit
 ) {
     var currentDate by remember { mutableStateOf(LocalDate.now()) }
     var year = currentDate.year.toString()
     var month by remember { mutableStateOf(currentDate.month.toString()) }
+    val context = LocalContext.current
+
+    val startForResult = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        onAddScheduleComplete(result.resultCode)
+    }
 
     Column(
         modifier = Modifier
@@ -180,18 +203,23 @@ fun MonthlyTitle(
                     contentDescription = "다음"
                 )
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentWidth(Alignment.End)
-            ) {
-                Image(
+            if (!isBottomSheet) {
+                Box(
                     modifier = Modifier
-                        .clickable { }
-                        .size(24.dp),
-                    painter = painterResource(id = R.drawable.ic_add_calendar),
-                    contentDescription = "일정추가"
-                )
+                        .fillMaxWidth()
+                        .wrapContentWidth(Alignment.End)
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .clickable {
+                                val intent = Intent(context, AddScheduleActivity::class.java)
+                                startForResult.launch(intent)
+                            }
+                            .size(24.dp),
+                        painter = painterResource(id = R.drawable.ic_add_calendar),
+                        contentDescription = "일정추가"
+                    )
+                }
             }
         }
     }

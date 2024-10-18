@@ -2,9 +2,9 @@ package com.example.logmeet.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -31,6 +31,7 @@ import com.example.logmeet.R
 fun MakeMinutesBtn(
     image: Int,
     content: String,
+    onClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -40,7 +41,9 @@ fun MakeMinutesBtn(
                 color = colorResource(id = R.color.gray100),
                 shape = RoundedCornerShape(size = 8.dp)
             )
-            .padding(start = 10.dp, top = 7.dp, end = 11.dp, bottom = 7.dp)
+            .clickable { onClick() }
+            .padding(start = 10.dp, top = 7.dp, end = 11.dp, bottom = 7.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
@@ -85,5 +88,5 @@ private fun Preview() {
     MakeMinutesBtn(
         image = R.drawable.ic_photo_gray,
         content = "사진 업로드"
-    )
+    ) { }
 }

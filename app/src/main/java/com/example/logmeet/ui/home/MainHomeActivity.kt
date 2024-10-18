@@ -1,16 +1,18 @@
 package com.example.logmeet.ui.home
 
 import android.os.Bundle
-import android.view.View
-import android.widget.RelativeLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import com.example.logmeet.R
 import com.example.logmeet.databinding.ActivityMainHomeBinding
-import com.example.logmeet.ui.MainFragmentStatePagerAdapter
-import com.example.logmeet.ui.component.WeeklyCalendar
+import com.example.logmeet.ui.minutes.CreateMinutesBottomSheetFragment
+import com.example.logmeet.ui.minutes.MinutesFragment
+import com.example.logmeet.ui.projects.ProjectFragment
+import com.example.logmeet.ui.user.MyFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainHomeActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainHomeBinding
@@ -25,23 +27,41 @@ class MainHomeActivity : AppCompatActivity() {
             insets
         }
 
-//        binding.compHomeCalendar.setContent {
-//            WeeklyCalendar()
-//        }
-        configureBottomNavigation()
+        val bottomNavigationView: BottomNavigationView = binding.tlAcMainBottomMenu
+        replaceFragment(HomeFragment())
+
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    replaceFragment(HomeFragment())
+                    true
+                }
+                R.id.nav_projects -> {
+                    replaceFragment(ProjectFragment())
+                    true
+                }
+                R.id.nav_create -> {
+                    val createMinutesDialog = CreateMinutesBottomSheetFragment()
+                    createMinutesDialog.show(supportFragmentManager, "CreateMinutesDialog")
+                    true
+                }
+                R.id.nav_minutes -> {
+                    replaceFragment(MinutesFragment())
+                    true
+                }
+                R.id.nav_my -> {
+                    replaceFragment(MyFragment())
+                    true
+                }
+                else -> false
+            }
+        }
+
     }
 
-    private fun configureBottomNavigation(){
-        binding.vpAcMainFragPager.adapter = MainFragmentStatePagerAdapter(supportFragmentManager, 5)
-
-        binding.tlAcMainBottomMenu.setupWithViewPager(binding.vpAcMainFragPager)
-
-        val bottomNaviLayout: View = this.layoutInflater.inflate(R.layout.bottom_navigation_tab, null, false)
-
-        binding.tlAcMainBottomMenu.getTabAt(0)!!.customView = bottomNaviLayout.findViewById<RelativeLayout>(R.id.btn_bottom_navi_home_tab)!!
-        binding.tlAcMainBottomMenu.getTabAt(1)!!.customView = bottomNaviLayout.findViewById<RelativeLayout>(R.id.btn_bottom_navi_search_tab)!!
-        binding.tlAcMainBottomMenu.getTabAt(2)!!.customView = bottomNaviLayout.findViewById<RelativeLayout>(R.id.btn_bottom_navi_add_tab)!!
-        binding.tlAcMainBottomMenu.getTabAt(3)!!.customView = bottomNaviLayout.findViewById<RelativeLayout>(R.id.btn_bottom_navi_like_tab)!!
-        binding.tlAcMainBottomMenu.getTabAt(4)!!.customView = bottomNaviLayout.findViewById<RelativeLayout>(R.id.btn_bottom_navi_my_page_tab)!!
+    private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.vp_ac_main_frag_pager, fragment)
+            .commit()
     }
 }

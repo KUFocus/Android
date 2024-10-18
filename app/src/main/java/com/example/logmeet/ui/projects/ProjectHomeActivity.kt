@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.NETWORK
 import com.example.logmeet.domain.entity.ProjectColorResources
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.minutes.MinutesListResult
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
 import com.example.logmeet.data.dto.schedule.ScheduleListResult
 import com.example.logmeet.domain.entity.MinutesData
@@ -40,7 +41,7 @@ class ProjectHomeActivity : AppCompatActivity() {
     private lateinit var scheduleAdapter: HomeScheduleAdapter
     private var scheduleList: ArrayList<ScheduleListResult> = arrayListOf()
     private lateinit var minutesAdapter: MinutesAdapter
-    private var minutesList: ArrayList<MinutesData> = arrayListOf()
+    private var minutesList: ArrayList<MinutesListResult> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityProjectHomeBinding.inflate(layoutInflater)

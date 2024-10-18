@@ -33,4 +33,5 @@
     <string name="recent_mom">최근 회의록</string>
     <string name="search">검색</string>
     <string name="example_search">제목이나 키워드를 입력하세요.</string>
+    <string name="add_schedule_title">일정 추가</string>
 </resources>

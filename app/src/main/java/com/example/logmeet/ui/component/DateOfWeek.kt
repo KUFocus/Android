@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.logmeet.domain.entity.ProjectColorResources
 import com.example.logmeet.R
+import com.example.logmeet.network.RetrofitClient
 import java.time.LocalDate
 import java.time.Month
 
@@ -100,6 +101,7 @@ fun DateOfWeek(
 fun GetDaySchedule(date: LocalDate?) {
     val projectColorList = ProjectColorResources.colorList
     lateinit var scheduleList : IntArray
+
     if (date != null) {
         if (date.dayOfMonth == 30) scheduleList = intArrayOf(1, 10, 12, 3)
         else if (date.dayOfMonth == 3) scheduleList = intArrayOf(2,3)

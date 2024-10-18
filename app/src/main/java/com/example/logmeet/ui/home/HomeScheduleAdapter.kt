@@ -8,31 +8,18 @@ import com.example.logmeet.data.dto.schedule.ScheduleListResult
 import com.example.logmeet.domain.entity.ScheduleData
 import com.example.logmeet.databinding.ItemScheduleBinding
 import com.example.logmeet.domain.entity.ProjectDrawableResources
+import splitDateTime
 
 class HomeScheduleAdapter(private val data: ArrayList<ScheduleListResult>) :
     RecyclerView.Adapter<HomeScheduleAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemScheduleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ScheduleListResult) {
-//            val colorList = arrayOf(
-//                R.drawable.color_prj1,
-//                R.drawable.color_prj2,
-//                R.drawable.color_prj3,
-//                R.drawable.color_prj4,
-//                R.drawable.color_prj5,
-//                R.drawable.color_prj6,
-//                R.drawable.color_prj7,
-//                R.drawable.color_prj8,
-//                R.drawable.color_prj9,
-//                R.drawable.color_prj10,
-//                R.drawable.color_prj11,
-//                R.drawable.color_prj12,
-//            )
-//            val color = colorList[item.prjColor.toInt()-1]
             val number = item.color.split("_")[1]
             val color = ProjectDrawableResources.colorList[number.toInt()-1]
             binding.vScheduleColor.setBackgroundResource(color)
-            binding.tvScheduleTime.text = item.scheduleDate
+            val time = splitDateTime(item.scheduleDate).second
+            binding.tvScheduleTime.text = time
             binding.tvScheduleTitle.text = item.scheduleContent
             binding.tvScheduleName.text = item.projectName
         }

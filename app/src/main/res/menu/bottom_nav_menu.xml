@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/nav_home"
+        android:titleCondensed="@null"
+        app:iconSize="24dp"/>
+    <item
+        android:id="@+id/nav_projects"
+        android:icon="@drawable/nav_projects"
+        android:titleCondensed="@null"
+        app:iconSize="24dp"/>
+    <item
+        android:id="@+id/nav_create"
+        android:titleCondensed="@null"
+        app:iconSize="24dp"/>
+    <item
+        android:id="@+id/nav_minutes"
+        android:icon="@drawable/nav_minutes"
+        android:titleCondensed="@null"
+        app:iconSize="24dp"/>
+    <item
+        android:id="@+id/nav_my"
+        android:icon="@drawable/nav_my"
+        android:titleCondensed="@null"
+        app:iconSize="24dp"/>
+</menu>

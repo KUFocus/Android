@@ -1,3 +1,4 @@
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -24,15 +25,43 @@ fun formatDate(dayOfMonth: String): String? {
     }
 }
 
-fun reformatDate(dayOfMonth: String): String? {
+fun formatDateForServer(date: String): String? {
     return try {
         val inputFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
         val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
-        val date = inputFormat.parse(dayOfMonth)
-        outputFormat.format(date!!)
+        val newDate = inputFormat.parse(date)
+        outputFormat.format(newDate!!)
     } catch (e: Exception) {
         e.printStackTrace()
         null
+    }
+}
+
+
+fun formatDateForFront(date: String): String {
+    val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val outputFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+
+    val parsedDate = LocalDate.parse(date, inputFormatter)
+    return parsedDate.format(outputFormatter)
+}
+
+fun splitDateTime(dateTime: String): Pair<String, String> {
+    return try {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        val date = inputFormat.parse(dateTime)
+
+        val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+        val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+
+        if (date != null) {
+            Pair(dateFormat.format(date), timeFormat.format(date))
+        } else {
+            Pair("", "")
+        }
+    } catch (e: Exception) {
+        Log.e("splitDateTime", "Error parsing dateTime: ${e.message}")
+        Pair("", "")
     }
 }

@@ -29,7 +29,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.03"/>
 
-    <androidx.viewpager.widget.ViewPager
+    <FrameLayout
         android:id="@+id/vp_ac_main_frag_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -39,16 +39,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tl_ac_main_bottom_menu"/>
 
-    <com.google.android.material.tabs.TabLayout
+<!--    <androidx.viewpager.widget.ViewPager-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_above="@+id/tl_ac_main_bottom_menu"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/tl_ac_main_bottom_menu"/>-->
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/tl_ac_main_bottom_menu"
         android:background="#FFFFFF"
         android:elevation="5dp"
-        app:tabIndicatorHeight="0dp"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="60dp"
+        app:menu="@menu/bottom_nav_menu"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:labelVisibilityMode="unlabeled"
+        app:itemActiveIndicatorStyle="@null"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/add"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/tl_ac_main_bottom_menu"
+        app:layout_constraintTop_toTopOf="@id/tl_ac_main_bottom_menu"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

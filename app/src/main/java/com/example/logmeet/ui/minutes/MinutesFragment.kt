@@ -11,17 +11,28 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.logmeet.NETWORK
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.minutes.BaseResponseListMinutesListResult
+import com.example.logmeet.data.dto.minutes.MinutesListResult
+import com.example.logmeet.data.dto.project.ProjectListResult
+import com.example.logmeet.data.dto.project.api_response.BaseResponseListProjectListResult
 import com.example.logmeet.domain.entity.MinutesData
 import com.example.logmeet.databinding.FragmentMinutesBinding
+import com.example.logmeet.network.RetrofitClient
+import com.example.logmeet.ui.application.LogmeetApplication
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MinutesFragment : Fragment() {
     private lateinit var binding: FragmentMinutesBinding
     private lateinit var minutesAdapter: MinutesAdapter
-    private var minutesList: ArrayList<MinutesData> = arrayListOf()
-    private var minutesPhotoList: ArrayList<MinutesData> = arrayListOf()
-    private var minutesVoiceList: ArrayList<MinutesData> = arrayListOf()
+    private var minutesList: ArrayList<MinutesListResult> = arrayListOf()
+    private var minutesPhotoList: ArrayList<MinutesListResult> = arrayListOf()
+    private var minutesVoiceList: ArrayList<MinutesListResult> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,7 +75,9 @@ class MinutesFragment : Fragment() {
             startActivity(intent)
         }
 
-        setMinutesDataList()
+        lifecycleScope.launch {
+            setMinutesDataList()
+        }
         setMinutesRV(minutesList)
         binding.clMinutesTab1.setOnClickListener {
             setTabOnClick(1)
@@ -83,22 +96,41 @@ class MinutesFragment : Fragment() {
         }
     }
 
-    private fun setMinutesDataList() {
-        minutesList.addAll(
-            arrayListOf(
-                MinutesData(0, "회의 예시 1","2024.03.04", "1", 0, false),
-                MinutesData(1, "회의 예시 2","2024.03.05", "2", 2, true),
-                MinutesData(4, "회의 예시 3","2024.03.06", "7", 1, false),
-                MinutesData(5, "회의 예시 4","2024.03.07", "11", 0, false),
-            )
-        )
-        minutesList.forEach {
-            if (it.type==1) minutesPhotoList.add(it)
-            else if (it.type==2) minutesVoiceList.add(it)
-        }
+    private suspend fun setMinutesDataList() {
+        val bearerAccessToken = LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+        RetrofitClient.minutes_instance.getUserMinutesList(
+            authorization = bearerAccessToken
+        ).enqueue(object : Callback<BaseResponseListMinutesListResult> {
+            override fun onResponse(
+                p0: Call<BaseResponseListMinutesListResult>,
+                p1: Response<BaseResponseListMinutesListResult>
+            ) {
+                when (p1.code()) {
+                    200 -> {
+                        val resp = p1.body()?.result
+                        Log.d(NETWORK, "MinutesFragments - setMinutesDataList() : 성공\n$resp")
+                        if (resp != null) {
+                            minutesList.addAll(resp.toList())
+                            setMinutesRV(minutesList)
+                        } else {
+                            minutesList = arrayListOf()
+                        }
+                    }
+
+                    else -> {
+                        Log.d(NETWORK, "MinutesFragments - setMinutesDataList() : 실패")
+                    }
+                }
+            }
+
+            override fun onFailure(p0: Call<BaseResponseListMinutesListResult>, p1: Throwable) {
+                Log.d(NETWORK, "MinutesFragments - setMinutesDataList() : 실패\nbecause $p1")
+            }
+
+        })
     }
 
-    private fun setMinutesRV(list: ArrayList<MinutesData>) {
+    private fun setMinutesRV(list: ArrayList<MinutesListResult>) {
         minutesAdapter = MinutesAdapter(list)
         binding.rvMinutesList.adapter = minutesAdapter
         binding.rvMinutesList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

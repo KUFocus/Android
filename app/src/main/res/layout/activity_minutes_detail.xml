@@ -221,6 +221,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="20dp"/>
 
+            <TextView
+                android:id="@+id/tv_minutes_detail_no_short"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="하단에 요약하기 버튼을 눌러 요약본을 생성할 수 있습니다."
+                style="@style/body2M"
+                android:textColor="@color/gray200"
+                app:layout_constraintTop_toBottomOf="@id/tv_minutes_detail_content_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
     
