@@ -181,6 +181,7 @@ class CreateMintuesTextActivity : AppCompatActivity(), ProjectSelectionAdapter.O
                             intent.putExtra("minutesId", resp.minutesId)
                         }
                         startActivity(intent)
+                        finish()
                     }
 
                     else -> {

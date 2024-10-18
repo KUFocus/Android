@@ -184,6 +184,13 @@ class MinutesDetailActivity : AppCompatActivity() {
                 binding.tvMinutesDetailContentTitle.setTextColor(ContextCompat.getColor(this, R.color.gray400))
                 binding.tvMinutesDetailShortTitle.setTextColor(ContextCompat.getColor(this, R.color.black))
                 binding.tvMinutesDetailContent.text = short
+                if (short.isEmpty()) {
+                    binding.tvMinutesDetailNoShort.visibility = View.VISIBLE
+                    binding.tvMinutesDetailContent.visibility = View.GONE
+                } else {
+                    binding.tvMinutesDetailNoShort.visibility = View.GONE
+                    binding.tvMinutesDetailContent.visibility = View.VISIBLE
+                }
             }
         }
     }

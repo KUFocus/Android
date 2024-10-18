@@ -122,6 +122,7 @@
         android:layout_height="150dp"
         android:background="@drawable/box_gray_10px"
         android:alpha="1.0"
+        android:elevation="5dp"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@id/guide_start"
