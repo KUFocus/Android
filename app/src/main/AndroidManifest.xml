@@ -11,17 +11,20 @@
     <application
         android:name=".ui.application.LogmeetApplication"
         android:allowBackup="true"
-        android:requestLegacyExternalStorage="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Logmeet"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.minutes.CreateMinutesCameraActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.minutes.CreateMintuesTextActivity"
             android:exported="false" />
@@ -99,6 +102,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
