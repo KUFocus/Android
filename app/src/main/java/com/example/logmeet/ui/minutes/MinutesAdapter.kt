@@ -48,7 +48,7 @@ class MinutesAdapter(private val data: List<MinutesListResult>) :
             binding.root.setOnClickListener {
                 val context = it.context
                 val intent = Intent(context, MinutesDetailActivity::class.java)
-                intent.putExtra("projectId", item.projectId)
+                intent.putExtra("minutesId", item.minutesId)
                 context.startActivity(intent)
             }
         }

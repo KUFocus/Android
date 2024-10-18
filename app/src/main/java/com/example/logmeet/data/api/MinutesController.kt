@@ -29,7 +29,7 @@ interface MinutesController {
     ): Call<BaseResponseMinutesCreateResponse>
 
     @POST("minutes/{minutesId}/summarize-text")
-    fun getSummarize(
+    fun createSummarize(
         @Header("Authorization")
         authorization: String,
         @Path("minutesId")

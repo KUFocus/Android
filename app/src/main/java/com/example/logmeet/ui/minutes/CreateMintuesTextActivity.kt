@@ -1,11 +1,16 @@
 package com.example.logmeet.ui.minutes
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -169,6 +174,13 @@ class CreateMintuesTextActivity : AppCompatActivity(), ProjectSelectionAdapter.O
                     200 -> {
                         val resp = p1.body()?.result
                         Log.d(NETWORK, "addSchedule - createMinutesText() : 성공\n$resp")
+
+                        val intent = Intent(this@CreateMintuesTextActivity, MinutesDetailActivity::class.java)
+                        intent.putExtra("from_screen", "A")
+                        if (resp != null) {
+                            intent.putExtra("minutesId", resp.minutesId)
+                        }
+                        startActivity(intent)
                     }
 
                     else -> {
