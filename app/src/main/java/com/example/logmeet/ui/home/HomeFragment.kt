@@ -12,6 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.NETWORK
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.minutes.BaseResponseListMinutesListResult
+import com.example.logmeet.data.dto.minutes.MinutesListResult
 import com.example.logmeet.data.dto.project.ProjectListResult
 import com.example.logmeet.data.dto.project.api_response.BaseResponseListProjectListResult
 import com.example.logmeet.data.dto.schedule.ScheduleListResult
@@ -41,7 +43,7 @@ class HomeFragment : Fragment() {
     private lateinit var projectAdapter: HomeProjectAdapter
     private var projectList: ArrayList<ProjectListResult> = arrayListOf()
     private lateinit var minutesAdapter: MinutesAdapter
-    private var minutesList: ArrayList<MinutesData> = arrayListOf()
+    private var minutesList: ArrayList<MinutesListResult> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,35 +88,54 @@ class HomeFragment : Fragment() {
 
         lifecycleScope.launch {
             setScheduleListData()
-        }
-
-        lifecycleScope.launch {
             setProjectListData()
+            setMinutesListData()
         }
-
-        setMinutesListData()
-        val isMinutesEmpty = minutesList.isEmpty()
-        binding.tvHomeNoneMinutes.visibility = if (isMinutesEmpty) View.VISIBLE else View.GONE
-        binding.rvHomeMinutesList.visibility = if (isMinutesEmpty) View.GONE else View.VISIBLE
-        if (!isMinutesEmpty) setMinutesRV()
     }
 
     private fun setMinutesRV() {
-        minutesAdapter = MinutesAdapter(minutesList)
+        minutesAdapter = MinutesAdapter(minutesList.take(4))
         binding.rvHomeMinutesList.adapter = minutesAdapter
         binding.rvHomeMinutesList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
-    private fun setMinutesListData() {
-        //4개까지만 넣기
-        minutesList.addAll(
-            arrayListOf(
-                MinutesData(0, "회의 예시 1","2024.03.04", "1", 0, false),
-                MinutesData(1, "회의 예시 2","2024.03.05", "2", 2, true),
-                MinutesData(4, "회의 예시 3","2024.03.06", "7", 1, false),
-                MinutesData(5, "회의 예시 4","2024.03.07", "11", 0, false),
-            )
-        )
+    private suspend fun setMinutesListData() {
+        val bearerAccessToken = LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+
+        RetrofitClient.minutes_instance.getUserMinutesList(
+            authorization = bearerAccessToken
+        ).enqueue(object : Callback<BaseResponseListMinutesListResult> {
+            override fun onResponse(
+                p0: Call<BaseResponseListMinutesListResult>,
+                p1: Response<BaseResponseListMinutesListResult>
+            ) {
+                when (p1.code()) {
+                    200 -> {
+                        val resp = p1.body()?.result
+                        Log.d(NETWORK, "HomeFragments - setMinutesListData() : 성공\n$resp")
+                        if (resp != null) {
+                            minutesList.addAll(resp.toList())
+                            setMinutesRV()
+                            val isMinutesEmpty = minutesList.isEmpty()
+                            binding.tvHomeNoneMinutes.visibility = if (isMinutesEmpty) View.VISIBLE else View.GONE
+                            binding.rvHomeMinutesList.visibility = if (isMinutesEmpty) View.GONE else View.VISIBLE
+                            if (!isMinutesEmpty) setMinutesRV()
+                        } else {
+                            minutesList = arrayListOf()
+                        }
+                    }
+
+                    else -> {
+                        Log.d(NETWORK, "HomeFragments - setMinutesListData() : 실패")
+                    }
+                }
+            }
+
+            override fun onFailure(p0: Call<BaseResponseListMinutesListResult>, p1: Throwable) {
+                Log.d(NETWORK, "HomeFragments - setMinutesListData() : 실패\nbecause $p1")
+            }
+
+        })
     }
 
     private fun setProjectRV() {

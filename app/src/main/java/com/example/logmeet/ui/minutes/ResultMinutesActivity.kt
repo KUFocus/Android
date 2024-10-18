@@ -9,13 +9,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.minutes.MinutesListResult
 import com.example.logmeet.domain.entity.MinutesData
 import com.example.logmeet.databinding.ActivityResultMinutesBinding
 
 class ResultMinutesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResultMinutesBinding
     private lateinit var minutesAdapter: MinutesAdapter
-    private var resultList: ArrayList<MinutesData> = arrayListOf()
+    private var resultList: ArrayList<MinutesListResult> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityResultMinutesBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -54,24 +55,6 @@ class ResultMinutesActivity : AppCompatActivity() {
     }
 
     private fun setResultList() {
-        resultList.addAll(
-            arrayListOf(
-                MinutesData(0, "1차 회의록","2024.03.04", "1", 0, false),
-                MinutesData(1, "2차 회의록","2024.03.04", "2", 2, true),
-                MinutesData(4, "3차 회의록","2024.03.04", "3", 1, false),
-                MinutesData(5, "1차 회의록","2024.03.04", "1", 0, false),
-                MinutesData(6, "2차 회의록","2024.03.04", "2", 2, true),
-                MinutesData(7, "3차 회의록","2024.03.04", "3", 1, false),
-                MinutesData(8, "1차 회의록","2024.03.04", "1", 0, false),
-                MinutesData(9, "2차 회의록","2024.03.04", "2", 2, true),
-                MinutesData(41, "3차 회의록","2024.03.04", "3", 1, false),
-                MinutesData(20, "1차 회의록","2024.03.04", "1", 0, false),
-                MinutesData(14, "2차 회의록","2024.03.04", "2", 2, true),
-                MinutesData(47, "3차 회의록","2024.03.04", "3", 1, false),
-                MinutesData(92, "1차 회의록","2024.03.04", "1", 0, false),
-                MinutesData(12, "2차 회의록","2024.03.04", "2", 2, true),
-                MinutesData(45, "3차 회의록","2024.03.04", "3", 1, false),
-            )
-        )
+
     }
 }

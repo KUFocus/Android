@@ -12,7 +12,7 @@ import com.example.logmeet.domain.entity.FileType
 import com.example.logmeet.domain.entity.ProjectDrawableResources
 import splitDateTime
 
-class MinutesAdapter(private val data: ArrayList<MinutesListResult>) :
+class MinutesAdapter(private val data: List<MinutesListResult>) :
     RecyclerView.Adapter<MinutesAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemMinutesBinding) :
         RecyclerView.ViewHolder(binding.root) {
