@@ -6,47 +6,49 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.logmeet.R
-import com.example.logmeet.domain.entity.MinutesData
+import com.example.logmeet.data.dto.minutes.MinutesListResult
 import com.example.logmeet.databinding.ItemMinutesBinding
+import com.example.logmeet.domain.entity.FileType
+import com.example.logmeet.domain.entity.ProjectDrawableResources
+import splitDateTime
 
-class MinutesAdapter(private val data: ArrayList<MinutesData>) :
+class MinutesAdapter(private val data: ArrayList<MinutesListResult>) :
     RecyclerView.Adapter<MinutesAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemMinutesBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: MinutesData) {
-            val colorList = arrayOf(
-                R.drawable.color_prj1,
-                R.drawable.color_prj2,
-                R.drawable.color_prj3,
-                R.drawable.color_prj4,
-                R.drawable.color_prj5,
-                R.drawable.color_prj6,
-                R.drawable.color_prj7,
-                R.drawable.color_prj8,
-                R.drawable.color_prj9,
-                R.drawable.color_prj10,
-                R.drawable.color_prj11,
-                R.drawable.color_prj12,
-            )
-            val color = colorList[item.prjColor.toInt()-1]
+        fun bind(item: MinutesListResult) {
+            val number = item.color.split("_")[1].toInt()
+            val color = ProjectDrawableResources.colorList[number - 1]
             binding.vMinutesColor.setBackgroundResource(color)
 
-            val res = item.type == 0
-            binding.ivMinutes.visibility = if (res) View.GONE else View.VISIBLE
-            binding.tvMinutesTitleY.visibility = if (res) View.GONE else View.VISIBLE
-            binding.tvMinutesTitleN.visibility = if (res) View.VISIBLE else View.GONE
-            if (res) {
-                binding.tvMinutesTitleN.text = item.title
-            } else {
-                binding.tvMinutesTitleY.text = item.title
+            var isManualType = true
+            when (item.type) {
+                FileType.MANUAL.type -> {
+                    isManualType = true
+                    binding.tvMinutesTitleN.text = item.minutesName
+                }
+                FileType.PICTURE.type -> {
+                    isManualType = false
+                    binding.tvMinutesTitleY.text = item.minutesName
+                    binding.ivMinutes.setImageResource(R.drawable.ic_photo)
+                }
+                FileType.VOICE.type -> {
+                    isManualType = false
+                    binding.tvMinutesTitleY.text = item.minutesName
+                    binding.ivMinutes.setImageResource(R.drawable.ic_video)
+                }
             }
-            binding.tvMinutesDate.text = item.date
+            binding.ivMinutes.visibility = if (isManualType) View.GONE else View.VISIBLE
+            binding.tvMinutesTitleY.visibility = if (isManualType) View.GONE else View.VISIBLE
+            binding.tvMinutesTitleN.visibility = if (isManualType) View.VISIBLE else View.GONE
+
+            binding.tvMinutesDate.text = splitDateTime(item.createdAt).first
 
             binding.root.setOnClickListener {
                 val context = it.context
                 val intent = Intent(context, MinutesDetailActivity::class.java)
-                intent.putExtra("projectId", item.prjId)
+                intent.putExtra("projectId", item.projectId)
                 context.startActivity(intent)
             }
         }

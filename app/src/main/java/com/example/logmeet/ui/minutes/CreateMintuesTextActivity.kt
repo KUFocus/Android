@@ -13,6 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.NETWORK
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.minutes.BaseResponseMinutesCreateResponse
+import com.example.logmeet.data.dto.minutes.MinutesManuallyCreateRequest
 import com.example.logmeet.data.dto.project.ProjectListResult
 import com.example.logmeet.data.dto.project.api_response.BaseResponseListProjectListResult
 import com.example.logmeet.databinding.ActivityCreateMintuesTextBinding
@@ -140,12 +142,44 @@ class CreateMintuesTextActivity : AppCompatActivity(), ProjectSelectionAdapter.O
             btnDone.setBackgroundResource(R.drawable.btn_blue_8px)
             btnDone.setOnClickListener {
                 lifecycleScope.launch {
-
+                    createMinutesText()
                  }
             }
         } else {
             btnDone.setBackgroundResource(R.drawable.btn_gray_8px)
             btnDone.setOnClickListener { }
         }
+    }
+
+    private suspend fun createMinutesText() {
+        val bearerAccessToken = LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+        RetrofitClient.minutes_instance.createMinutesManual(
+            authorization = bearerAccessToken,
+            minutesManuallyCreateRequest = MinutesManuallyCreateRequest(
+                minutesName = binding.tietCreateMTextName.text.toString(),
+                textContent = binding.tietCreateMTextContent.text.toString(),
+                projectId = projectId
+            )
+        ).enqueue(object : Callback<BaseResponseMinutesCreateResponse> {
+            override fun onResponse(
+                p0: Call<BaseResponseMinutesCreateResponse>,
+                p1: Response<BaseResponseMinutesCreateResponse>
+            ) {
+                when (p1.code()) {
+                    200 -> {
+                        val resp = p1.body()?.result
+                        Log.d(NETWORK, "addSchedule - createMinutesText() : 성공\n$resp")
+                    }
+
+                    else -> {
+                        Log.d(NETWORK, "addSchedule - createMinutesText() : 실패")
+                    }
+                }
+            }
+
+            override fun onFailure(p0: Call<BaseResponseMinutesCreateResponse>, p1: Throwable) {
+                Log.d(NETWORK, "addSchedule - createMinutesText() : 실패\nbecause $p1")
+            }
+        })
     }
 }
