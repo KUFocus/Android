@@ -34,7 +34,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatter.ofPattern
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
 
         init()
@@ -69,8 +69,17 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch {
+            setScheduleListData()
+            setProjectListData()
+            setMinutesListData()
+        }
+    }
+
     private fun init() {
-        binding.tvHomeDate.text = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")).toString()
+        binding.tvHomeDate.text = LocalDate.now().format(ofPattern("yyyy.MM.dd")).toString()
         binding.clHomeAddProject.setOnClickListener {
             val intent = Intent(context, MakeProjectActivity::class.java)
             startActivity(intent)
@@ -86,11 +95,11 @@ class HomeFragment : Fragment() {
 //            }
         }
 
-        lifecycleScope.launch {
-            setScheduleListData()
-            setProjectListData()
-            setMinutesListData()
-        }
+//        lifecycleScope.launch {
+//            setScheduleListData()
+//            setProjectListData()
+//            setMinutesListData()
+//        }
     }
 
     private fun setMinutesRV() {
