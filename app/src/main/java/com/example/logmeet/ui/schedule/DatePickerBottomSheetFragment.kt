@@ -33,7 +33,7 @@ class DatePickerBottomSheetFragment(
             MonthlyCalendar(
                 isBottomSheet = true,
                 selectedDate = {selectedDate ->
-                    onDateSelected(selectedDate.toString())
+                    onDateSelected(selectedDate)
                 },
                 onDismiss = { dismiss() },
                 onAddScheduleComplete = { resultCode ->

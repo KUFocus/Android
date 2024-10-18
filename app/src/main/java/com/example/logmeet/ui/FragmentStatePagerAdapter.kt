@@ -20,5 +20,5 @@ class MainFragmentStatePagerAdapter(fm: FragmentManager, private val fragmentCou
         }
     }
 
-    override fun getCount(): Int = fragmentCount // 자바에서는 { return fragmentCount }
+    override fun getCount(): Int = fragmentCount
 }

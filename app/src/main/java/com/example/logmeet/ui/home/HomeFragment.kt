@@ -74,14 +74,14 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
         binding.clHomeMoreProject.setOnClickListener {
-            (activity as? MainHomeActivity)?.let {
-                it.binding.vpAcMainFragPager.currentItem = 1
-            }
+//            (activity as? MainHomeActivity)?.let {
+//                it.binding.vpAcMainFragPager.currentItem = 1
+//            }
         }
         binding.clHomeMoreMom.setOnClickListener {
-            (activity as? MainHomeActivity)?.let {
-                it.binding.vpAcMainFragPager.currentItem = 3
-            }
+//            (activity as? MainHomeActivity)?.let {
+//                it.binding.vpAcMainFragPager.currentItem = 3
+//            }
         }
 
         lifecycleScope.launch {

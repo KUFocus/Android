@@ -139,7 +139,8 @@ class CreateMintuesTextActivity : AppCompatActivity(), ProjectSelectionAdapter.O
         if (isNameNotNull) {
             btnDone.setBackgroundResource(R.drawable.btn_blue_8px)
             btnDone.setOnClickListener {
-                lifecycleScope.launch { //api 연결
+                lifecycleScope.launch {
+
                  }
             }
         } else {
