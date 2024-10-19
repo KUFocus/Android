@@ -1,13 +1,11 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
     <style name="Base.Theme.Logmeet" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:windowSplashScreenBackground">@color/white</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/logo1_without_background</item>
         <item name="android:windowSplashScreenAnimationDuration">300</item>
-        <item name="android:windowSplashScreenIconBackgroundColor">@color/main_blue</item>
+<!--        <item name="android:windowSplashScreenIconBackgroundColor"></item>-->
     </style>
-
-    <style name="Theme.Logmeet" parent="Base.Theme.Logmeet" />
 </resources>

@@ -33,6 +33,7 @@ class HomeFullCalendarActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeFullCalendarBinding
     private lateinit var scheduleAdapter: HomeScheduleAdapter
     private var scheduleList: ArrayList<ScheduleListResult> = arrayListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityHomeFullCalendarBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -43,6 +44,8 @@ class HomeFullCalendarActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        init()
 
         binding.compHomeFullCalendar.setContent {
             MonthlyCalendar(
@@ -59,16 +62,10 @@ class HomeFullCalendarActivity : AppCompatActivity() {
                 }
             )
         }
-
-        init()
     }
 
     private fun init() {
         lifecycleScope.launch { setScheduleListData() }
-//        val isScheduleEmpty = scheduleList.isEmpty()
-//        binding.clHomeFullNonschedule.visibility = if (isScheduleEmpty) View.VISIBLE else View.GONE
-//        binding.rvHomeFullScheduleList.visibility = if (isScheduleEmpty) View.GONE else View.VISIBLE
-//        if (!isScheduleEmpty) setScheduleRV()
     }
 
     private suspend fun setScheduleListData() {
