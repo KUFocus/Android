@@ -26,9 +26,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.NETWORK
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.minutes.BaseResponseMinutesFileUploadResponse
+import com.example.logmeet.data.dto.minutes.MinutesFileUploadRequest
 import com.example.logmeet.data.dto.project.ProjectListResult
 import com.example.logmeet.data.dto.project.api_response.BaseResponseListProjectListResult
 import com.example.logmeet.databinding.ActivitySetMinutesInfoBinding
+import com.example.logmeet.domain.entity.FileType
 import com.example.logmeet.domain.entity.ProjectDrawableResources
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.ui.application.LogmeetApplication
@@ -46,6 +49,7 @@ import java.util.Locale
 class CreateMinutesCameraActivity : AppCompatActivity(), ProjectSelectionAdapter.OnProjectClickListener {
     lateinit var binding: ActivitySetMinutesInfoBinding
     var isNameNotNull = false
+    var isProjectSelected = false
     private lateinit var projectSelectionAdapter: ProjectSelectionAdapter
     private var projectList: List<ProjectListResult> = arrayListOf()
     private var projectId = -1
@@ -53,6 +57,7 @@ class CreateMinutesCameraActivity : AppCompatActivity(), ProjectSelectionAdapter
     private val CAMERA_PERMISSION_CODE = 100
     private lateinit var photoURI: Uri
     private lateinit var cameraLauncher: ActivityResultLauncher<Intent>
+    var base64String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivitySetMinutesInfoBinding.inflate(layoutInflater)
@@ -70,7 +75,7 @@ class CreateMinutesCameraActivity : AppCompatActivity(), ProjectSelectionAdapter
         ) { result ->
             if (result.resultCode == RESULT_OK) {
                 photoURI.let { uri ->
-                    val base64String = uriToBase64(uri)
+                    base64String = uriToBase64(uri)
                     Log.d("Base64", "Image Base64: $base64String")
                 }
             } else {
@@ -170,14 +175,16 @@ class CreateMinutesCameraActivity : AppCompatActivity(), ProjectSelectionAdapter
         binding.rvSetMinutesInfoProjectList.visibility = View.GONE
 
         this.projectId = projectId
+        isProjectSelected = true
     }
 
     private fun checkBtnAvailable() {
         val btnDone = binding.tvSetMinutesInfoDone
-        if (isNameNotNull) {
+        if (isNameNotNull && isProjectSelected) {
             btnDone.setBackgroundResource(R.drawable.btn_blue_8px)
             btnDone.setOnClickListener {
-                //다음 버튼 입력했을 때
+                lifecycleScope.launch { createMinutesFile() }
+
             }
         } else {
             btnDone.setBackgroundResource(R.drawable.btn_gray_8px)
@@ -230,5 +237,46 @@ class CreateMinutesCameraActivity : AppCompatActivity(), ProjectSelectionAdapter
         } else {
             openCamera()
         }
+    }
+
+    private suspend fun createMinutesFile() {
+        val bearerAccessToken = LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+        RetrofitClient.minutes_instance.createMinutesFile(
+            authorization = bearerAccessToken,
+            minutesFileUploadRequest = MinutesFileUploadRequest(
+                base64FileData = base64String,
+                fileName = binding.tietSetMinutesInfoName.text.toString(),
+                fileType = FileType.PICTURE.type
+            )
+        ).enqueue(object : Callback<BaseResponseMinutesFileUploadResponse> {
+            override fun onResponse(
+                p0: Call<BaseResponseMinutesFileUploadResponse>,
+                p1: Response<BaseResponseMinutesFileUploadResponse>
+            ) {
+                when (p1.code()) {
+                    200 -> {
+                        val resp = p1.body()?.result
+                        Log.d(NETWORK, "createMinutesCamera - createMinutesFile() : 성공")
+
+                        if (resp != null) {
+                            val intent= Intent(this@CreateMinutesCameraActivity, AiResultActivity::class.java)
+//                            intent.putExtra("minutesId", resp.)
+                            startActivity(intent)
+                            finish()
+                        }
+                    }
+
+                    else -> {
+                        Log.d(NETWORK, "createMinutesCamera - createMinutesFile() : 실패")
+                    }
+                }
+            }
+
+            override fun onFailure(p0: Call<BaseResponseMinutesFileUploadResponse>, p1: Throwable) {
+                Log.d(NETWORK, "createMinutesCamera - createMinutesFile() : 실패\nbecause $p1")
+            }
+
+        })
+
     }
 }
