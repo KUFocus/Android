@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.schedule.ScheduleDetailActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.06"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.94"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.03"/>
+
+    <ImageView
+        android:id="@+id/iv_schedule_detail_close"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_close"
+        app:layout_constraintTop_toTopOf="@id/guide_top"
+        app:layout_constraintStart_toStartOf="@id/guide_start"/>
+
+    <TextView
+        android:id="@+id/tv_schedule_detail_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="제목부분입니다."
+        style="@style/body1B"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintTop_toTopOf="@id/guide_top"/>
+
+    <TextView
+        android:id="@+id/tv_schedule_detail_name_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="일정 내용"
+        style="@style/body2B"
+        android:textColor="@color/main_gray"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/tv_schedule_detail_title"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="30dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/tiet_schedule_detail_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/body1R"
+        android:hint="일정 내용 입력"
+        app:layout_constraintTop_toBottomOf="@id/tv_schedule_detail_name_title"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="2dp"/>
+
+    <ImageView
+        android:id="@+id/iv_schedule_detail_name_clear"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_close_circle"
+        app:layout_constraintTop_toTopOf="@id/tiet_schedule_detail_name"
+        app:layout_constraintBottom_toBottomOf="@id/tiet_schedule_detail_name"
+        app:layout_constraintEnd_toEndOf="@id/tiet_schedule_detail_name"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_schedule_detail_date_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="날짜"
+        style="@style/body2B"
+        android:textColor="@color/main_gray"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/tiet_schedule_detail_name"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="30dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/tiet_schedule_detail_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/body1R"
+        android:hint="yyyy.MM.dd"
+        android:focusable="false"
+        android:clickable="true"
+        app:layout_constraintTop_toBottomOf="@id/tv_schedule_detail_date_title"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="2dp"/>
+
+    <TextView
+        android:id="@+id/tv_schedule_detail_time_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="시간"
+        style="@style/body2B"
+        android:textColor="@color/main_gray"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/tiet_schedule_detail_date"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="30dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/tiet_schedule_detail_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/body1R"
+        android:hint="HH:mm"
+        android:focusable="false"
+        android:clickable="true"
+        app:layout_constraintTop_toBottomOf="@id/tv_schedule_detail_time_title"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="2dp"/>
+
+    <TextView
+        android:id="@+id/tv_schedule_detail_project_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="프로젝트"
+        style="@style/body2B"
+        android:textColor="@color/main_gray"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/tiet_schedule_detail_time"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="30dp"/>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_chevron_double_down"
+        app:layout_constraintTop_toTopOf="@id/tiet_schedule_detail_project"
+        app:layout_constraintBottom_toBottomOf="@id/tiet_schedule_detail_project"
+        app:layout_constraintEnd_toEndOf="@id/tiet_schedule_detail_project"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_schedule_detail_project"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tiet_schedule_detail_project"
+        app:layout_constraintStart_toStartOf="@id/tiet_schedule_detail_project"
+        app:layout_constraintBottom_toBottomOf="@id/tiet_schedule_detail_project"
+        app:layout_constraintEnd_toEndOf="@id/tiet_schedule_detail_project"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/v_schedule_detail_project_color"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:background="@drawable/color_prj1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="4dp"/>
+
+        <TextView
+            android:id="@+id/tv_schedule_detail_project_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/project_name"
+            style="@style/body1R"
+            app:layout_constraintStart_toEndOf="@id/v_schedule_detail_project_color"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="10dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/tiet_schedule_detail_project"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/body1R"
+        android:hint="선택된 프로젝트 없음"
+        android:focusable="false"
+        android:clickable="true"
+        app:layout_constraintTop_toBottomOf="@id/tv_schedule_detail_project_title"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="2dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_schedule_detail_project_list"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:background="@drawable/box_gray_10px"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@id/tiet_schedule_detail_project"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_schedule_detail_edit_done"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="수정하기"
+        style="@style/body2B"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:background="@drawable/btn_gray_8px"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="110dp"
+        android:visibility="gone"/>
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_schedule_detail_delete_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="110dp"
+        android:background="@drawable/box_redline_10px">
+        
+        <ImageView
+            android:id="@+id/iv_schedule_detail_delete"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_trash"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginVertical="10dp"
+            android:layout_marginStart="26dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="일정 삭제하기"
+            android:textColor="@color/error"
+            style="@style/body2B"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_schedule_detail_delete"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="26dp"/>
+
+        
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -72,6 +72,8 @@ class CreateMinutesCameraActivity : AppCompatActivity(), ProjectSelectionAdapter
             insets
         }
 
+        photoFile = createImageFile()
+
         cameraLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
@@ -199,8 +201,8 @@ class CreateMinutesCameraActivity : AppCompatActivity(), ProjectSelectionAdapter
     }
 
     private fun takePhoto() {
-        photoFile = createImageFile()
-        fileName = photoFile.toString()
+//        photoFile = createImageFile()
+//        fileName = photoFile.toString()
 
         photoURI = FileProvider.getUriForFile(
             this,
@@ -208,22 +210,20 @@ class CreateMinutesCameraActivity : AppCompatActivity(), ProjectSelectionAdapter
             photoFile
         )
 
-        // 카메라 인텐트 실행
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
             putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
         }
         cameraLauncher.launch(intent)
     }
 
-    // 파일 생성 메서드
     private fun createImageFile(): File {
         val timeStamp: String = Date().time.toString()
         val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        fileName = "JPEG_${timeStamp}_"
+        fileName = "JPEG_${timeStamp}.jpg"
+        Log.d("okhttp", "createImageFile: fileName  = $fileName")
         return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)
     }
 
-    // 파일을 Base64로 인코딩하는 확장 함수
     private fun File.toBase64(): String {
         val bytes = readBytes()
         return Base64.encodeToString(bytes, Base64.NO_WRAP)

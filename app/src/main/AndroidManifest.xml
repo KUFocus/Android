@@ -27,6 +27,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.schedule.ScheduleDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.minutes.AiResultActivity"
             android:exported="false" />
         <activity
