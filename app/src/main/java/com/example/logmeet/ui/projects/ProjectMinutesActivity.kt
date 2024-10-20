@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.NETWORK
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.minutes.BaseResponseListMinutesListResult
 import com.example.logmeet.data.dto.minutes.MinutesListResult
 import com.example.logmeet.data.dto.project.api_response.BaseResponseListProjectListResult
 import com.example.logmeet.databinding.ActivityProjectMinutesBinding
@@ -107,10 +108,10 @@ class ProjectMinutesActivity : AppCompatActivity() {
         RetrofitClient.minutes_instance.getProjectMinutesList(
             authorization = bearerAccessToken,
             projectId = projectId
-        ).enqueue(object : Callback<BaseResponseListProjectListResult> {
+        ).enqueue(object : Callback<BaseResponseListMinutesListResult> {
             override fun onResponse(
-                p0: Call<BaseResponseListProjectListResult>,
-                p1: Response<BaseResponseListProjectListResult>
+                p0: Call<BaseResponseListMinutesListResult>,
+                p1: Response<BaseResponseListMinutesListResult>
             ) {
                 when (p1.code()) {
                     200 -> {
@@ -141,7 +142,7 @@ class ProjectMinutesActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(p0: Call<BaseResponseListProjectListResult>, p1: Throwable) {
+            override fun onFailure(p0: Call<BaseResponseListMinutesListResult>, p1: Throwable) {
                 Log.d(NETWORK, "projectMinutes - setMinutesDataList() : 실패\nbecause $p1")
             }
 

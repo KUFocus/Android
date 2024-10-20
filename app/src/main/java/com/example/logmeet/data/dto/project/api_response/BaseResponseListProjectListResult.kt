@@ -8,5 +8,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class BaseResponseListProjectListResult(
     @SerialName("result")
-    val result: List<MinutesListResult>,
+    val result: List<ProjectListResult>,
 )
