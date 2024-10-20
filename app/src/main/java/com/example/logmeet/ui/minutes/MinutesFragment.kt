@@ -19,6 +19,7 @@ import com.example.logmeet.data.dto.project.ProjectListResult
 import com.example.logmeet.data.dto.project.api_response.BaseResponseListProjectListResult
 import com.example.logmeet.domain.entity.MinutesData
 import com.example.logmeet.databinding.FragmentMinutesBinding
+import com.example.logmeet.domain.entity.FileType
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.ui.application.LogmeetApplication
 import kotlinx.coroutines.flow.first
@@ -110,8 +111,18 @@ class MinutesFragment : Fragment() {
                         val resp = p1.body()?.result
                         Log.d(NETWORK, "MinutesFragments - setMinutesDataList() : 성공\n$resp")
                         if (resp != null) {
+                            //status 관련 처리 필요
                             minutesList.addAll(resp.toList())
-                            setMinutesRV(minutesList)
+                            minutesList.forEach { minutes ->
+                                when (minutes.type) {
+                                    FileType.PICTURE.type -> {
+                                        minutesPhotoList.add(minutes)
+                                    }
+                                    FileType.VOICE.type -> {
+                                        minutesVoiceList.add(minutes)
+                                    }
+                                }
+                            }
                         } else {
                             minutesList = arrayListOf()
                         }
