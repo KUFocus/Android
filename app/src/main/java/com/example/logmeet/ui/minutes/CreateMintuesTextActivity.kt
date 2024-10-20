@@ -176,7 +176,7 @@ class CreateMintuesTextActivity : AppCompatActivity(), ProjectSelectionAdapter.O
                         Log.d(NETWORK, "addSchedule - createMinutesText() : 성공\n$resp")
 
                         val intent = Intent(this@CreateMintuesTextActivity, MinutesDetailActivity::class.java)
-                        intent.putExtra("from_screen", "A")
+                        intent.putExtra("from_screen", "CREATE")
                         if (resp != null) {
                             intent.putExtra("minutesId", resp.minutesId)
                         }

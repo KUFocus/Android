@@ -47,6 +47,13 @@ class MinutesFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch {
+            setMinutesDataList()
+        }
+    }
+
     @SuppressLint("ResourceAsColor")
     private fun setTabOnClick(num: Int) {
         val tabTextList = arrayOf(binding.tvMinutesTab1, binding.tvMinutesTab2, binding.tvMinutesTab3)
@@ -76,10 +83,6 @@ class MinutesFragment : Fragment() {
             startActivity(intent)
         }
 
-        lifecycleScope.launch {
-            setMinutesDataList()
-        }
-        setMinutesRV(minutesList)
         binding.clMinutesTab1.setOnClickListener {
             setTabOnClick(1)
             setMinutesRV(minutesList)
@@ -123,8 +126,10 @@ class MinutesFragment : Fragment() {
                                     }
                                 }
                             }
+                            setMinutesRV(minutesList)
                         } else {
                             minutesList = arrayListOf()
+                            setMinutesRV(minutesList)
                         }
                     }
 

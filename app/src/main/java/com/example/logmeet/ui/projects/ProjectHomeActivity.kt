@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide.init
 import com.example.logmeet.NETWORK
 import com.example.logmeet.domain.entity.ProjectColorResources
 import com.example.logmeet.R
@@ -20,6 +21,7 @@ import com.example.logmeet.data.dto.minutes.BaseResponseListMinutesListResult
 import com.example.logmeet.data.dto.minutes.MinutesListResult
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
 import com.example.logmeet.data.dto.schedule.ScheduleListResult
+import com.example.logmeet.data.dto.schedule.api_response.ScheduleDayResponse
 import com.example.logmeet.domain.entity.MinutesData
 import com.example.logmeet.domain.entity.ScheduleData
 import com.example.logmeet.databinding.ActivityProjectHomeBinding
@@ -30,6 +32,7 @@ import com.example.logmeet.ui.application.LogmeetApplication
 import com.example.logmeet.ui.home.HomeScheduleAdapter
 import com.example.logmeet.ui.minutes.MinutesAdapter
 import formatDate
+import formatDateForServer
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -59,22 +62,21 @@ class ProjectHomeActivity : AppCompatActivity() {
 
         projectId = intent.getIntExtra("projectId", -1)
         init()
-        binding.ivPrjHomeBack.setOnClickListener { finish() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        lifecycleScope.launch {
+            getProjectDetail()
+            setScheduleListData()
+            setMinutesListData()
+        }
     }
 
     private fun init() {
         binding.tvPrjHomeDate.text = formatDate(LocalDate.now().toString())
-        lifecycleScope.launch {
-            getProjectDetail()
-            setMinutesListData()
-        }
-
-        setScheduleListData()
-        val isScheduleEmpty = scheduleList.isEmpty()
-        binding.clPrjHomeNonschedule.visibility = if (isScheduleEmpty) View.VISIBLE else View.GONE
-        binding.rvPrjHomeScheduleList.visibility = if (isScheduleEmpty) View.GONE else View.VISIBLE
-        if (!isScheduleEmpty) setScheduleRV()
-
+        binding.ivPrjHomeBack.setOnClickListener { finish() }
     }
 
     private suspend fun getProjectDetail() {
@@ -174,8 +176,42 @@ class ProjectHomeActivity : AppCompatActivity() {
         })
     }
 
-    private fun setScheduleListData() {
-        //스케줄 목록 불러오기
+    private suspend fun setScheduleListData() {
+        scheduleList = arrayListOf()
+        val dayOfMonth = formatDateForServer(binding.tvPrjHomeDate.text.toString())
+        val bearerAccessToken =
+            LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+
+        if (dayOfMonth != null) {
+            RetrofitClient.schedule_instance.getUsersDaySchedule(
+                authorization = bearerAccessToken,
+                date = dayOfMonth
+            ).enqueue(object : Callback<ScheduleDayResponse>{
+                override fun onResponse(
+                    p0: Call<ScheduleDayResponse>,
+                    p1: Response<ScheduleDayResponse>
+                ) {
+                    when (p1.code()) {
+                        200 -> {
+                            val resp = p1.body()?.result
+                            Log.d(NETWORK, "projectHome - setScheduleListData() : 성공\n")
+                            scheduleList = resp as ArrayList<ScheduleListResult>
+
+                            val isScheduleEmpty = scheduleList.size == 0
+                            binding.clPrjHomeNonschedule.visibility = if (isScheduleEmpty) View.VISIBLE else View.GONE
+                            binding.rvPrjHomeScheduleList.visibility = if (isScheduleEmpty) View.GONE else View.VISIBLE
+                            if (!isScheduleEmpty) setScheduleRV()
+                        }
+                        else -> Log.d(NETWORK, "projectHome - setScheduleListData() : 실패")
+                    }
+                }
+
+                override fun onFailure(p0: Call<ScheduleDayResponse>, p1: Throwable) {
+                    Log.d(NETWORK, "projectHome - setScheduleListData() : 실패\nbecause $p1")
+                }
+
+            })
+        }
     }
 
     private fun setScheduleRV() {

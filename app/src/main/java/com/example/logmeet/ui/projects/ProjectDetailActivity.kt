@@ -41,9 +41,6 @@ class ProjectDetailActivity : AppCompatActivity() {
         }
 
         init()
-//        lifecycleScope.launch {
-//            getContent()
-//        }
     }
 
     override fun onResume() {
