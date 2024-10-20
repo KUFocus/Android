@@ -16,12 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.NETWORK
 import com.example.logmeet.domain.entity.ProjectColorResources
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.minutes.BaseResponseListMinutesListResult
 import com.example.logmeet.data.dto.minutes.MinutesListResult
 import com.example.logmeet.data.dto.project.api_response.BaseResponseProjectInfoResult
 import com.example.logmeet.data.dto.schedule.ScheduleListResult
 import com.example.logmeet.domain.entity.MinutesData
 import com.example.logmeet.domain.entity.ScheduleData
 import com.example.logmeet.databinding.ActivityProjectHomeBinding
+import com.example.logmeet.domain.entity.FileType
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.tag
 import com.example.logmeet.ui.application.LogmeetApplication
@@ -42,6 +44,7 @@ class ProjectHomeActivity : AppCompatActivity() {
     private var scheduleList: ArrayList<ScheduleListResult> = arrayListOf()
     private lateinit var minutesAdapter: MinutesAdapter
     private var minutesList: ArrayList<MinutesListResult> = arrayListOf()
+    private var projectId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityProjectHomeBinding.inflate(layoutInflater)
@@ -54,6 +57,7 @@ class ProjectHomeActivity : AppCompatActivity() {
             insets
         }
 
+        projectId = intent.getIntExtra("projectId", -1)
         init()
         binding.ivPrjHomeBack.setOnClickListener { finish() }
     }
@@ -62,6 +66,7 @@ class ProjectHomeActivity : AppCompatActivity() {
         binding.tvPrjHomeDate.text = formatDate(LocalDate.now().toString())
         lifecycleScope.launch {
             getProjectDetail()
+            setMinutesListData()
         }
 
         setScheduleListData()
@@ -70,15 +75,9 @@ class ProjectHomeActivity : AppCompatActivity() {
         binding.rvPrjHomeScheduleList.visibility = if (isScheduleEmpty) View.GONE else View.VISIBLE
         if (!isScheduleEmpty) setScheduleRV()
 
-        setMinutesListData()
-        val isMinutesEmpty = minutesList.isEmpty()
-        binding.tvPrjHomeNoneMinutes.visibility = if (isMinutesEmpty) View.VISIBLE else View.GONE
-        binding.rvPrjHomeMinutesList.visibility = if (isMinutesEmpty) View.GONE else View.VISIBLE
-        if (!isMinutesEmpty) setMinutesRV()
     }
 
     private suspend fun getProjectDetail() {
-        val projectId = intent.getIntExtra("projectId", -1)
         val bearerAccessToken =
             LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
         RetrofitClient.project_instance.getProjectDetail(
@@ -136,8 +135,43 @@ class ProjectHomeActivity : AppCompatActivity() {
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
-    private fun setMinutesListData() {
-        //회의록 데이터 불러오기
+    private suspend fun setMinutesListData() {
+        val bearerAccessToken = LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+        RetrofitClient.minutes_instance.getProjectMinutesList(
+            authorization = bearerAccessToken,
+            projectId = projectId
+        ).enqueue(object : Callback<BaseResponseListMinutesListResult> {
+            override fun onResponse(
+                p0: Call<BaseResponseListMinutesListResult>,
+                p1: Response<BaseResponseListMinutesListResult>
+            ) {
+                when (p1.code()) {
+                    200 -> {
+                        val resp = p1.body()?.result
+                        Log.d(NETWORK, "projectHome - setMinutesListData() : 성공\n$resp")
+                        if (resp != null) {
+                            //status 관련 처리 필요
+                            minutesList.addAll(resp.toList())
+                            val isMinutesEmpty = minutesList.isEmpty()
+                            binding.tvPrjHomeNoneMinutes.visibility = if (isMinutesEmpty) View.VISIBLE else View.GONE
+                            binding.rvPrjHomeMinutesList.visibility = if (isMinutesEmpty) View.GONE else View.VISIBLE
+                            if (!isMinutesEmpty) setMinutesRV()
+                        } else {
+                            minutesList = arrayListOf()
+                        }
+                    }
+
+                    else -> {
+                        Log.d(NETWORK, "projectHome - setMinutesListData() : 실패")
+                    }
+                }
+            }
+
+            override fun onFailure(p0: Call<BaseResponseListMinutesListResult>, p1: Throwable) {
+                Log.d(NETWORK, "projectHome - setMinutesListData() : 실패\nbecause $p1")
+            }
+
+        })
     }
 
     private fun setScheduleListData() {
