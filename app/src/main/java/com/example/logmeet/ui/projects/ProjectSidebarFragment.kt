@@ -72,7 +72,9 @@ class ProjectSidebarFragment(
 
             }
             R.id.cl_prj_side_minutes -> {
-
+                val intent = Intent(projectHomeActivity, ProjectMinutesActivity::class.java)
+                intent.putExtra("projectId", projectId)
+                startActivity(intent)
             }
             R.id.cl_prj_side_calendar -> {
                 val intent = Intent(projectHomeActivity, ProjectCalendarActivity::class.java)

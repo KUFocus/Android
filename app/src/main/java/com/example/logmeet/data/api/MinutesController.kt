@@ -58,7 +58,7 @@ interface MinutesController {
         authorization: String,
         @Path("projectId")
         projectId: Int
-    ): Call<BaseResponseListProjectListResult>
+    ): Call<BaseResponseListMinutesListResult>
 
     @GET("minutes/{minutesId}")
     fun getMinutesDetail(

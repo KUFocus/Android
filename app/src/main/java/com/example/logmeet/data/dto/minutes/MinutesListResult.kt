@@ -12,7 +12,7 @@ data class MinutesListResult(
     @SerialName("minutesName")
     val minutesName: String,
     @SerialName("color")
-    val color: String,
+    var color: String?,
     @SerialName("type")
     val type: String,
     @SerialName("status")

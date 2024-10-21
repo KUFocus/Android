@@ -22,6 +22,7 @@ import com.example.logmeet.ui.component.MonthlyCalendar
 import com.example.logmeet.ui.home.HomeScheduleAdapter
 import com.example.logmeet.ui.showMinutesToast
 import formatDate
+import formatDateForFront
 import formatDateForServer
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -55,10 +56,9 @@ class ProjectCalendarActivity : AppCompatActivity() {
             MonthlyCalendar(
                 isBottomSheet = false,
                 selectedDate = {
-                    binding.tvProjectCalendarDate.text = formatDate(it.toString())
-                    lifecycleScope.launch {
-                        setProjectDayScheduleListData()
-                    }
+                    binding.tvProjectCalendarDate.text = formatDateForFront(it)
+
+                    lifecycleScope.launch { setProjectDayScheduleListData() }
                 },
                 onDismiss = { },
                 onAddScheduleComplete = { resultCode ->
@@ -71,14 +71,13 @@ class ProjectCalendarActivity : AppCompatActivity() {
         init()
     }
 
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch { setProjectDayScheduleListData() }
+    }
+
     private fun init() {
-        lifecycleScope.launch {
-            setProjectDayScheduleListData()
-//            val isScheduleEmpty = scheduleList.isEmpty()
-//            binding.clProjectCalendarNonschedule.visibility = if (isScheduleEmpty) View.VISIBLE else View.GONE
-//            binding.rvProjectCalendarScheduleList.visibility = if (isScheduleEmpty) View.GONE else View.VISIBLE
-//            if (!isScheduleEmpty) setScheduleRV()
-        }
+        binding.ivProjectCalendarBack.setOnClickListener { finish() }
     }
 
     private suspend fun setProjectDayScheduleListData() {

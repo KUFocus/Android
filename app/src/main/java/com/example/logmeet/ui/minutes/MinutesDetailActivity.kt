@@ -18,6 +18,7 @@ import com.example.logmeet.data.dto.minutes.BaseResponseMinutesInfoResult
 import com.example.logmeet.data.dto.minutes.BaseResponseMinutesSummarizeResult
 import com.example.logmeet.databinding.ActivityMinutesDetailBinding
 import com.example.logmeet.network.RetrofitClient
+import com.example.logmeet.tag
 import com.example.logmeet.ui.application.LogmeetApplication
 import com.example.logmeet.ui.showMinutesToast
 import kotlinx.coroutines.flow.first
@@ -60,7 +61,7 @@ class MinutesDetailActivity : AppCompatActivity() {
         val intent = intent
         val fromScreen = intent.getStringExtra("from_screen")
 
-        if (fromScreen == "A") {
+        if (fromScreen == "CREATE") {
             showMinutesToast(this, R.drawable.ic_check_circle, "회의록 등록이 완료되었습니다.")
         }
     }
@@ -72,7 +73,6 @@ class MinutesDetailActivity : AppCompatActivity() {
         }
         binding.tvMinutesDetailShortBtn.setOnClickListener {
             lifecycleScope.launch { createSummarize() }
-            showMinutesToast(this, R.drawable.ic_check_circle, "요약본이 생성되었습니다.")
         }
     }
 
@@ -103,8 +103,8 @@ class MinutesDetailActivity : AppCompatActivity() {
 
                         if (resp != null) {
                             short = resp.summarizedText
-                            binding.tvMinutesDetailContent.text = short
                             setType("short")
+                            showMinutesToast(this@MinutesDetailActivity, R.drawable.ic_check_circle, "요약본이 생성되었습니다.")
                         }
                     }
 
@@ -141,7 +141,7 @@ class MinutesDetailActivity : AppCompatActivity() {
                             binding.tvMinutesDetailPrjName.text = resp.projectId.toString()
                             binding.tvMinutesDetailDate.text = splitDateTime(resp.createdAt).first
                             content = resp.content
-                            binding.tvMinutesDetailContent.text = content
+                            setType("content")
                         }
                     }
 
@@ -159,28 +159,31 @@ class MinutesDetailActivity : AppCompatActivity() {
 
     }
 
-    @SuppressLint("ResourceAsColor")
-    private fun setShortPage(isShort: Boolean, short: String?) {
-        binding.tvMinutesDetailShortTitle.setOnClickListener {
-            binding.tvMinutesDetailShortTitle.setTextColor(ContextCompat.getColor(this, R.color.black))
-            binding.tvMinutesDetailContentTitle.setTextColor(ContextCompat.getColor(this, R.color.gray400))
-            if (isShort) { //요약본이 있다면
-                binding.tvMinutesDetailContent.text = short
-            } else {
-                binding.tvMinutesDetailContent.text = "하단에 요약하기 버튼을 눌러 요약본을 생성할 수 있습니다."
-                binding.tvMinutesDetailContent.setTextColor(ContextCompat.getColor(this, R.color.gray200))
-            }
-        }
-    }
+//    @SuppressLint("ResourceAsColor")
+//    private fun setShortPage(isShort: Boolean, short: String?) {
+//        binding.tvMinutesDetailShortTitle.setOnClickListener {
+//            binding.tvMinutesDetailShortTitle.setTextColor(ContextCompat.getColor(this, R.color.black))
+//            binding.tvMinutesDetailContentTitle.setTextColor(ContextCompat.getColor(this, R.color.gray400))
+//            if (isShort) { //요약본이 있다면
+//                binding.tvMinutesDetailContent.text = short
+//            } else {
+//                binding.tvMinutesDetailContent.text = "하단에 요약하기 버튼을 눌러 요약본을 생성할 수 있습니다."
+//                binding.tvMinutesDetailContent.setTextColor(ContextCompat.getColor(this, R.color.gray200))
+//            }
+//        }
+//    }
 
     private fun setType(type: String) {
         when (type) {
             "content" -> {
+                Log.d(tag, "MinutesDetail - setType: content가 클릭됨")
                 binding.tvMinutesDetailContentTitle.setTextColor(ContextCompat.getColor(this, R.color.black))
                 binding.tvMinutesDetailShortTitle.setTextColor(ContextCompat.getColor(this, R.color.gray400))
                 binding.tvMinutesDetailContent.text = content
+                binding.tvMinutesDetailNoShort.visibility = View.GONE
             }
             "short" -> {
+                Log.d(tag, "MinutesDetail - setType: short가 클릭됨")
                 binding.tvMinutesDetailContentTitle.setTextColor(ContextCompat.getColor(this, R.color.gray400))
                 binding.tvMinutesDetailShortTitle.setTextColor(ContextCompat.getColor(this, R.color.black))
                 binding.tvMinutesDetailContent.text = short

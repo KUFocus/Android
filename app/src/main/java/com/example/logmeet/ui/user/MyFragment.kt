@@ -10,17 +10,10 @@ import com.example.logmeet.databinding.FragmentMyBinding
 class MyFragment : Fragment() {
     private lateinit var binding: FragmentMyBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMyBinding.inflate(layoutInflater, container, false)
 
         return binding.root

@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.minutes.MinutesDetailActivity"
-    android:background="@color/gray100">
+    android:background="@color/gray100"
+    tools:context=".ui.minutes.AiResultActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guide_start"
@@ -30,23 +30,25 @@
         app:layout_constraintGuide_percent="0.03"/>
 
     <ImageView
-        android:id="@+id/iv_minute_detail_close"
+        android:id="@+id/iv_ai_result_close"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/ic_close"
+        android:src="@drawable/ic_left_chevron"
         app:layout_constraintTop_toTopOf="@id/guide_top"
         app:layout_constraintStart_toStartOf="@id/guide_start"/>
 
-    <ImageView
-        android:id="@+id/iv_minute_detail_more"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_dot_burger"
-        app:layout_constraintTop_toTopOf="@id/guide_top"
-        app:layout_constraintEnd_toEndOf="@id/guide_end"/>
-    
+    <TextView
+        android:id="@+id/tv_ai_result_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AI 분석 결과"
+        style="@style/body1B"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintTop_toTopOf="@id/guide_top"/>
+
     <View
-        android:id="@+id/v_minutes_detail_background"
+        android:id="@+id/v_ai_result_background"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/box_white_14px"
@@ -58,46 +60,46 @@
         android:layout_marginBottom="100dp"/>
 
     <TextView
-        android:id="@+id/tv_minutes_detail_prjName"
+        android:id="@+id/tv_ai_result_prjName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/project_name"
         style="@style/caption"
         android:textColor="@color/gray400"
-        app:layout_constraintTop_toTopOf="@id/v_minutes_detail_background"
-        app:layout_constraintStart_toStartOf="@id/v_minutes_detail_background"
+        app:layout_constraintTop_toTopOf="@id/v_ai_result_background"
+        app:layout_constraintStart_toStartOf="@id/v_ai_result_background"
         android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"/>
 
     <TextView
-        android:id="@+id/tv_minutes_detail_title"
+        android:id="@+id/tv_ai_result_minutes_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/example_project_name"
         style="@style/body1B"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/tv_minutes_detail_prjName"
-        app:layout_constraintStart_toStartOf="@id/tv_minutes_detail_prjName"
+        app:layout_constraintTop_toBottomOf="@id/tv_ai_result_prjName"
+        app:layout_constraintStart_toStartOf="@id/tv_ai_result_prjName"
         android:layout_marginTop="4dp"/>
 
     <TextView
-        android:id="@+id/tv_minutes_detail_date"
+        android:id="@+id/tv_ai_result_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/example_date"
         style="@style/body3M"
         android:textColor="@color/gray400"
-        app:layout_constraintTop_toBottomOf="@id/tv_minutes_detail_title"
-        app:layout_constraintStart_toStartOf="@id/tv_minutes_detail_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_ai_result_minutes_title"
+        app:layout_constraintStart_toStartOf="@id/tv_ai_result_minutes_title"
         android:layout_marginTop="6dp"/>
 
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_minutes_detail_date"
+        app:layout_constraintTop_toBottomOf="@id/tv_ai_result_date"
         app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
-        app:layout_constraintBottom_toBottomOf="@id/v_minutes_detail_background"
+        app:layout_constraintBottom_toBottomOf="@id/v_ai_result_background"
         android:layout_marginVertical="14dp"
         android:layout_marginHorizontal="20dp">
 
@@ -106,7 +108,7 @@
             android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_minutes_detail_file"
+                android:id="@+id/cl_ai_result_file"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +116,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/iv_minutes_detail_image"
+                    android:id="@+id/iv_ai_result_image"
                     android:layout_width="wrap_content"
                     android:layout_height="300dp"
                     android:src="@drawable/sample_img"
@@ -124,7 +126,7 @@
                     android:visibility="gone"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_minutes_detail_voice"
+                    android:id="@+id/cl_ai_result_voice"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     app:layout_constraintTop_toTopOf="parent"
@@ -142,7 +144,7 @@
                         android:layout_marginStart="14dp"/>
 
                     <TextView
-                        android:id="@+id/tv_minutes_detail_voice_name"
+                        android:id="@+id/tv_ai_result_voice_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="음성녹음 파일명"
@@ -158,77 +160,77 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/tv_minutes_detail_content_title"
+                android:id="@+id/tv_ai_result_content_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="회의 내용"
+                android:text="분석된 내용"
                 style="@style/body1B"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_minutes_detail_file"
+                app:layout_constraintTop_toBottomOf="@id/cl_ai_result_file"
                 android:layout_marginTop="26dp"/>
 
             <TextView
-                android:id="@+id/tv_minutes_detail_short_title"
+                android:id="@+id/tv_ai_result_short_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="요약본"
                 style="@style/body1B"
                 android:textColor="@color/gray400"
-                app:layout_constraintStart_toEndOf="@id/tv_minutes_detail_content_title"
-                app:layout_constraintTop_toBottomOf="@id/cl_minutes_detail_file"
+                app:layout_constraintStart_toEndOf="@id/tv_ai_result_content_title"
+                app:layout_constraintTop_toBottomOf="@id/cl_ai_result_file"
                 android:layout_marginTop="26dp"
                 android:layout_marginStart="10dp"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_minutes_detail_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@id/tv_minutes_detail_content_title"
-                app:layout_constraintBottom_toBottomOf="@id/tv_minutes_detail_content_title"
-                app:layout_constraintEnd_toEndOf="parent">
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:id="@+id/cl_ai_result_edit"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintTop_toTopOf="@id/tv_ai_result_content_title"-->
+<!--                app:layout_constraintBottom_toBottomOf="@id/tv_ai_result_content_title"-->
+<!--                app:layout_constraintEnd_toEndOf="parent">-->
 
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_pencil"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/tv_minutes_detail_edit"
-                    android:layout_marginEnd="4dp"/>
+<!--                <ImageView-->
+<!--                    android:layout_width="16dp"-->
+<!--                    android:layout_height="16dp"-->
+<!--                    android:src="@drawable/ic_pencil"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintEnd_toStartOf="@id/tv_ai_result_edit"-->
+<!--                    android:layout_marginEnd="4dp"/>-->
 
-                <TextView
-                    android:id="@+id/tv_minutes_detail_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="수정"
-                    style="@style/body2M"
-                    android:textColor="@color/main_blue"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_ai_result_edit"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="수정"-->
+<!--                    style="@style/body2M"-->
+<!--                    android:textColor="@color/main_blue"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"/>-->
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
             <TextView
-                android:id="@+id/tv_minutes_detail_content"
+                android:id="@+id/tv_ai_result_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="분석된 내용이 들어가는 부분입니다.분석된 내용이 들어가는 부분입니다."
                 style="@style/body2M"
                 android:textColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@id/tv_minutes_detail_content_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_ai_result_content_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="20dp"/>
 
             <TextView
-                android:id="@+id/tv_minutes_detail_no_short"
+                android:id="@+id/tv_ai_result_no_short"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="하단에 요약하기 버튼을 눌러 요약본을 생성할 수 있습니다."
                 style="@style/body2M"
                 android:textColor="@color/gray200"
-                app:layout_constraintTop_toBottomOf="@id/tv_minutes_detail_content_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_ai_result_content_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="20dp"
@@ -236,9 +238,9 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-    
+
     <TextView
-        android:id="@+id/tv_minutes_detail_short_btn"
+        android:id="@+id/tv_ai_result_short_btn"
         android:layout_width="130dp"
         android:layout_height="36dp"
         android:text="요약하기"
@@ -246,9 +248,10 @@
         android:textColor="@color/main_blue"
         android:background="@drawable/btn_blueline_8px"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/v_minutes_detail_background"
+        app:layout_constraintTop_toBottomOf="@id/v_ai_result_background"
         app:layout_constraintStart_toStartOf="@id/guide_start"
-        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintEnd_toStartOf="@id/guide_end"
         android:layout_marginTop="24dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

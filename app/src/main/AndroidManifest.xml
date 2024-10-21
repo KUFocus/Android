@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.PERMISSION_NAME" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -22,6 +26,15 @@
         android:theme="@style/Theme.Logmeet"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.projects.ProjectMinutesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.schedule.ScheduleDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.minutes.AiResultActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.minutes.CreateMinutesCameraActivity"
             android:exported="false" />

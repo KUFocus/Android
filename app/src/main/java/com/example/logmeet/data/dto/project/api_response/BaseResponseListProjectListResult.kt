@@ -1,5 +1,6 @@
 package com.example.logmeet.data.dto.project.api_response
 
+import com.example.logmeet.data.dto.minutes.MinutesListResult
 import com.example.logmeet.data.dto.project.ProjectListResult
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

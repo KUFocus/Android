@@ -18,7 +18,8 @@ class MinutesAdapter(private val data: List<MinutesListResult>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: MinutesListResult) {
-            val number = item.color.split("_")[1].toInt()
+            if (item.color == null) item.color = "PROJECT_1"
+            val number = item.color!!.split("_")[1].toInt()
             val color = ProjectDrawableResources.colorList[number - 1]
             binding.vMinutesColor.setBackgroundResource(color)
 

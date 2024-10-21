@@ -26,9 +26,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.logmeet.NETWORK
 import com.example.logmeet.R
+import com.example.logmeet.data.dto.minutes.BaseResponseMinutesFileUploadResponse
+import com.example.logmeet.data.dto.minutes.MinutesFileUploadRequest
 import com.example.logmeet.data.dto.project.ProjectListResult
 import com.example.logmeet.data.dto.project.api_response.BaseResponseListProjectListResult
 import com.example.logmeet.databinding.ActivitySetMinutesInfoBinding
+import com.example.logmeet.domain.entity.FileType
 import com.example.logmeet.domain.entity.ProjectDrawableResources
 import com.example.logmeet.network.RetrofitClient
 import com.example.logmeet.ui.application.LogmeetApplication
@@ -46,13 +49,17 @@ import java.util.Locale
 class CreateMinutesCameraActivity : AppCompatActivity(), ProjectSelectionAdapter.OnProjectClickListener {
     lateinit var binding: ActivitySetMinutesInfoBinding
     var isNameNotNull = false
+    private var isProjectSelected = false
     private lateinit var projectSelectionAdapter: ProjectSelectionAdapter
     private var projectList: List<ProjectListResult> = arrayListOf()
     private var projectId = -1
 
     private val CAMERA_PERMISSION_CODE = 100
     private lateinit var photoURI: Uri
+    private lateinit var fileName: String
     private lateinit var cameraLauncher: ActivityResultLauncher<Intent>
+
+    private lateinit var photoFile: File
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivitySetMinutesInfoBinding.inflate(layoutInflater)
@@ -65,19 +72,25 @@ class CreateMinutesCameraActivity : AppCompatActivity(), ProjectSelectionAdapter
             insets
         }
 
+        photoFile = createImageFile()
+
         cameraLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == RESULT_OK) {
                 photoURI.let { uri ->
-                    val base64String = uriToBase64(uri)
-                    Log.d("Base64", "Image Base64: $base64String")
+//                    val base64String = uriToBase64(uri)
+                    val base64Image = photoFile.toBase64()
+                    println("Base64 Image: $base64Image")
+                    lifecycleScope.launch { createMinutesFile(base64Image) }
                 }
             } else {
                 Toast.makeText(this, "사진 촬영이 취소되었습니다.", Toast.LENGTH_SHORT).show()
             }
         }
-        requestCameraPermission()
+
+        takePhoto()
+        //requestCameraPermission()
 
         init()
     }
@@ -85,9 +98,7 @@ class CreateMinutesCameraActivity : AppCompatActivity(), ProjectSelectionAdapter
     private fun init() {
         binding.ivSetMinutesInfoBack.setOnClickListener { finish() }
         val btnNameClear = binding.ivSetMinutesInfoNameClear
-        btnNameClear.setOnClickListener {
-            binding.tietSetMinutesInfoName.setText("")
-        }
+        btnNameClear.setOnClickListener { binding.tietSetMinutesInfoName.setText("") }
 
         binding.tietSetMinutesInfoName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -170,14 +181,18 @@ class CreateMinutesCameraActivity : AppCompatActivity(), ProjectSelectionAdapter
         binding.rvSetMinutesInfoProjectList.visibility = View.GONE
 
         this.projectId = projectId
+        isProjectSelected = true
     }
 
     private fun checkBtnAvailable() {
         val btnDone = binding.tvSetMinutesInfoDone
-        if (isNameNotNull) {
+        if (isNameNotNull && isProjectSelected) {
             btnDone.setBackgroundResource(R.drawable.btn_blue_8px)
             btnDone.setOnClickListener {
-                //다음 버튼 입력했을 때
+                //로딩화면
+                val intent = Intent(this, AiResultActivity::class.java)
+                startActivity(intent)
+                finish()
             }
         } else {
             btnDone.setBackgroundResource(R.drawable.btn_gray_8px)
@@ -185,50 +200,115 @@ class CreateMinutesCameraActivity : AppCompatActivity(), ProjectSelectionAdapter
         }
     }
 
-    private fun uriToBase64(uri: Uri): String {
-        val inputStream = contentResolver.openInputStream(uri)
-        val byteArray = inputStream?.readBytes()
-        inputStream?.close()
+    private fun takePhoto() {
+//        photoFile = createImageFile()
+//        fileName = photoFile.toString()
 
-        return Base64.encodeToString(byteArray, Base64.DEFAULT)
-    }
-
-    private fun createImageFile(): File {
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir).apply {
-            Log.d("Camera", "Image file created: $absolutePath")
-        }
-    }
-
-    private fun openCamera() {
-        val photoFile = createImageFile()
         photoURI = FileProvider.getUriForFile(
             this,
-            "${packageName}.provider",
+            "${applicationContext.packageName}.provider",
             photoFile
         )
 
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
             putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
         }
-
         cameraLauncher.launch(intent)
     }
 
-    private fun requestCameraPermission() {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.CAMERA),
-                CAMERA_PERMISSION_CODE
+    private fun createImageFile(): File {
+        val timeStamp: String = Date().time.toString()
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        fileName = "JPEG_${timeStamp}.jpg"
+        Log.d("okhttp", "createImageFile: fileName  = $fileName")
+        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)
+    }
+
+    private fun File.toBase64(): String {
+        val bytes = readBytes()
+        return Base64.encodeToString(bytes, Base64.NO_WRAP)
+    }
+
+//    private fun uriToBase64(uri: Uri): String {
+//        val inputStream = contentResolver.openInputStream(uri)
+//        val byteArray = inputStream?.readBytes()
+//        inputStream?.close()
+//
+//        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+//    }
+//
+//    private fun createImageFileorigin(): File {
+//        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+//        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+//        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir).apply {
+//            Log.d("Camera", "Image file created: $absolutePath")
+//        }
+//    }
+//
+//    private fun openCamera() {
+//        val photoFile = createImageFile()
+//        fileName = photoFile.toString()
+//        photoURI = FileProvider.getUriForFile(
+//            this,
+//            "${packageName}.provider",
+//            photoFile
+//        )
+//
+//        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+//            putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+//        }
+//
+//        cameraLauncher.launch(intent)
+//    }
+//
+//    private fun requestCameraPermission() {
+//        if (ContextCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.CAMERA
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            ActivityCompat.requestPermissions(
+//                this,
+//                arrayOf(Manifest.permission.CAMERA),
+//                CAMERA_PERMISSION_CODE
+//            )
+//        } else {
+//            openCamera()
+//        }
+//    }
+
+    private suspend fun createMinutesFile(base64String: String) {
+        val bearerAccessToken = LogmeetApplication.getInstance().getDataStore().bearerAccessToken.first()
+        RetrofitClient.minutes_instance.createMinutesFile(
+            authorization = bearerAccessToken,
+            minutesFileUploadRequest = MinutesFileUploadRequest(
+                base64FileData = base64String,
+                fileName = fileName,
+                fileType = FileType.PICTURE.type
             )
-        } else {
-            openCamera()
-        }
+        ).enqueue(object : Callback<BaseResponseMinutesFileUploadResponse> {
+            override fun onResponse(
+                p0: Call<BaseResponseMinutesFileUploadResponse>,
+                p1: Response<BaseResponseMinutesFileUploadResponse>
+            ) {
+                when (p1.code()) {
+                    200 -> {
+                        val resp = p1.body()?.result
+                        Log.d(NETWORK, "createMinutesCamera - createMinutesFile() : 성공")
+
+                    }
+
+                    else -> {
+                        Log.d(NETWORK, "createMinutesCamera - createMinutesFile() : 실패")
+                    }
+                }
+            }
+
+            override fun onFailure(p0: Call<BaseResponseMinutesFileUploadResponse>, p1: Throwable) {
+                Log.d(NETWORK, "createMinutesCamera - createMinutesFile() : 실패\nbecause $p1")
+            }
+
+        })
+
     }
 }

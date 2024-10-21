@@ -26,6 +26,7 @@ object RetrofitClient {
         requireNotNull(jsonRetrofit.create(AuthController::class.java)) { "NetworkModule's AuthController is null" }
     val projectInstance =
         requireNotNull(jsonRetrofit.create(ProjectController::class.java)) { "NetworkModule's ProjectController is null" }
+
 }
 
 fun getJsonRetrofit(): Retrofit {

@@ -18,7 +18,6 @@ import androidx.lifecycle.lifecycleScope
 import com.example.logmeet.R
 import com.example.logmeet.databinding.ActivityJoin2Binding
 import com.example.logmeet.tag
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
