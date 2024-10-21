@@ -60,6 +60,15 @@ class ProjectHomeActivity : AppCompatActivity() {
             insets
         }
 
+        intent.data?.let { uri ->
+            val projectId = uri.getQueryParameter("projectId")
+            projectId?.let {
+                joinProject(it)
+            } ?: run {
+                Log.e("ProjectJoin", "프로젝트 ID가 없습니다.")
+            }
+        }
+
         projectId = intent.getIntExtra("projectId", -1)
         init()
     }
@@ -77,6 +86,11 @@ class ProjectHomeActivity : AppCompatActivity() {
     private fun init() {
         binding.tvPrjHomeDate.text = formatDate(LocalDate.now().toString())
         binding.ivPrjHomeBack.setOnClickListener { finish() }
+    }
+
+    private fun joinProject(projectId: String) {
+        // 해당 프로젝트에 참여시키는 로직
+        Log.d("ProjectJoin", "프로젝트 ID: $projectId 참여 완료")
     }
 
     private suspend fun getProjectDetail() {

@@ -85,7 +85,7 @@ class ProjectSidebarFragment(
 
             }
             R.id.cl_prj_side_invite -> {
-
+                shareProjectLink(projectId.toString())
             }
             R.id.cl_prj_side_exit -> {
                 CoroutineScope(Dispatchers.IO).launch {
@@ -93,6 +93,23 @@ class ProjectSidebarFragment(
                 }
             }
         }
+    }
+
+    private fun shareProjectLink(projectId: String) {
+        val inviteLink = createInviteLink(projectId)
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, "[Logmeet]\n초대링크가 도착했습니다!\n이 프로젝트에 참여해 보세요: $inviteLink")
+        }
+        startActivity(Intent.createChooser(intent, "초대 링크 공유"))
+    }
+
+    private fun createInviteLink(projectId: String): String {
+        val appPackageName = "com.example.logmeet" // 본인의 패키지 이름으로 변경
+        val appStoreUrl = "https://play.google.com/store/apps/details?id=$appPackageName"
+        val deepLink = "https://example.com/join?projectId=$projectId"
+
+        return "intent:$deepLink#Intent;package=$appPackageName;scheme=https;end"
     }
 
     private suspend fun leaveProject() {
